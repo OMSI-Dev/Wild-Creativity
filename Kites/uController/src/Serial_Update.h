@@ -24,6 +24,20 @@ bool Serial_Update(bool gameStatus)
       Serial.write(10); //sends LF to close buffer  
       return  gameStatus;       
     }
+    else if(ByteRecv == 37){
+      //game in results turn off fan & fade out stop button
+      //Turns off fan
+      digitalWrite(fanPin, LOW);  
+      //tell stop button to fade out
+
+      gameStatus = false;
+      return  gameStatus;       
+    }
+    else if(ByteRecv == 38){
+   
+    gameStatus = false;
+    return  gameStatus;       
+  }
     return gameStatus;
 }
 

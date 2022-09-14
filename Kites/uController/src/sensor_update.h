@@ -1,4 +1,4 @@
-#include pin_define.h
+#include <pin_define.h>
 //Sensor varibles 
 const int numReadings = 30;
 

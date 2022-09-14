@@ -526,14 +526,14 @@ IO3 -&gt; D9</text>
 <text x="112.395" y="24.511" size="1.27" layer="21" font="vector" ratio="15" rot="SR90" align="center-right">A3</text>
 <text x="114.935" y="24.511" size="1.27" layer="21" font="vector" ratio="15" rot="SR90" align="center-right">A4</text>
 <text x="117.475" y="24.511" size="1.27" layer="21" font="vector" ratio="15" rot="SR90" align="center-right">A5</text>
-<circle x="152.4" y="20.32" radius="1.79605" width="0.1524" layer="45"/>
-<circle x="152.4" y="29.21" radius="1.79605" width="0.1524" layer="45"/>
-<circle x="152.4" y="39.37" radius="1.79605" width="0.1524" layer="45"/>
-<circle x="152.4" y="48.26" radius="1.79605" width="0.1524" layer="45"/>
-<circle x="152.4" y="58.42" radius="1.79605" width="0.1524" layer="45"/>
-<circle x="152.4" y="67.31" radius="1.79605" width="0.1524" layer="45"/>
-<circle x="152.4" y="77.47" radius="1.79605" width="0.1524" layer="45"/>
-<circle x="152.4" y="86.36" radius="1.79605" width="0.1524" layer="45"/>
+<circle x="152.4" y="20.32" radius="1.79605" width="0.1524" layer="46"/>
+<circle x="152.4" y="29.21" radius="1.79605" width="0.1524" layer="46"/>
+<circle x="152.4" y="39.37" radius="1.79605" width="0.1524" layer="46"/>
+<circle x="152.4" y="48.26" radius="1.79605" width="0.1524" layer="46"/>
+<circle x="152.4" y="58.42" radius="1.79605" width="0.1524" layer="46"/>
+<circle x="152.4" y="67.31" radius="1.79605" width="0.1524" layer="46"/>
+<circle x="152.4" y="77.47" radius="1.79605" width="0.1524" layer="46"/>
+<circle x="152.4" y="86.36" radius="1.79605" width="0.1524" layer="46"/>
 </plain>
 <libraries>
 <library name="th_libraries">
