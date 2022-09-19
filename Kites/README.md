@@ -1,4 +1,4 @@
-# Helmet Electronics Details
+# Kites Electronics Details
 ### Theory of Operation
 The basic operation of kites is a processing sketch and a uController controlling two blower fans and reading a veneer force sensor. The uController has a start and stop button connected to control the gameplay game state. 
 
