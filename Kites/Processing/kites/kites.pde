@@ -26,7 +26,7 @@ int gameTime = 15000;
 int counter = 0; //for stop watch image
 
 //images
-PImage en1, en2, en3, rGauge, yGauge, gGauge, rPhone, yPhone, gPhone, actTimer, countDownTimer, splash, results, gBatt, yBatt, rBatt;
+PImage dial, rGauge, yGauge, gGauge, rPhone, yPhone, gPhone, actTimer, countDownTimer, splash, results, gBatt, yBatt, rBatt;
 
 //set the dial indicator to half size
 float pointWidth = 89/2;
@@ -81,9 +81,8 @@ void setup() {
 
 
   //image assignment
-  //enable = en
-  //disable = dis
-  en2 = loadImage("/images/en2.png");
+
+  dial = loadImage("/images/dial.png");
   rGauge = loadImage("/images/rGauge.png");
   yGauge = loadImage("/images/yGauge.png");
   gGauge = loadImage("/images/gGauge.png");
@@ -202,7 +201,7 @@ void updatePointer() {
   pushMatrix();
   rotate(radians(senLevels));
   imageMode(CENTER);
-  image(en2, 0, pointOffset*-1, pointWidth, pointHeight);
+  image(dial, 0, pointOffset*-1, pointWidth, pointHeight);
   popMatrix();
 }
 
