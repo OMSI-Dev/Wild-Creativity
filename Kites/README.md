@@ -1,4 +1,4 @@
-# Helmet Electronics Details
+# Kites Electronics Details
 ### Theory of Operation
 The basic operation of kites is a processing sketch and a uController controlling two blower fans and reading a veneer force sensor. The uController has a start and stop button connected to control the gameplay game state. 
 
@@ -21,34 +21,32 @@ processing: location of computer app
 readme.md : basic project info its the file you are reading 
 resources:Kites BOM.xls 
 some other directories are used by platformio and vscode
+
 Hardware
+
 Phoenix connectors:
-2-pin: (4 qty) 
 
-    1. 24V 
-    2. Safety Switch 
-    3. Accel Sensor (1 pair)
-3-pin: (3 qty) 
+3-pin: (1 qty) 
 
-    1. IR In
-    2. Reed In 
-    3. 12v In 
+    1. 12V IN
     
 4-pin: (2 qty) 
 
-    1. Stepper Motor
-    2.Maglock
+    1. Fan Power
 
- 6-pin: (1 qty) 
+ 8-pin: (1 qty) 
 
-    1. Lock Light
-    2. Unlock Light 
+    1. Start Light
+    2. Stop Light
+    3. Start Btn
+    4. Stop Btn
 
 Various components
 
     2 mosfets (SMD 7460AAW44K) 
     2 10K SMS Resistors
     32U4 - 5v itsyBitsy
+    Vernier Sensor
     12V PSU 
     5V across USB
     
@@ -61,16 +59,27 @@ They are Mp3 files stored /data/sound/ and can be updated simply by following th
     Failure: red.mp3 
     Average: orange.mp3 
     Success: green.mp3
+    Countdown: countdown.mp3
+    Countdown Start: countdownStart.mp3
 
 ### Images/video
 The images are saved as PNG and the video is MP4, both are stored /data/images. by following the naming scheme and replacing old files. It is recommended to make a backup before replacing any files. Capitalization matters.
 
 ##### Naming scheme:
-    Arrow Failure: redArrow.png 
-    Arrow Average: yellowArrow.mp3 
-    Arrow Success: greenArrow.mp3
-    Head Failure: 3_en.png 
-    Head Average: 2_en.png 
-    Head Success: 1_en.png
+
+    Battery Red: battR.png 
+    Battery Yellow: battY.png 
+    Battery Green: battG.png
+    Phone Red: rPhone.png 
+    Phone Yellow: yPhone.png 
+    Phone Green: gPhone.png
+    Results Phone: results.png 
+    Gauge Red: rGauge.png
+    Gauge Yellow: yGauge.png
+    Gauge Green: gGauge.png
+    Game Timer: activeTimer.png
+    Count in Timer: countdownTimer.png
+    Gauge Dial: dail.png
+    results splash: splash.png
     Video: attractor.mp4
 
