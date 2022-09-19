@@ -445,6 +445,8 @@ void results()
   {
     countTimer.reset();
     showResults = false;
+    //tell the arduino that the results page is over
+    //ardPort.write(36);
   }
 }
 
