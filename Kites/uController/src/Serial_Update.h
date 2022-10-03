@@ -1,3 +1,6 @@
+extern bool resultsFlag;
+extern void results();
+
 bool Serial_Update(bool gameStatus)
 {
     // send it to the computer as ASCII digits
@@ -9,35 +12,24 @@ bool Serial_Update(bool gameStatus)
     ByteRecv = Serial.read();
  
 
-    if(ByteRecv == 10)
+    if(ByteRecv == 39)
     {  
       sensorUpdate();        
       Serial.print(ByteSend);
-      Serial.write(10); //sends LF to close buffer
-      gameStatus = true;               
+      Serial.write(10); //sends LF to close buffer     
       return  gameStatus;
-
+      
     }else if(ByteRecv == 36){
-      //game over update arduinos state     
-      gameStatus = false;
-      Serial.print("!");
-      Serial.write(10); //sends LF to close buffer  
-      return  gameStatus;       
-    }
-    else if(ByteRecv == 37){
-      //game in results turn off fan & fade out stop button
-      //Turns off fan
-      digitalWrite(fanPin, LOW);  
-      //tell stop button to fade out
 
-      gameStatus = false;
       return  gameStatus;       
+    }else if(ByteRecv == 38){
+
+      return  gameStatus;
+    }else if(ByteRecv == 40){
+      
+      return  gameStatus;  
     }
-    else if(ByteRecv == 38){
-   
-    gameStatus = false;
-    return  gameStatus;       
-  }
-    return gameStatus;
+
+  return gameStatus;
 }
 

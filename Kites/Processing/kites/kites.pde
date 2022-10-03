@@ -100,7 +100,6 @@ void setup() {
   //movie assignment
   attractor = new Movie(this, "/images/attractor.mp4");
 
-
   // List all the available serial ports:
   printArray(Serial.list());
 
@@ -110,6 +109,9 @@ void setup() {
   ardPort = new Serial(this, portName, 9600);
   //Line Feed to set buffer to read
   ardPort.bufferUntil(lf);
+
+  //catch the arduino incase we lose sync
+  //ardPort.write(36);
 
   //Timer setup
   Timer = new Stopwatch(this);
@@ -123,7 +125,6 @@ void draw() {
   //results();
   if (gameOn == true)
   {
-
     //prevents movie from playing during gameplay
     if (stopFlag == true) {
       stopFlag = false;
@@ -152,19 +153,24 @@ void draw() {
     long currentMillis = millis();
     if (currentMillis - senUpdate >= interval)
     {
+      //send ' to get sensor update
       senUpdate = currentMillis;
-      ardPort.write(10);
+      ardPort.write(39);
     }
 
     //println("Game Timer: " + Timer.time());
-    if (Timer.time() >= gameTime) {
+    if (Timer.time() >= gameTime)
+    {
       timerTick();
     }
-  } else {
+  } else
+  {
+
     if (showResults == true)
     {
       results();
-    } else {
+    } else
+    {
       playMovie();
     }
   }
@@ -172,26 +178,35 @@ void draw() {
 
 void serialEvent(Serial port) {
 
+  //reset audio signal
   playOnce = true;
+
   //looks for incomming Sensor Data
   inputStr = trim(port.readString());
 
-  //if detected sets senlevels to 0
-  if (inputStr.equals("#") == true) {
+  if (inputStr.equals("#") == true)
+  {
     //flip the stop video flag
     stopFlag = true;
-    //println ("Game detects: " + inputStr);
     gameOn = true;
+
+    //clears previous sensor value
     senLevels = 0;
+    //resets timer before starting
     countTimer.reset();
   } else if (inputStr.equals("%") == true) {
+    //stop button pressed end the game
+    println("Stop button");
     timerTick();
+  } else if (inputStr.equals("!") == true) {
+    println ("received byte to stop game or leave results");
   } else {
     println ("Current Sensor: " + inputStr);
     //Convert to string to integer value to parse sensor data
     senLevels = float(inputStr);
   }
 }
+
 
 void updatePointer() {
   //translate senLevels between -90 and 90 degrees.
@@ -319,6 +334,7 @@ void gameCountIn()
   if (countTimer.time()<1) {
     countTimer.start();
   }
+
   counter =  5 - round(countTimer.time()/1000);
 
   imageMode(CENTER);
@@ -326,10 +342,12 @@ void gameCountIn()
   image(countDownTimer, 1267, height/2, 251/2, 294/2);
   fill(#000000);
   textAlign(CENTER);
+
   if (counter >=0)
   {
     text(counter, 1266, 568);
   }
+
   textSize(50);
   textAlign(RIGHT);
   fill(#275daa);
@@ -337,6 +355,7 @@ void gameCountIn()
   fill(#004d43);
   text("Testing starts in ", 1120, height/2+50);
 
+  //playing countdown timer
   switch (counter)
   {
   case 0:
@@ -370,8 +389,11 @@ void gameCountIn()
       countdown.play();
     }
   }
+
+  //counter over start game.
   if (counter < 0)
   {
+    println("Game Countdown over...");
     countTimer.reset();
     gameIn = true;
   }
@@ -379,9 +401,13 @@ void gameCountIn()
 
 void results()
 {
+
+
   if (countTimer.time()<1)
   {
     countTimer.start();
+    //tell arduino we are in results
+    ardPort.write(38);
   }
 
   //show the background tinted
@@ -416,24 +442,24 @@ void results()
   text("Your phone would charge in", 1525, 677);
   text("[???] minutes", 1525, 729);
 
-  //play sound based on resaults
+  //play sound based on results
   if (senLevels >= 35)
   {
-    if (green.isPlaying() == false && playOnce == true)
+    if (playOnce == true)
     {
       green.play();
       playOnce = false;
     }
   } else if (senLevels >=-35 && senLevels < 35 )
   {
-    if (orange.isPlaying() == false && playOnce == true)
+    if (playOnce == true)
     {
       orange.play();
       playOnce = false;
     }
   } else if (senLevels <-35)
   {
-    if (red.isPlaying() == false && playOnce == true)
+    if (playOnce == true)
     {
       red.play();
       playOnce = false;
@@ -443,22 +469,36 @@ void results()
   if (counter < 0)
   {
     countTimer.reset();
+    ardPort.write(40);
+    println("sent results over");
+    
+    
     showResults = false;
-    //tell the arduino that the results page is over
-    //ardPort.write(36);
+
   }
 }
 
 
 void timerTick() {
+  //send game over signal
   ardPort.write(36);
+  println("sent byte 36");
+  //reset the game timer
   Timer.reset();
+  //reset audio signal
   playOnce = true;
+  //allow results to be shown again
   showResults = true;
+  //end the game loop
   gameOn = false;
+  //This isn't used anymore..keeping until RC
   soundOn = false;
+  //reset allowing the game to count in
   gameIn = false;
 }
+
+
+
 
 void playMovie() {
 

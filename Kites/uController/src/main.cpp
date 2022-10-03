@@ -23,14 +23,17 @@ Updates:
 //bytes being sent or received:
 //35 # Starts game on button press
 //36 $ signals game over
-//37 % used to tell ardunio is in results
-//38 & used to tell results are over
+//37 % signals the stopbtn has been pressed
+//38 & used to tell results are starting
+//39 ' used to receive sensor update
+//40 ( used to tell arduino processing is out of results
 
 Bounce2::Button startBtn = Bounce2::Button();
 Bounce2::Button stopBtn = Bounce2::Button();
 
 //flags
 bool gameON = false;
+bool resultsFlag = false;
 
 byte fadeValueStart = 0;
 byte fadeValueStop = 0;
@@ -67,48 +70,70 @@ void setup()
 void loop() 
 {
  
-  if(gameON == false)
+  if(gameON == false && resultsFlag == false)
   { 
     startBtn.update(); 
-    //look for serial update
+
     //turn fan powersupply off
     digitalWrite(fanPin, LOW);
+
+    //look for serial update
     gameON = (Serial_Update(gameON));
-    //have start button breath while game is off
-    fadeValueStart = breathStart(fadeValueStart);
+
+    //have stop button light turn off
     fadeValueStop = breathOutStop(fadeValueStop);
 
+    //have start button breath while game is off
+    fadeValueStart = breathStart(fadeValueStart);
+
+
     if(startBtn.pressed())
-    {
-          //have start button breah out while game is playing
-      
-      //send # & LF to start game and close buffer
+    {          
+      //send # & LF to start the game and close buffer
       Serial.print("#");
       Serial.write(10);
       gameON = true;      
     }
  
-  }
-  else
+  } else if (gameON == true && resultsFlag == false)
   {
     stopBtn.update();
-     fadeValueStart= breathOutStart(fadeValueStart); 
-    //have stop button breath while game is playing
-    
+
+    //have start button breath out while game is playing  
+    fadeValueStart= breathOutStart(fadeValueStart); 
+
+    //have stop button breath while game is playing    
     fadeValueStop = breathStop(fadeValueStop);
 
+    //turn fan on
     digitalWrite(fanPin, HIGH);
+
+    //look for incoming game updates
     gameON = (Serial_Update(gameON));
+
     if(stopBtn.pressed())
-    {
-      //have stop button breathout while game is off
-     
-      //send % & LF to stop game game and close buffer
+    {         
+      //send % & LF to stop the game and close buffer
       Serial.print("%");
       Serial.write(10);
-      gameON = true;      
+      //turn the game flag off
+      gameON = false;      
     }
-
+  } else if (resultsFlag == true)
+  {
+    results();
   }
+
+}
+
+void results()
+{
+//shut off lights and fan
+
+digitalWrite(fanPin, LOW);
+
+do {
+    fadeValueStop = breathOutStop(fadeValueStop);
+  } while (fadeValueStop > 0);
 
 }
