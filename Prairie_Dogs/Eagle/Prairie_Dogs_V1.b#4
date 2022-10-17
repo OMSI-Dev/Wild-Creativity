@@ -295,7 +295,7 @@
 <text x="135.89" y="20.32" size="1.778" layer="25" rot="R270">GND</text>
 <text x="124.46" y="20.32" size="1.778" layer="25" rot="R270">12v</text>
 <text x="-7.62" y="29.21" size="1.778" layer="25">DOT: Prairie Dogs
-V1.0
+V1.5
 7/26/2022
 Aaron De Lanty</text>
 <text x="-7.62" y="25.4" size="2.54" layer="25">OMSI</text>
