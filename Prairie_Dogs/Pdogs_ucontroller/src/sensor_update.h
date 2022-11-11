@@ -1,31 +1,124 @@
 #include <pin_define.h>
+#include <Mapf.h>
+//#define debug
 
-const int numReadings = 30;
+const int CalNumReadings = 80;
+
+const int numReadings = 40;
 
 int readings[numReadings];      // the readings from the analog input
 int readIndex = 0;              // the index of the current reading
-int total = 0;                  // the running total
+double total = 0;                  // the running total
 
-int sensorVal = 0;
+int CalReadings[CalNumReadings];      // the readings from the analog input
+int CalReadIndex = 0;              // the index of the current reading
+double CalTotal = 0;                  // the running total
 
-void sensorUpdate(){
-  //Smooth out the sensor value   
-  total = total - readings[readIndex]; 
-  readings[readIndex] = analogRead(sensorIn); 
-  total = total + readings[readIndex];
-  readIndex = readIndex + 1;
-  
-  if (readIndex >= numReadings) {
-       readIndex = 0;
-  }
- sensorVal = total / numReadings;
-//  Serial.print("Sensor Avg: ");
-//  Serial.println(sensorVal);
- //map the sensor to the calibration settings
- sensorVal = constrain(sensorVal, 200, 500);
-//  Serial.print("Constrain Avg: ");
-//  Serial.println(sensorVal);
- sensorVal = map(sensorVal,200, 500, 0, 300);
-//   Serial.print("Mapped Avg: ");
-//  Serial.println(sensorVal);
+double sensorVal;
+
+//used to constrain & Calibrate
+bool SenCalibrate = false;
+double sensorValHigh =  220;
+double sensorValHighlast = 0;
+
+double modifiedMap(double x, double in_min, double in_max, double out_min, double out_max)
+{
+double temp = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+temp = (int) (4*temp + .5);
+return (double) temp/4;
 }
+
+double sensorUpdate(double sensorValLow){
+ //Average out the signal at the start of the game
+ //Set this to the Low. Map these new readings to 0-300
+  #ifdef debug
+ Serial.print("Sensor Low:");
+ Serial.println(sensorValLow);
+  #endif
+
+total = total - readings[readIndex]; 
+readings[readIndex] = analogRead(sensorIn); 
+total = total + readings[readIndex];  
+readIndex = readIndex + 1;
+     
+if (readIndex >= numReadings) {
+     readIndex = 0;
+}
+
+ #ifdef debug
+ Serial.print("READ Value: ");
+ Serial.println(analogRead(sensorIn));
+#endif 
+
+sensorVal = total / numReadings;
+
+#ifdef debug
+ Serial.print("Averaged Value: ");
+ Serial.println(sensorVal); 
+ #endif
+
+ if(sensorVal > sensorValHigh )
+ {
+    sensorValHigh = sensorVal;
+    #ifdef debug
+    Serial.print("High Value: ");
+    Serial.println(sensorValHigh);
+    #endif
+ }    
+
+//sensorVal = constrain(sensorVal,sensorValLow,sensorValHigh);
+
+ #ifdef debug
+ Serial.print("constrain Value: ");
+ Serial.println(sensorVal);
+ #endif
+
+//  #ifdef debug
+//  Serial.print("MapF Value: ");
+//  Serial.println(sensorVal);
+// #endif
+ sensorVal = modifiedMap(sensorVal,sensorValLow, sensorValHigh, 0, 300);
+
+ #ifdef debug
+ Serial.print("Mapped Value: ");
+ Serial.println(sensorVal);
+ #endif
+
+}
+
+int SensorCalibration(int sensorValCalibrated)
+{    
+     if(CalReadIndex == 0){digitalWrite(fanpin, HIGH); delay(5000);}
+    
+     do
+     {
+          CalTotal = CalTotal - CalReadings[CalReadIndex];
+           #ifdef debug
+          Serial.print("Raw Sesnor Data= ");
+          Serial.print(CalReadIndex);
+          Serial.print(" : ");  
+          Serial.println(analogRead(sensorIn));
+           #endif 
+          CalReadings[CalReadIndex] = analogRead(sensorIn); 
+          CalTotal = CalTotal + CalReadings[CalReadIndex];  
+          CalReadIndex = CalReadIndex + 1;
+     }while(CalReadIndex != CalNumReadings);
+
+     if (CalReadIndex >= CalNumReadings) {
+          CalReadIndex = 0;
+     }     
+
+     #ifdef debug 
+    Serial.print("CalTotal Data:"); 
+    Serial.println(CalTotal);
+    #endif 
+    sensorValCalibrated = CalTotal / CalNumReadings;
+     #ifdef debug
+    Serial.print("Avg :"); 
+    Serial.println(CalTotal / CalNumReadings);
+    #endif  
+    //EEPROM.update(0,sensorValCalibrated); 
+    return  sensorValCalibrated;
+
+ }
+

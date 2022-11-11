@@ -24,9 +24,11 @@ Added comments & notes waiting to calibrate
 8/25/22 - changed tone generation Hz (this might be removed in RC)
 8/29/22: Moved all pin def to its own header
          Removed Tone Generator as it is now controlled in processing
+11/7/22: re-calibrated Sensor
 */
 
 #include <Arduino.h>
+#include <EEPROM.h>
 #include <bounce2.h>
 
 #include <pin_define.h>
@@ -43,18 +45,21 @@ Added comments & notes waiting to calibrate
 
 Bounce2::Button startBtn = Bounce2::Button();
 
+#define debug
+
 //flags
 bool gameON = false;
+bool CalFlag = false;
 
 byte fadeValue = 0 ;
 
 void setup() 
 {
   pinMode(speakerPin, OUTPUT);
-  pinMode(startBtnPWM, OUTPUT);
+  pinMode(startBtnPWM, OUTPUT); 
   pinMode(fanpin, OUTPUT);
-  digitalWrite(fanpin, LOW);
-
+  
+  digitalWrite(LED_BUILTIN, HIGH);
   //button inilize
   startBtn.attach(startBtnPin, INPUT_PULLUP);
   startBtn.interval(5);
@@ -64,20 +69,38 @@ void setup()
   Serial.begin(9600);
   while (!Serial) 
     {delay(10);}
-  
+
+ //digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() 
 {
   startBtn.update(); 
-
-  if(startBtn.pressed() && gameON == false)
+  //game code
+  if(startBtn.pressed() && gameON == false && CalFlag == true)
   {
     //send # & LF to start game on processing
     Serial.print("#");
     Serial.write(10);
     //flip flag      
     gameON = true;      
+  }  
+
+  //debug code
+  if(startBtn.pressed() && CalFlag == false)
+  {
+    int sensorValCalibrated = 0;
+     #ifdef debug
+    Serial.println("Starting Calibration....");
+    #endif    
+    sensorValCalibrated = SensorCalibration(sensorValCalibrated);
+     #ifdef debug
+    Serial.print("Sensor Value Calibration: ");
+    Serial.println(sensorValCalibrated);
+     #endif
+    digitalWrite(fanpin, LOW);
+    CalFlag = true;
+    
   }  
 
   if(gameON == false)
@@ -90,7 +113,7 @@ void loop()
   }
   
  if(gameON == true) {
-  digitalWrite(fanpin, HIGH);  
+    digitalWrite(fanpin, HIGH);  
     fadeValue = breathOut(fadeValue);
     gameON = (Serial_Update(gameON));    
   }

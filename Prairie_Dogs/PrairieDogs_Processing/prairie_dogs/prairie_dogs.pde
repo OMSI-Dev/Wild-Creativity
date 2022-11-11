@@ -31,9 +31,9 @@ float graphYmax = 300;
 
 //timers
 long senUpdate = 0;
-int interval = 10;
+int interval = 20;
 Stopwatch Timer;
-int gameTime = 60000;
+int gameTime = 30000;
 
 
 //images
@@ -84,26 +84,26 @@ void setup() {
   //image assignment
   //enable = en
   //disable = dis
-  en1 = loadImage("/images/1_en.gif");
-  dis1 = loadImage("/images/1_dis.gif");
-  en2 = loadImage("/images/2_en.gif");
-  dis2 = loadImage("/images/2_dis.gif");
-  en3 = loadImage("/images/3_en.gif");
-  dis3 = loadImage("/images/3_dis.gif");
-  gArrow = loadImage("/images/greenArrow.gif");
-  yArrow = loadImage("/images/yellowArrow.gif");
-  rArrow  = loadImage("/images/redArrow.gif");
+  en1 = requestImage("/images/1_en.gif");
+  dis1 = requestImage("/images/1_dis.gif");
+  en2 = requestImage("/images/2_en.gif");
+  dis2 = requestImage("/images/2_dis.gif");
+  en3 = requestImage("/images/3_en.gif");
+  dis3 = requestImage("/images/3_dis.gif");
+  gArrow = requestImage("/images/greenArrow.gif");
+  yArrow = requestImage("/images/yellowArrow.gif");
+  rArrow  = requestImage("/images/redArrow.gif");
 
   //movie assignment
   attractor = new Movie(this, "/images/attractor.mp4");
 
   //set starting image postions
-  imageMode(CENTER);
-  image(dis1, 1725, 350, 220, 220);
-  imageMode(CENTER);
-  image(dis2, 1725, 600, 220, 220);
-  imageMode(CENTER);
-  image(en3, 1725, 850, 220, 220);
+  //imageMode(CENTER);
+  //image(dis1, 1725, 350, 220, 220);
+  //imageMode(CENTER);
+  //image(dis2, 1725, 600, 220, 220);
+  //imageMode(CENTER);
+  //image(en3, 1725, 850, 220, 220);
 
   //set sound generator
   sine = new SinOsc(this);
@@ -120,7 +120,7 @@ void setup() {
     String portName = Serial.list()[0];
     ardPort = new Serial(this, portName, 9600);
   }
-
+  ardPort.write(36);
   ardPort.bufferUntil(lf);
 
   //Timer setup
@@ -209,7 +209,11 @@ void draw() {
       playSound();
     }
   } else {
-    playMovie();
+    background(255);
+    pushMatrix();    
+    imageMode(CENTER);
+    playMovie();     
+    popMatrix();
   }
 }
 
@@ -277,7 +281,7 @@ void drawGraph() {
   } else if (senLevels >100 && senLevels < 200)
   {
     plot1.setBoxBgColor(#fed9a5);
-  } else if (senLevels > 0 && senLevels <100)
+  } else if (senLevels >= 0 && senLevels <100)
   {
 
     plot1.setBoxBgColor(#fbc8b4);
@@ -326,7 +330,7 @@ void updateArrow() {
   {
     imageMode(CENTER);
     image(yArrow, Xcord, Ycord, 50, 50);
-  } else if (senLevels > 0 && senLevels <100)
+  } else if (senLevels >= 0 && senLevels <100)
   {
     imageMode(CENTER);
     image(rArrow, Xcord, Ycord, 50, 50);
@@ -353,7 +357,7 @@ void upDog() {
     image(en2, 1725, 600, enSize, enSize);
     imageMode(CENTER);
     image(dis3, 1725, 850, disSize, disSize);
-  } else if (senLevels > 0 && senLevels <100)
+  } else if (senLevels >= 0 && senLevels <100)
   {
     imageMode(CENTER);
     image(dis1, 1725, 350, disSize, disSize);

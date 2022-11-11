@@ -11,8 +11,10 @@ bool Serial_Update(bool gameStatus)
     //Looks for a LF to ping back sensor info
     //if $ signals that game is over
     if(ByteRecv == 10)
-    {    
-      sensorUpdate();           
+    { 
+      //byte sensorValCalibrated = EEPROM.read(0);
+      double sensorValCalibrated = 196;
+      sensorUpdate(sensorValCalibrated);           
       Serial.print(ByteSend);
       Serial.write(10); //sends LF to close buffer      
       gameStatus = true;      
