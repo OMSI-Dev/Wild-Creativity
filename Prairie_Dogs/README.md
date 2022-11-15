@@ -20,7 +20,7 @@ The software is built using platform.io. You can use Arduino IDE by copying the 
 	processing: location of computer app
 	processing/data: assets used for the processing app
 	readme.md : basic project info its the file you are reading
-	resources: Prairie Dogs BOM.xls (does not exist yet)
+	Documentation: Prairie Dogs BOM.xls
 	some other directories are used by platformio and vscode
 
 #### Hardware
