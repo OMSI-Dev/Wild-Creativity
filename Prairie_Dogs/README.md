@@ -48,7 +48,7 @@ The software is built using platform.io. You can use Arduino IDE by copying the 
 
 Various Components:
 
-	2 mosfets (SMD 7460AAW44K)
+	2 mosfets (SI7460DP-T1-GE3)
 	2 10K SMS Resistors
 	32U4 - 5v itsyBitsy
 	2 Happ Switch
