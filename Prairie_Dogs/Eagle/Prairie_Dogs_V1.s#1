@@ -4170,6 +4170,17 @@ Mag Lock - D13</text>
 <pinref part="FAN_CONTROL" gate="-2" pin="1"/>
 </segment>
 </net>
+<net name="N$13" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="RST"/>
+<wire x1="81.28" y1="162.56" x2="68.58" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="162.56" x2="68.58" y2="170.18" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="170.18" x2="121.92" y2="170.18" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="170.18" x2="121.92" y2="142.24" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="D7"/>
+<wire x1="121.92" y1="142.24" x2="114.3" y2="142.24" width="0.1524" layer="91"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>

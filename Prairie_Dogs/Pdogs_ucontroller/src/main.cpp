@@ -12,9 +12,8 @@ Continue until receives game over byte & resets arduino state
 
 Air Flow Pinout
 Red  - 12v
-Blue - GND
-Grey - Data
-
+Black - GND
+Blue - Data
 
 Updates:
 Base code: 7/6/22
@@ -25,6 +24,7 @@ Added comments & notes waiting to calibrate
 8/29/22: Moved all pin def to its own header
          Removed Tone Generator as it is now controlled in processing
 11/7/22: re-calibrated Sensor
+11/11/22: Added calibration function & Floating Map function to have a smoother resolution to send to Processing
 */
 
 #include <Arduino.h>
@@ -45,7 +45,7 @@ Added comments & notes waiting to calibrate
 
 Bounce2::Button startBtn = Bounce2::Button();
 
-#define debug
+//#define debug
 
 //flags
 bool gameON = false;
