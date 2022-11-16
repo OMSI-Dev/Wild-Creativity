@@ -20,13 +20,19 @@ bool Serial_Update(bool gameStatus)
       return  gameStatus;
       
     }else if(ByteRecv == 36){
-
+      //let processing know arduino left game state 
+      Serial.print("!");
+      Serial.write(10); //sends LF to close buffer 
+      gameStatus = false;      
       return  gameStatus;       
     }else if(ByteRecv == 38){
 
       return  gameStatus;
     }else if(ByteRecv == 40){
-      
+      //left the results state
+      //Wait for results to finish before letting arduino
+      //leave game state
+
       return  gameStatus;  
     }
 

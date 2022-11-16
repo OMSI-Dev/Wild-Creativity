@@ -70,59 +70,65 @@ void setup()
 void loop() 
 {
  
-  if(gameON == false && resultsFlag == false)
+ startBtn.update();
+ stopBtn.update(); 
+
+  if(startBtn.pressed() && gameON == false)
+    {          
+      //send # & LF to start the game and close buffer
+      Serial.print("#");
+      Serial.write(10);
+      gameON = true;
+      //turn fan powersupply on
+      digitalWrite(fanPin, HIGH);
+
+    }
+
+  if(stopBtn.pressed() && gameON == true)
+    {          
+      //send % & LF to stop the game and close buffer
+      Serial.print("%");
+      Serial.write(10);
+      gameON = false;
+      //turn fan powersupply off
+      digitalWrite(fanPin, LOW);            
+    }
+
+  //actions that happen during game state
+  if(gameON == true)
   { 
-    startBtn.update(); 
-
-    //turn fan powersupply off
-    digitalWrite(fanPin, LOW);
-
-    //look for serial update
+    //get updates from processing to check 
+    //what game status is OR to get sensor update
     gameON = (Serial_Update(gameON));
 
+    //update buttons LEDs
+    //have start button breath out while game is playing  
+    fadeValueStart= breathOutStart(fadeValueStart);
+    //have stop button breath while game is playing    
+    fadeValueStop = breathStop(fadeValueStop);
+  } 
+
+    //actions that happen outside of game state
+  if(gameON == false)
+  { 
+    //get updates from processing to check 
+    //what game status is OR to get sensor update
+    gameON = (Serial_Update(gameON));
+    //turn fan powersupply off
+    digitalWrite(fanPin, LOW);  
+    //update buttons LEDs
     //have stop button light turn off
     fadeValueStop = breathOutStop(fadeValueStop);
 
     //have start button breath while game is off
     fadeValueStart = breathStart(fadeValueStart);
+  } 
 
 
-    if(startBtn.pressed())
-    {          
-      //send # & LF to start the game and close buffer
-      Serial.print("#");
-      Serial.write(10);
-      gameON = true;      
-    }
- 
-  } else if (gameON == true && resultsFlag == false)
-  {
-    stopBtn.update();
-
-    //have start button breath out while game is playing  
-    fadeValueStart= breathOutStart(fadeValueStart); 
-
-    //have stop button breath while game is playing    
-    fadeValueStop = breathStop(fadeValueStop);
-
-    //turn fan on
-    digitalWrite(fanPin, HIGH);
-
-    //look for incoming game updates
-    gameON = (Serial_Update(gameON));
-
-    if(stopBtn.pressed())
-    {         
-      //send % & LF to stop the game and close buffer
-      Serial.print("%");
-      Serial.write(10);
-      //turn the game flag off
-      gameON = false;      
-    }
-  } else if (resultsFlag == true)
-  {
-    results();
-  }
+//   if (resultsFlag == true)
+//   {
+//     results();
+//   }
 
 }
 

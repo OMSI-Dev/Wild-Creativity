@@ -15,7 +15,8 @@ String inputStr;
 //timers
 long senUpdate = 0;
 //how often should we ask for a sensor value in ms
-int interval = 20;
+// reduced the amounts of calls from 20ms to 100ms
+int interval = 100;
 
 //Counts down the game intro and game time
 Stopwatch Timer;
@@ -158,14 +159,15 @@ void draw() {
       ardPort.write(39);
     }
 
-    //println("Game Timer: " + Timer.time());
+    //println("Game Timer: " + round(Timer.time()/1000));
+    //println("Results: " + showResults);
     if (Timer.time() >= gameTime)
     {
       timerTick();
     }
   } else
   {
-
+    //println("Results: " + showResults);
     if (showResults == true)
     {
       results();
@@ -183,25 +185,30 @@ void serialEvent(Serial port) {
 
   //looks for incomming Sensor Data
   inputStr = trim(port.readString());
-
+  
+  //% = End game by stop button
+  //# = Start game
+  //! = Signals arduino knows game is over
+  
+  
   if (inputStr.equals("#") == true)
   {
     //flip the stop video flag
     stopFlag = true;
     gameOn = true;
-
     //clears previous sensor value
     senLevels = 0;
     //resets timer before starting
     countTimer.reset();
+    
   } else if (inputStr.equals("%") == true) {
     //stop button pressed end the game
     println("Stop button");
-    timerTick();
+    timerTick();    
   } else if (inputStr.equals("!") == true) {
     println ("received byte to stop game or leave results");
   } else {
-    println ("Current Sensor: " + inputStr);
+    //println ("Current Sensor: " + inputStr);
     //Convert to string to integer value to parse sensor data
     senLevels = float(inputStr);
   }
@@ -402,7 +409,6 @@ void gameCountIn()
 void results()
 {
 
-
   if (countTimer.time()<1)
   {
     countTimer.start();
@@ -465,16 +471,15 @@ void results()
       playOnce = false;
     }
   }
-
-  if (counter < 0)
+  println("counter in results: " + counter);
+  if (counter <= 0)
   {
+    println("Results timer over..");
     countTimer.reset();
-    ardPort.write(40);
-    println("sent results over");
-    
-    
     showResults = false;
-
+    //-ardPort.write(40);
+    println("sent results over");
+        
   }
 }
 

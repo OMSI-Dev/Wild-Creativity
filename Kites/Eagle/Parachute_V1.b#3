@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting keepoldvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
@@ -288,11 +288,11 @@
 <text x="50.038" y="93.599" size="1.778" layer="25" rot="R270">GND</text>
 <text x="25.4" y="20.32" size="1.778" layer="25" rot="R270">GND</text>
 <text x="13.97" y="20.32" size="1.778" layer="25" rot="R270">12v</text>
-<text x="-7.62" y="29.21" size="1.778" layer="25">DOT: Kites
-V1.5
+<text x="-7.62" y="49.53" size="1.778" layer="25">DOT: Kites
+V1.1
 7/26/2022
 Aaron De Lanty</text>
-<text x="-7.62" y="25.4" size="2.54" layer="25">OMSI</text>
+<text x="-7.62" y="45.72" size="2.54" layer="25">OMSI</text>
 <wire x1="36.83" y1="55.88" x2="36.83" y2="52.07" width="0.1524" layer="25"/>
 <wire x1="36.83" y1="52.07" x2="34.29" y2="52.07" width="0.1524" layer="25"/>
 <text x="33.274" y="52.578" size="1.016" layer="25" rot="R180">10k OHM</text>
