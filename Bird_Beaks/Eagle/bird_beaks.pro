@@ -1,25 +1,27 @@
 EAGLE AutoRouter Statistics:
 
-Job           : C:/Users/Dev/Documents/DOT/Bird_Beak/Eagle/bird_beaks.brd
+Job           : C:/Users/Dev/Documents/DOT/Bird_Beaks/Eagle/bird_beaks.brd
 
-Start at      : 12:57:30 (10/26/2022)
-End at        : 12:57:33 (10/26/2022)
-Elapsed time  : 00:00:01
+Start at      : 11:22:14 (12/19/2022)
+End at        : 11:23:19 (12/19/2022)
+Elapsed time  : 00:01:01
 
-Signals       :    19   RoutingGrid: 9 mil  Layers: 2
-Connections   :    37   predefined:  36 ( 2 Vias )
+Signals       :    19   RoutingGrid: 4.5 mil  Layers: 2
+Connections   :    37   predefined:  0 ( 0 Vias )
 
-Router memory :   1807120
+Router memory :   7131024
 
-Passname          : TopRouter     Route Optimize1 Optimize2 Optimize3 Optimize4 Optimize5 Optimize6 Optimize7 Optimize8 Optimize9Optimize10Optimize11Optimize12
+Job has been interrupted!
 
-Time per pass     :  00:00:01  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00  00:00:00
-Number of Ripups  :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
-max. Level        :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
-max. Total        :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+Passname          : TopRouter     Route Optimize1 Optimize2 Optimize3 Optimize4 Optimize5 Optimize6 Optimize7 Optimize8 Optimize9
 
-Routed            :         1         1         1         1         1         1         1         1         1         1         1         1         1         1
-Vias              :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
-Resolution        :   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
+Time per pass     :  00:00:02  00:00:05  00:00:10  00:00:08  00:00:06  00:00:06  00:00:05  00:00:06  00:00:06  00:00:05  00:00:02
+Number of Ripups  :         0         0         0         0         0         0         0         0         0         0         0
+max. Level        :         0         0         0         0         0         0         0         0         0         0         0
+max. Total        :         0         0         0         0         0         0         0         0         0         0         0
+
+Routed            :        22        37        37        37        37        37        37        37        37        37        37
+Vias              :         0         3         7         5         5         5         5         5         5         5         5
+Resolution        :    59.5 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 
 Final             : 100.0% finished
