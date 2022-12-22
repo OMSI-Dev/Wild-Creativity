@@ -375,75 +375,13 @@ Added 144mill drill hole that fits my normal wood screw</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="SparkFun-PowerSymbols" urn="urn:adsk.eagle:library:530">
-<description>&lt;h3&gt;SparkFun Power Symbols&lt;/h3&gt;
-This library contains power, ground, and voltage-supply symbols.
-&lt;br&gt;
-&lt;br&gt;
-We've spent an enormous amount of time creating and checking these footprints and parts, but it is &lt;b&gt; the end user's responsibility&lt;/b&gt; to ensure correctness and suitablity for a given componet or application. 
-&lt;br&gt;
-&lt;br&gt;If you enjoy using this library, please buy one of our products at &lt;a href=" www.sparkfun.com"&gt;SparkFun.com&lt;/a&gt;.
-&lt;br&gt;
-&lt;br&gt;
-&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
-&lt;br&gt;
-&lt;br&gt;
-You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
-<packages>
-</packages>
-<symbols>
-<symbol name="VCC" urn="urn:adsk.eagle:symbol:39418/1" library_version="1">
-<description>&lt;h3&gt;VCC Voltage Supply&lt;/h3&gt;</description>
-<wire x1="0.762" y1="1.27" x2="0" y2="2.54" width="0.254" layer="94"/>
-<wire x1="0" y1="2.54" x2="-0.762" y2="1.27" width="0.254" layer="94"/>
-<pin name="VCC" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
-<text x="0" y="2.794" size="1.778" layer="96" align="bottom-center">&gt;VALUE</text>
-</symbol>
-<symbol name="DGND" urn="urn:adsk.eagle:symbol:39415/1" library_version="1">
-<description>&lt;h3&gt;Digital Ground Supply&lt;/h3&gt;</description>
-<wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
-<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
-<text x="0" y="-0.254" size="1.778" layer="96" align="top-center">&gt;VALUE</text>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="VCC" urn="urn:adsk.eagle:component:39449/1" prefix="SUPPLY" library_version="1">
-<description>&lt;h3&gt;VCC Voltage Supply&lt;/h3&gt;
-&lt;p&gt;Positive voltage supply (traditionally for a BJT device, C=collector).&lt;/p&gt;</description>
-<gates>
-<gate name="G$1" symbol="VCC" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="GND" urn="urn:adsk.eagle:component:39439/1" prefix="GND" library_version="1">
-<description>&lt;h3&gt;Ground Supply Symbol&lt;/h3&gt;
-&lt;p&gt;Generic signal ground supply symbol.&lt;/p&gt;</description>
-<gates>
-<gate name="1" symbol="DGND" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 </libraries>
 <attributes>
 </attributes>
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0.4064" drill="0.4826">
+<class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
 <parts>
@@ -455,10 +393,8 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="S4" library="th_libraries" deviceset="STANDOFF_ELECTRICAL" device="5-32"/>
 <part name="GND38" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND39" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="PWR_IN" library="th_libraries" library_urn="urn:adsk.eagle:library:26281734" deviceset="MSTBA2" device="" package3d_urn="urn:adsk.eagle:package:9615/1"/>
-<part name="TO_LEDS" library="th_libraries" library_urn="urn:adsk.eagle:library:26281734" deviceset="MSTBA2" device="" package3d_urn="urn:adsk.eagle:package:9615/1"/>
-<part name="SUPPLY1" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="VCC" device=""/>
-<part name="GND1" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
+<part name="FROM_MAIN" library="th_libraries" library_urn="urn:adsk.eagle:library:26281734" deviceset="MSTBA2" device="" package3d_urn="urn:adsk.eagle:package:9615/1"/>
+<part name="LEDS" library="th_libraries" library_urn="urn:adsk.eagle:library:26281734" deviceset="MSTBA2" device="" package3d_urn="urn:adsk.eagle:package:9615/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -489,25 +425,19 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="GND39" gate="1" x="30.48" y="27.94" smashed="yes" rot="R90">
 <attribute name="VALUE" x="33.02" y="25.4" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="PWR_IN" gate="-1" x="87.63" y="62.23" smashed="yes" rot="R270">
+<instance part="FROM_MAIN" gate="-1" x="87.63" y="62.23" smashed="yes" rot="R270">
 <attribute name="NAME" x="88.519" y="68.834" size="1.778" layer="95" rot="R90"/>
 </instance>
-<instance part="PWR_IN" gate="-2" x="82.55" y="62.23" smashed="yes" rot="R270">
+<instance part="FROM_MAIN" gate="-2" x="82.55" y="62.23" smashed="yes" rot="R270">
 <attribute name="VALUE" x="78.74" y="69.85" size="1.778" layer="96" rot="R270"/>
 <attribute name="NAME" x="83.439" y="68.834" size="1.778" layer="95" rot="R90"/>
 </instance>
-<instance part="TO_LEDS" gate="-1" x="110.49" y="63.5" smashed="yes" rot="R270">
+<instance part="LEDS" gate="-1" x="110.49" y="63.5" smashed="yes" rot="R270">
 <attribute name="NAME" x="111.379" y="70.104" size="1.778" layer="95" rot="R90"/>
 </instance>
-<instance part="TO_LEDS" gate="-2" x="105.41" y="63.5" smashed="yes" rot="R270">
+<instance part="LEDS" gate="-2" x="105.41" y="63.5" smashed="yes" rot="R270">
 <attribute name="VALUE" x="101.6" y="71.12" size="1.778" layer="96" rot="R270"/>
 <attribute name="NAME" x="106.299" y="70.104" size="1.778" layer="95" rot="R90"/>
-</instance>
-<instance part="SUPPLY1" gate="G$1" x="83.82" y="40.64" smashed="yes" rot="R180">
-<attribute name="VALUE" x="83.82" y="37.846" size="1.778" layer="96" rot="R180" align="bottom-center"/>
-</instance>
-<instance part="GND1" gate="1" x="91.44" y="38.1" smashed="yes">
-<attribute name="VALUE" x="91.44" y="37.846" size="1.778" layer="96" align="top-center"/>
 </instance>
 </instances>
 <busses>
@@ -530,30 +460,23 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <pinref part="S4" gate="G$1" pin="P$1"/>
 <pinref part="GND39" gate="1" pin="GND"/>
 </segment>
+</net>
+<net name="N$1" class="0">
 <segment>
-<pinref part="PWR_IN" gate="-1" pin="1"/>
+<pinref part="FROM_MAIN" gate="-1" pin="1"/>
 <wire x1="87.63" y1="57.15" x2="87.63" y2="52.07" width="0.1524" layer="91"/>
-<pinref part="TO_LEDS" gate="-1" pin="1"/>
-<wire x1="87.63" y1="52.07" x2="91.44" y2="52.07" width="0.1524" layer="91"/>
-<wire x1="91.44" y1="52.07" x2="110.49" y2="52.07" width="0.1524" layer="91"/>
+<pinref part="LEDS" gate="-1" pin="1"/>
+<wire x1="87.63" y1="52.07" x2="110.49" y2="52.07" width="0.1524" layer="91"/>
 <wire x1="110.49" y1="52.07" x2="110.49" y2="58.42" width="0.1524" layer="91"/>
-<pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="91.44" y1="40.64" x2="91.44" y2="52.07" width="0.1524" layer="91"/>
-<junction x="91.44" y="52.07"/>
 </segment>
 </net>
-<net name="12V" class="0">
+<net name="N$2" class="0">
 <segment>
-<pinref part="TO_LEDS" gate="-2" pin="1"/>
+<pinref part="LEDS" gate="-2" pin="1"/>
 <wire x1="105.41" y1="58.42" x2="105.41" y2="46.99" width="0.1524" layer="91"/>
-<wire x1="105.41" y1="46.99" x2="84.074" y2="46.99" width="0.1524" layer="91"/>
-<pinref part="PWR_IN" gate="-2" pin="1"/>
-<wire x1="83.82" y1="46.99" x2="82.55" y2="46.99" width="0.1524" layer="91"/>
+<wire x1="105.41" y1="46.99" x2="82.55" y2="46.99" width="0.1524" layer="91"/>
+<pinref part="FROM_MAIN" gate="-2" pin="1"/>
 <wire x1="82.55" y1="46.99" x2="82.55" y2="57.15" width="0.1524" layer="91"/>
-<pinref part="SUPPLY1" gate="G$1" pin="VCC"/>
-<wire x1="83.82" y1="40.64" x2="83.82" y2="46.99" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="46.99" x2="84.074" y2="46.99" width="0.1524" layer="91"/>
-<label x="71.12" y="40.64" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
