@@ -50,7 +50,7 @@ void setup()
   
 
   // Serial communicates to computer
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial)
   delay(10);
 
@@ -64,6 +64,8 @@ void setup()
 
   startBtn.setPressedState(LOW);
   stopBtn.setPressedState(LOW);
+
+  digitalWrite(LED_BUILTIN,HIGH);
 
 }
 

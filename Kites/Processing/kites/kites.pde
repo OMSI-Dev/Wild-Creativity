@@ -11,12 +11,13 @@ float senLevels = 175;
 int lf = 10;
 int $ = 36;
 String inputStr;
+byte chargeMin = 0;
 
 //timers
 long senUpdate = 0;
 //how often should we ask for a sensor value in ms
 // reduced the amounts of calls from 20ms to 100ms
-int interval = 100;
+int interval = 40;
 
 //Counts down the game intro and game time
 Stopwatch Timer;
@@ -107,7 +108,7 @@ void setup() {
   //Com1 is Serial.list()[0]
   //Serial.list()[1] will pick up the next used COM port
   String portName = Serial.list()[1];
-  ardPort = new Serial(this, portName, 9600);
+  ardPort = new Serial(this, portName, 115200);
   //Line Feed to set buffer to read
   ardPort.bufferUntil(lf);
 
@@ -197,7 +198,7 @@ void serialEvent(Serial port) {
     stopFlag = true;
     gameOn = true;
     //clears previous sensor value
-    senLevels = 0;
+    //senLevels = 0;
     //resets timer before starting
     countTimer.reset();
     
@@ -208,9 +209,9 @@ void serialEvent(Serial port) {
   } else if (inputStr.equals("!") == true) {
     println ("received byte to stop game or leave results");
   } else {
-    //println ("Current Sensor: " + inputStr);
     //Convert to string to integer value to parse sensor data
     senLevels = float(inputStr);
+    println ("Current Sensor: " + inputStr);
   }
 }
 
@@ -427,7 +428,18 @@ void results()
   image(yBatt, 1645, 560, 92, 35);
   image(rBatt, 1645, 600, 92, 35);
   image(rBatt, 1645, 640, 92, 35);
-
+  
+  //update min value based on charge section
+  if (senLevels >= 35 ){
+    chargeMin = 10;
+  }
+    if ( senLevels >=-35 && senLevels < 35 ){
+    chargeMin = 20;
+  }
+    if ( senLevels <-35){
+    chargeMin = 40;
+  }
+  
   //overlay results on top
   counter =  10 - round(countTimer.time()/1000);
   tint(255, 255);
@@ -440,13 +452,15 @@ void results()
   text("RESULTADOS", 1525, 400);
   textSize(52);
   text("Tu teléfono se cargaría en", 1525, 452);
-  text("[???] minutos", 1525, 504);
+  text(chargeMin, 1318, 504);
+  text("minutos", 1525, 504);
   fill(#004d43);
   textSize(72);
   text("RESULTS ", 1525, 625);
   textSize(52);
   text("Your phone would charge in", 1525, 677);
-  text("[???] minutes", 1525, 729);
+  text(chargeMin, 1318, 729);
+  text("minutes", 1525, 729);
 
   //play sound based on results
   if (senLevels >= 35)
@@ -519,6 +533,7 @@ void playMovie() {
   } else {
     pushMatrix();
     imageMode(CENTER);
+    delay(1);
     image(attractor, width/2, height/2, width, height);
     popMatrix();
     attractor.play();
