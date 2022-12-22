@@ -3700,10 +3700,6 @@ type 0309, grid 2.5 mm</description>
 <classes>
 <class number="0" name="default" width="0" drill="0">
 </class>
-<class number="1" name="High Power" width="0.4064" drill="0.4826">
-</class>
-<class number="2" name="Low Power" width="0.3048" drill="0.4826">
-</class>
 </classes>
 <parts>
 <part name="S1" library="th_libraries" deviceset="STANDOFF_ELECTRICAL" device="5-32"/>
@@ -3961,7 +3957,7 @@ Mag Lock - D13</text>
 <busses>
 </busses>
 <nets>
-<net name="GND" class="1">
+<net name="GND" class="0">
 <segment>
 <pinref part="S1" gate="G$1" pin="P$1"/>
 <pinref part="GND26" gate="1" pin="GND"/>
@@ -4039,7 +4035,7 @@ Mag Lock - D13</text>
 <wire x1="289.56" y1="167.64" x2="289.56" y2="177.8" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="12V" class="1">
+<net name="12V" class="0">
 <segment>
 <pinref part="SUPPLY2" gate="G$1" pin="12V"/>
 <pinref part="12V_IN" gate="-1" pin="1"/>
@@ -4067,7 +4063,7 @@ Mag Lock - D13</text>
 <junction x="195.58" y="170.18"/>
 </segment>
 </net>
-<net name="5V" class="1">
+<net name="5V" class="0">
 <segment>
 <pinref part="SUPPLY3" gate="G$1" pin="5V"/>
 <wire x1="406.4" y1="220.98" x2="406.4" y2="213.36" width="0.1524" layer="91"/>
