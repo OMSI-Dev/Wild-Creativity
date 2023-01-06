@@ -20,6 +20,7 @@ Updates:
 #include <Serial_Update.h>
 #include <light_functions.h>
 
+
 //bytes being sent or received:
 //35 # Starts game on button press
 //36 $ signals game over
@@ -34,6 +35,7 @@ Bounce2::Button stopBtn = Bounce2::Button();
 //flags
 bool gameON = false;
 bool resultsFlag = false;
+bool stopAllow = false;
 
 byte fadeValueStart = 0;
 byte fadeValueStop = 0;
@@ -71,7 +73,7 @@ void setup()
 
 void loop() 
 {
- 
+
  startBtn.update();
  stopBtn.update(); 
 
@@ -83,10 +85,10 @@ void loop()
       gameON = true;
       //turn fan powersupply on
       digitalWrite(fanPin, HIGH);
-
+      stopAllow = false;
     }
 
-  if(stopBtn.pressed() && gameON == true)
+  if(stopBtn.pressed() && gameON == true && stopAllow == true)
     {          
       //send % & LF to stop the game and close buffer
       Serial.print("%");
@@ -102,7 +104,7 @@ void loop()
     //get updates from processing to check 
     //what game status is OR to get sensor update
     gameON = (Serial_Update(gameON));
-
+    stopAllow = (Serial_UpdateBtn(stopAllow));
     //update buttons LEDs
     //have start button breath out while game is playing  
     fadeValueStart= breathOutStart(fadeValueStart);
@@ -116,6 +118,7 @@ void loop()
     //get updates from processing to check 
     //what game status is OR to get sensor update
     gameON = (Serial_Update(gameON));
+    stopAllow = false;
     //turn fan powersupply off
     digitalWrite(fanPin, LOW);  
     //update buttons LEDs

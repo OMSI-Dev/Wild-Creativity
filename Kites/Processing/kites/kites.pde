@@ -22,9 +22,11 @@ int interval = 40;
 //Counts down the game intro and game time
 Stopwatch Timer;
 Stopwatch countTimer;
+Stopwatch stopAllow;
 
 //
 int gameTime = 15000;
+int stopBtnTime = 1000;
 int counter = 0; //for stop watch image
 
 //images
@@ -105,11 +107,17 @@ void setup() {
   // List all the available serial ports:
   printArray(Serial.list());
 
-  //Com1 is Serial.list()[0]
-  //Serial.list()[1] will pick up the next used COM port
-  String portName = Serial.list()[1];
-  ardPort = new Serial(this, portName, 115200);
-  //Line Feed to set buffer to read
+  // List all the available serial ports:
+  printArray(Serial.list());
+  // Com1 is Serial.list()[0]
+  // Serial.list()[1] will pick up the next used COM port
+  if (Serial.list().length > 1) {
+    String portName = Serial.list()[1];
+    ardPort = new Serial(this, portName, 115200);
+  } else {
+    String portName = Serial.list()[0];
+    ardPort = new Serial(this, portName, 115200);
+  }
   ardPort.bufferUntil(lf);
 
   //catch the arduino incase we lose sync
@@ -118,6 +126,7 @@ void setup() {
   //Timer setup
   Timer = new Stopwatch(this);
   countTimer = new Stopwatch(this);
+  stopAllow = new Stopwatch(this);
 }
 
 void draw() {
@@ -141,6 +150,12 @@ void draw() {
       if (Timer.time()<1) {
         Timer.start();
       }
+      //prevents the start button from being pressed
+      //rightaway
+      if (stopAllow.time()<1) {
+        stopAllow.start();
+        println("Stop counting");
+      }
     }
 
     //update Title for new sensor values
@@ -162,6 +177,10 @@ void draw() {
 
     //println("Game Timer: " + round(Timer.time()/1000));
     //println("Results: " + showResults);
+    if(stopAllow.time() >= stopBtnTime)
+    {
+      ardPort.write(41);
+    }
     if (Timer.time() >= gameTime)
     {
       timerTick();
@@ -186,12 +205,12 @@ void serialEvent(Serial port) {
 
   //looks for incomming Sensor Data
   inputStr = trim(port.readString());
-  
+
   //% = End game by stop button
   //# = Start game
   //! = Signals arduino knows game is over
-  
-  
+
+
   if (inputStr.equals("#") == true)
   {
     //flip the stop video flag
@@ -201,11 +220,10 @@ void serialEvent(Serial port) {
     //senLevels = 0;
     //resets timer before starting
     countTimer.reset();
-    
   } else if (inputStr.equals("%") == true) {
     //stop button pressed end the game
     println("Stop button");
-    timerTick();    
+    timerTick();
   } else if (inputStr.equals("!") == true) {
     println ("received byte to stop game or leave results");
   } else {
@@ -428,18 +446,18 @@ void results()
   image(yBatt, 1645, 560, 92, 35);
   image(rBatt, 1645, 600, 92, 35);
   image(rBatt, 1645, 640, 92, 35);
-  
+
   //update min value based on charge section
-  if (senLevels >= 35 ){
+  if (senLevels >= 35 ) {
     chargeMin = 10;
   }
-    if ( senLevels >=-35 && senLevels < 35 ){
+  if ( senLevels >=-35 && senLevels < 35 ) {
     chargeMin = 20;
   }
-    if ( senLevels <-35){
+  if ( senLevels <-35) {
     chargeMin = 40;
   }
-  
+
   //overlay results on top
   counter =  10 - round(countTimer.time()/1000);
   tint(255, 255);
@@ -493,7 +511,6 @@ void results()
     showResults = false;
     //-ardPort.write(40);
     println("sent results over");
-        
   }
 }
 
@@ -504,6 +521,7 @@ void timerTick() {
   println("sent byte 36");
   //reset the game timer
   Timer.reset();
+  stopAllow.reset();
   //reset audio signal
   playOnce = true;
   //allow results to be shown again
