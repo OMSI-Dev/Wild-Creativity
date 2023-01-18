@@ -44,6 +44,7 @@ Added comments & notes waiting to calibrate
 //38 & Not Used
 
 Bounce2::Button startBtn = Bounce2::Button();
+Bounce2::Button calBtn = Bounce2::Button();
 
 //#define debug
 
@@ -65,17 +66,23 @@ void setup()
   startBtn.interval(5);
   startBtn.setPressedState(LOW);
 
+  calBtn.attach(calBtnPin, INPUT_PULLUP);
+  calBtn.interval(5);
+  calBtn.setPressedState(LOW);
+
   // Serial communicates to computer
   Serial.begin(9600);
   while (!Serial) 
     {delay(10);}
 
- //digitalWrite(LED_BUILTIN, LOW);
+ digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() 
 {
-  startBtn.update(); 
+  startBtn.update();
+  calBtn.update(); 
+
   //game code
   if(startBtn.pressed() && gameON == false && CalFlag == true)
   {
@@ -86,21 +93,29 @@ void loop()
     gameON = true;      
   }  
 
-  //debug code
-  if(startBtn.pressed() && CalFlag == false)
+  //calibration code
+  //this can only be ran once before needing to restart the arduino to run again
+  //it saves the values to the EEPROM so it should ONLY be ran when calibration is needed
+  if(calBtn.pressed() && CalFlag == false)
   {
+    //reset calibration number
     int sensorValCalibrated = 0;
-     #ifdef debug
-    Serial.println("Starting Calibration....");
-    #endif    
+
+    #ifdef debug
+      Serial.println("Starting Calibration....");
+    #endif
+
+    //run calibration routine
     sensorValCalibrated = SensorCalibration(sensorValCalibrated);
-     #ifdef debug
-    Serial.print("Sensor Value Calibration: ");
-    Serial.println(sensorValCalibrated);
-     #endif
+
+    #ifdef debug
+      Serial.print("Sensor Value Calibration: ");
+      Serial.println(sensorValCalibrated);
+    #endif
+
+    //turn fan off and turn off calibration flag
     digitalWrite(fanpin, LOW);
-    CalFlag = true;
-    
+    CalFlag = true;    
   }  
 
   if(gameON == false)
@@ -109,10 +124,9 @@ void loop()
     //look for serial update
     gameON = (Serial_Update(gameON));
     fadeValue = breath(fadeValue);
-          
   }
-  
- if(gameON == true) {
+
+  if(gameON == true) {
     digitalWrite(fanpin, HIGH);  
     fadeValue = breathOut(fadeValue);
     gameON = (Serial_Update(gameON));    
