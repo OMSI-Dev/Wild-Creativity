@@ -30,8 +30,10 @@ Added comments & notes waiting to calibrate
 #include <Arduino.h>
 #include <EEPROM.h>
 #include <bounce2.h>
+#include <MoToTimer.h>
 
 #include <pin_define.h>
+#include <calibration.h>
 #include <sensor_update.h>
 #include <Serial_Update.h>
 #include <light_functions.h>
@@ -51,8 +53,6 @@ Bounce2::Button calBtn = Bounce2::Button();
 //flags
 bool gameON = false;
 bool CalFlag = false;
-
-byte fadeValue = 0 ;
 
 void setup() 
 {
@@ -84,7 +84,7 @@ void loop()
   calBtn.update(); 
 
   //game code
-  if(startBtn.pressed() && gameON == false && CalFlag == true)
+  if(startBtn.pressed() && gameON == false)
   {
     //send # & LF to start game on processing
     Serial.print("#");
@@ -93,43 +93,19 @@ void loop()
     gameON = true;      
   }  
 
-  //calibration code
-  //this can only be ran once before needing to restart the arduino to run again
-  //it saves the values to the EEPROM so it should ONLY be ran when calibration is needed
-  if(calBtn.pressed() && CalFlag == false)
-  {
-    //reset calibration number
-    int sensorValCalibrated = 0;
-
-    #ifdef debug
-      Serial.println("Starting Calibration....");
-    #endif
-
-    //run calibration routine
-    sensorValCalibrated = SensorCalibration(sensorValCalibrated);
-
-    #ifdef debug
-      Serial.print("Sensor Value Calibration: ");
-      Serial.println(sensorValCalibrated);
-    #endif
-
-    //turn fan off and turn off calibration flag
-    digitalWrite(fanpin, LOW);
-    CalFlag = true;    
-  }  
 
   if(gameON == false)
   {
     digitalWrite(fanpin, LOW);
     //look for serial update
     gameON = (Serial_Update(gameON));
-    fadeValue = breath(fadeValue);
+    pulse(startBtnPWM, 1, 25);
   }
 
   if(gameON == true) {
     digitalWrite(fanpin, HIGH);  
-    fadeValue = breathOut(fadeValue);
-    gameON = (Serial_Update(gameON));    
+    gameON = (Serial_Update(gameON));
+    pulse(startBtnPWM, 0, 25);    
   }
 
 }
