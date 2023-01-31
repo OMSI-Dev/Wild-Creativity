@@ -18,7 +18,7 @@ Updates:
 #include <pin_define.h>
 #include <sensor_update.h>
 #include <Serial_Update.h>
-#include <light_functions.h>
+#include <pulse/PulseControl.h>
 
 
 //bytes being sent or received:
@@ -37,8 +37,8 @@ bool gameON = false;
 bool resultsFlag = false;
 bool stopAllow = false;
 
-byte fadeValueStart = 0;
-byte fadeValueStop = 0;
+Pulse startPulse;
+Pulse stopPulse;
 
 void setup() 
 {
@@ -66,6 +66,9 @@ void setup()
 
   startBtn.setPressedState(LOW);
   stopBtn.setPressedState(LOW);
+
+  startPulse.attach(startBtnPWM);
+  stopPulse.attach(stopBtnPWM);
 
   digitalWrite(LED_BUILTIN,HIGH);
 
@@ -107,9 +110,11 @@ void loop()
     stopAllow = (Serial_UpdateBtn(stopAllow));
     //update buttons LEDs
     //have start button breath out while game is playing  
-    fadeValueStart= breathOutStart(fadeValueStart);
+    startPulse.setRate(30);
+    startPulse.update(1);
     //have stop button breath while game is playing    
-    fadeValueStop = breathStop(fadeValueStop);
+    stopPulse.setRate(15);
+    stopPulse.update(0);
   } 
 
     //actions that happen outside of game state
@@ -123,10 +128,12 @@ void loop()
     digitalWrite(fanPin, LOW);  
     //update buttons LEDs
     //have stop button light turn off
-    fadeValueStop = breathOutStop(fadeValueStop);
+    stopPulse.setRate(30);
+    stopPulse.update(1);
 
     //have start button breath while game is off
-    fadeValueStart = breathStart(fadeValueStart);
+    startPulse.setRate(15);
+    startPulse.update(0);
   } 
 
 
@@ -139,12 +146,10 @@ void loop()
 
 void results()
 {
-//shut off lights and fan
+  //shut off lights and fan
 
-digitalWrite(fanPin, LOW);
-
-do {
-    fadeValueStop = breathOutStop(fadeValueStop);
-  } while (fadeValueStop > 0);
+  digitalWrite(fanPin, LOW);
+  stopPulse.setRate(15);
+  stopPulse.update(0);
 
 }
