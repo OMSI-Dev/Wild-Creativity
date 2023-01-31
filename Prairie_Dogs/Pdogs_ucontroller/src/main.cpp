@@ -35,7 +35,7 @@ Added comments & notes waiting to calibrate
 #include <pin_define.h>
 #include <sensor_update.h>
 #include <Serial_Update.h>
-#include <light_functions.h>
+#include <pulse\PulseControl.h>
 
 
 //bytes being sent or received:
@@ -46,6 +46,8 @@ Added comments & notes waiting to calibrate
 
 Bounce2::Button startBtn = Bounce2::Button();
 Bounce2::Button calBtn = Bounce2::Button();
+
+Pulse startPulse;
 
 //#define debug
 
@@ -98,7 +100,9 @@ void setup()
   calBtn.attach(calBtnPin, INPUT_PULLUP);
   calBtn.interval(5);
   calBtn.setPressedState(LOW);
-
+  
+  startPulse.attach(startBtnPWM);
+  
   // Serial communicates to computer
   Serial.begin(9600);
   while (!Serial) 
@@ -127,12 +131,14 @@ void loop()
     digitalWrite(fanpin, LOW);
     //look for serial update
     gameON = (Serial_Update(gameON));
-    pulse(startBtnPWM, 1, 25);
+    startPulse.setRate(30);
+    startPulse.update(1);
   }
 
   if(gameON == true) {
     digitalWrite(fanpin, HIGH);  
     gameON = (Serial_Update(gameON));
-    pulse(startBtnPWM, 0, 10);    
+    startPulse.setRate(10);
+    startPulse.update(0);   
   }
 }
