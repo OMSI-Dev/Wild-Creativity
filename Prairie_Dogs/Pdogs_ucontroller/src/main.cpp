@@ -33,7 +33,6 @@ Added comments & notes waiting to calibrate
 #include <MoToTimer.h>
 
 #include <pin_define.h>
-#include <calibration.h>
 #include <sensor_update.h>
 #include <Serial_Update.h>
 #include <light_functions.h>
@@ -53,14 +52,44 @@ Bounce2::Button calBtn = Bounce2::Button();
 //flags
 bool gameON = false;
 bool CalFlag = false;
+  //calibration code
+  //this can only be ran once before needing to restart the arduino to run again
+  //it saves the values to the EEPROM so it should ONLY be ran when calibration is needed
+
+  
+  void calibration()
+  {
+    if(CalFlag == false)
+    {
+      digitalWrite(LED_BUILTIN, HIGH);
+        //reset calibration number
+        int sensorValCalibrated = 0;
+
+        #ifdef debug
+        Serial.println("Starting Calibration....");
+        #endif
+
+        //run calibration routine
+        sensorValCalibrated = SensorCalibration(sensorValCalibrated);
+
+        #ifdef debug
+        Serial.print("Sensor Value Calibration: ");
+        Serial.println(sensorValCalibrated);
+        #endif
+
+        //turn fan off and turn off calibration flag
+        digitalWrite(fanpin, LOW);
+        CalFlag = true;
+        digitalWrite(LED_BUILTIN, LOW);    
+    } 
+  } 
 
 void setup() 
-{
-  pinMode(speakerPin, OUTPUT);
+{ 
   pinMode(startBtnPWM, OUTPUT); 
   pinMode(fanpin, OUTPUT);
   
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(LED_BUILTIN, LOW);
   //button inilize
   startBtn.attach(startBtnPin, INPUT_PULLUP);
   startBtn.interval(5);
@@ -73,26 +102,25 @@ void setup()
   // Serial communicates to computer
   Serial.begin(9600);
   while (!Serial) 
-    {delay(10);}
-
- digitalWrite(LED_BUILTIN, LOW);
+    {delay(10);} 
 }
 
 void loop() 
 {
   startBtn.update();
-  calBtn.update(); 
+  calBtn.update();
 
+  if(calBtn.pressed()){calibration();}
   //game code
   if(startBtn.pressed() && gameON == false)
   {
+    digitalWrite(LED_BUILTIN, HIGH);
     //send # & LF to start game on processing
     Serial.print("#");
     Serial.write(10);
     //flip flag      
     gameON = true;      
   }  
-
 
   if(gameON == false)
   {
@@ -105,7 +133,6 @@ void loop()
   if(gameON == true) {
     digitalWrite(fanpin, HIGH);  
     gameON = (Serial_Update(gameON));
-    pulse(startBtnPWM, 0, 25);    
+    pulse(startBtnPWM, 0, 10);    
   }
-
 }

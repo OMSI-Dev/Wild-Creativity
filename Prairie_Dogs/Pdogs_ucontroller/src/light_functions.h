@@ -14,6 +14,7 @@ void pulse(byte btnLed, bool pulse, byte rate)
                 increment++;
                 analogWrite(btnLed, increment);
                 lightUpdate.setTime(rate);
+                lightUpdate.restart();
                 if(increment == 255){pulseDir = 1;}      
             }
         
@@ -35,6 +36,7 @@ void pulse(byte btnLed, bool pulse, byte rate)
             increment--; 
             analogWrite(btnLed, increment);
             lightUpdate.setTime(rate);
+            lightUpdate.restart();
             }
             if(increment == 0){pulseDir = 0;}    
         }
