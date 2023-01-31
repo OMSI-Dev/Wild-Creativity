@@ -2,7 +2,7 @@
 #include <bounce2.h>
 #include <MoToTimer.h>
 #include <audio/AudioOut.h>
-
+#include <pulse/PulseControl.h>
 
 
 /* 
@@ -13,13 +13,16 @@
 */
 
 #include <pin_define.h>
-#include <light_functions.h>
+
 
 //declare Audio
 AudioOut audioOut;
 
 //button declares
 Bounce2::Button startBtn = Bounce2::Button();
+
+//create pulse object
+Pulse startPulse;
 
 //timer declares 
 MoToTimer gameTimer;
@@ -34,7 +37,8 @@ void setup()
   startBtn.attach(startBtnPin, INPUT_PULLUP); 
   startBtn.interval(5);
   startBtn.setPressedState(LOW);
-  
+  startPulse.attach(startBtnPwm);
+
   //Set pins
   pinMode(laserPwr, OUTPUT);  
   pinMode(startBtnPwm, OUTPUT);  
@@ -71,9 +75,14 @@ void loop()
   if(gameTimer.running() == false && btnOn == true)
   {
     //send to breath function while the game is off
-    pulse(startBtnPwm,1,25); //(PWM,Pulse Enable, Update Rate)
+    startPulse.setRate(30);
+    startPulse.update(1);
   }
-  if(btnOn == false){pulse(startBtnPwm,0,25);} //(PWM,Pulse Enable, Update Rate)
+  if(btnOn == false)
+  {
+    startPulse.setRate(15);
+    startPulse.update(0);
+  }
   //timer ends and game resets
   if(gameTimer.expired() == true)
   {
@@ -85,8 +94,6 @@ void loop()
     btnOn = true;
     //play sound off
     audioOut.playTrack(2);
-    //reset the pulse sync
-    pulse_reset();
   }
 
 }
