@@ -26,13 +26,10 @@ bool Serial_Update(bool gameStatus)
       gameStatus = false;      
       return  gameStatus;       
     }else if(ByteRecv == 38){
-      //we are in the results area
-      //does nothing for now
+      resultsFlag = true;
       return  gameStatus;
     }else if(ByteRecv == 40){
-      //left the results state
-      //Wait for results to finish before letting arduino
-      //leave game state
+      resultsFlag = false;
 
       return  gameStatus;  
     }

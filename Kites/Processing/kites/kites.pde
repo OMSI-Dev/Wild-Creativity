@@ -120,9 +120,6 @@ void setup() {
   }
   ardPort.bufferUntil(lf);
 
-  //catch the arduino incase we lose sync
-  //ardPort.write(36);
-
   //Timer setup
   Timer = new Stopwatch(this);
   countTimer = new Stopwatch(this);
@@ -200,8 +197,6 @@ void draw() {
 
 void serialEvent(Serial port) {
 
-  //reset audio signal
-  playOnce = true;
 
   //looks for incomming Sensor Data
   inputStr = trim(port.readString());
@@ -216,8 +211,7 @@ void serialEvent(Serial port) {
     //flip the stop video flag
     stopFlag = true;
     gameOn = true;
-    //clears previous sensor value
-    //senLevels = 0;
+
     //resets timer before starting
     countTimer.reset();
   } else if (inputStr.equals("%") == true) {
@@ -487,6 +481,7 @@ void results()
     {
       green.play();
       playOnce = false;
+      
     }
   } else if (senLevels >=-35 && senLevels < 35 )
   {
@@ -494,6 +489,7 @@ void results()
     {
       orange.play();
       playOnce = false;
+      
     }
   } else if (senLevels <-35)
   {
@@ -507,9 +503,10 @@ void results()
   if (counter <= 0)
   {
     println("Results timer over..");
+    playOnce = true;
     countTimer.reset();
     showResults = false;
-    //-ardPort.write(40);
+    ardPort.write(40);
     println("sent results over");
   }
 }
@@ -522,8 +519,6 @@ void timerTick() {
   //reset the game timer
   Timer.reset();
   stopAllow.reset();
-  //reset audio signal
-  playOnce = true;
   //allow results to be shown again
   showResults = true;
   //end the game loop
