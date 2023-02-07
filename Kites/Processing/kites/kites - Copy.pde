@@ -20,7 +20,7 @@ long senUpdate = 0;
 int interval = 40;
 
 //Counts down the game intro and game time
-Stopwatch gameTimer;
+Stopwatch Timer;
 Stopwatch countTimer;
 Stopwatch stopAllow;
 
@@ -63,7 +63,7 @@ int titleY = 810;
 
 //gamestate flags
 boolean gameOn = false;
-boolean stopMovie = false;
+boolean stopFlag = false;
 boolean soundOn = true;
 boolean gameIn = false;
 boolean showResults = false;
@@ -121,7 +121,7 @@ void setup() {
   ardPort.bufferUntil(lf);
 
   //Timer setup
-  gameTimer = new Stopwatch(this);
+  Timer = new Stopwatch(this);
   countTimer = new Stopwatch(this);
   stopAllow = new Stopwatch(this);
 }
@@ -134,85 +134,114 @@ void draw() {
   if (gameOn == true)
   {
     //prevents movie from playing during gameplay
-    stopMovie();
-    gameUpdate();
-    //check the game timer
-    if (gameTimer.time() >= gameTime)
+    if (stopFlag == true) {
+      stopFlag = false;
+      //dont use .stop() it breaks assignment of the movie file
+      attractor.pause();
+      //reset video to start
+      attractor.jump(0);
+    }
+    if (gameIn == false) {
+      gameCountIn();
+    } else {
+      if (Timer.time()<1) {
+        Timer.start();
+      }
+      //prevents the start button from being pressed
+      //rightaway
+      if (stopAllow.time()<1) {
+        stopAllow.start();
+        println("Stop counting");
+      }
+    }
+
+    //update Title for new sensor values
+    if (gameIn == true) {
+      updateTitle();
+      updateTimer();
+      updateImages();
+      updatePointer();
+    }
+
+    //Sends LF to get a sensor udpate
+    long currentMillis = millis();
+    if (currentMillis - senUpdate >= interval)
+    {
+      //send ' to get sensor update
+      senUpdate = currentMillis;
+      ardPort.write(39);
+    }
+
+    //println("Game Timer: " + round(Timer.time()/1000));
+    //println("Results: " + showResults);
+    if(stopAllow.time() >= stopBtnTime)
+    {
+      ardPort.write(41);
+    }
+    if (Timer.time() >= gameTime)
     {
       timerTick();
     }
   } else
   {
-    playMovie();
+    //println("Results: " + showResults);
+    if (showResults == true)
+    {
+      results();
+    } else
+    {
+      playMovie();
+    }
   }
+}
 
-  //update Title for new sensor values
-  if (gameIn == true)
+void serialEvent(Serial port) {
+
+
+  //looks for incomming Sensor Data
+  inputStr = trim(port.readString());
+
+  //% = End game by stop button
+  //# = Start game
+  //! = Signals arduino knows game is over
+
+
+  if (inputStr.equals("#") == true)
   {
-  }
-
-
-
-
-
-
-
-
-
-
-
-  //if (stopMovie == true)
-  //{
-  //  stopMovie();
-  //} else {
-  //  if (Timer.time()<1)
-  //  {
-  //    Timer.start();
-  //  }
-  //}
-}
-
-void gameUpdate()
-{
-  sensorPing();
-  updateTitle();
-  updateTimer();
-  updateImages();
-  updatePointer();
-}
-
-
-void sensorPing()
-{
-  //Sends LF to get a sensor udpate
-  long currentMillis = millis();
-  if (currentMillis - senUpdate >= interval)
-  {
-    //send ' to get sensor update
-    senUpdate = currentMillis;
-    ardPort.write(39);
+    //flip the stop video flag
+      red.stop();
+      orange.stop();
+      green.stop();
+      stopFlag = true;
+      gameOn = true;
+      playOnce = true;
+    //resets timer before starting
+  
+  } else if (inputStr.equals("%") == true) {
+    //stop button pressed end the game
+    println("Stop button");
+    timerTick();
+    
+  } else if (inputStr.equals("!") == true) {
+    println ("received byte to stop game or leave results");
+  } else {
+    //Convert to string to integer value to parse sensor data
+    senLevels = float(inputStr);
+    println ("Current Sensor: " + inputStr);
   }
 }
 
 
-void updateTitle()
-{
-  textAlign(CENTER);
-  textSize(70.5);
-  fill(#275daa);
-  text(spanish, titleX, titleY);
-  fill(#004d43);
-  text(english, titleX, titleY+70.5);
-}
-
-void updateTimer()
-{
-  counter = (gameTime/1000) - round(gameTimer.time()/1000);
+void updatePointer() {
+  //translate senLevels between -90 and 90 degrees.
+  //Set to cetner and offset from 0,0
+  translate(673, 673);
+  //push & pop to only translate the pointer
+  pushMatrix();
+  rotate(radians(senLevels));
   imageMode(CENTER);
-  image(actTimer, 1643, 172, 251/2, 294/2);
-  textSize(40);
-  fill(#000000);
-  text(counter, 1642, 195);
+  image(dial, 0, pointOffset*-1, pointWidth, pointHeight);
+  popMatrix();
 }
 
 void updateImages() {
@@ -304,20 +333,25 @@ void updateImages() {
   }
 }
 
-void updatePointer()
+void updateTitle()
 {
-  //translate senLevels between -90 and 90 degrees.
-  //Set to center and offset from 0,0
-  translate(673, 673);
-  //push & pop to only translate the pointer
-  pushMatrix();
-  rotate(radians(senLevels));
-  imageMode(CENTER);
-  image(dial, 0, pointOffset*-1, pointWidth, pointHeight);
-  popMatrix();
+  textAlign(CENTER);
+  textSize(70.5);
+  fill(#275daa);
+  text(spanish, titleX, titleY);
+  fill(#004d43);
+  text(english, titleX, titleY+70.5);
 }
 
-
+void updateTimer()
+{
+  counter = (gameTime/1000) - round(Timer.time()/1000);
+  imageMode(CENTER);
+  image(actTimer, 1643, 172, 251/2, 294/2);
+  textSize(40);
+  fill(#000000);
+  text(counter, 1642, 195);
+}
 
 void gameCountIn()
 {
@@ -353,31 +387,49 @@ void gameCountIn()
     if (countdown.isPlaying() == false)
     {
       countdownStart.play();
+       red.stop();
+ orange.stop();
+ green.stop();
     }
   case 1:
     if (countdown.isPlaying() == false)
     {
       countdown.play();
+       red.stop();
+ orange.stop();
+ green.stop();
     }
   case 2:
     if (countdown.isPlaying() == false)
     {
       countdown.play();
+       red.stop();
+ orange.stop();
+ green.stop();
     }
   case 3:
     if (countdown.isPlaying() == false)
     {
       countdown.play();
+       red.stop();
+ orange.stop();
+ green.stop();
     }
   case 4:
     if (countdown.isPlaying() == false)
     {
       countdown.play();
+       red.stop();
+ orange.stop();
+ green.stop();
     }
   case 5:
     if (countdown.isPlaying() == false)
     {
       countdown.play();
+       red.stop();
+ orange.stop();
+ green.stop();
     }
   }
 
@@ -395,7 +447,6 @@ void results()
 
   if (countTimer.time()<1)
   {
-    playWin();
     countTimer.start();
     //tell arduino we are in results
     ardPort.write(38);
@@ -446,10 +497,35 @@ void results()
   text(chargeMin, 1318, 729);
   text("minutes", 1525, 729);
 
+  //play sound based on results
+  if (senLevels >= 35)
+  {
+    if (playOnce == true)
+    {
+      green.play();
+      playOnce = false;
+      
+    }
+  } else if (senLevels >=-35 && senLevels < 35 )
+  {
+    if (playOnce == true)
+    {
+      orange.play();
+      playOnce = false;
+      
+    }
+  } else if (senLevels <-35)
+  {
+    if (playOnce == true)
+    {
+      red.play();
+      playOnce = false;
+    }
+  }
   println("counter in results: " + counter);
   if (counter <= 0)
   {
-    println("Results timer over..");
+    println("Results timer over..");    
     countTimer.reset();
     showResults = false;
     ardPort.write(40);
@@ -463,7 +539,7 @@ void timerTick() {
   ardPort.write(36);
   println("sent byte 36");
   //reset the game timer
-  gameTimer.reset();
+  Timer.reset();
   stopAllow.reset();
   //allow results to be shown again
   showResults = true;
@@ -475,44 +551,7 @@ void timerTick() {
   gameIn = false;
 }
 
-void playWin()
-{
-  if (showResults == true)
-  {
-    //play sound based on results
-    if (senLevels >= 35)
-    {
-      if (playOnce == true)
-      {
-        green.play();
-        playOnce = false;
-      }
-    } else if (senLevels >=-35 && senLevels < 35 )
-    {
-      if (playOnce == true)
-      {
-        orange.play();
-        playOnce = false;
-      }
-    } else if (senLevels <-35)
-    {
-      if (playOnce == true)
-      {
-        red.play();
-        playOnce = false;
-      }
-    }
-  }
-}
-void stopMovie()
-{
 
-  stopMovie = false;
-  //dont use .stop() it breaks assignment of the movie file
-  attractor.pause();
-  //reset video to start
-  attractor.jump(0);
-}
 
 
 void playMovie() {
@@ -538,33 +577,4 @@ void playMovie() {
 
 void movieEvent(Movie m) {
   m.read();
-}
-
-void serialEvent(Serial port) {
-
-  //looks for incomming Sensor Data
-  inputStr = trim(port.readString());
-
-  //% = End game by stop button
-  //# = Start game
-  //! = Signals arduino knows game is over
-
-  if (inputStr.equals("#") == true)
-  {
-    //Stop Movie
-    stopMovie = true;
-    //Start game mode
-    gameOn = true;
-    //allow sound to play
-    playOnce = true;
-  } else if (inputStr.equals("%") == true) {
-    //Stop button pressed end game
-    timerTick();
-  } else if (inputStr.equals("!") == true) {
-    //arduino sends but does nothing currently
-  } else {
-    //Convert to string to integer value to parse sensor data
-    senLevels = float(inputStr);
-    println ("Current Sensor: " + inputStr);
-  }
 }
