@@ -22,11 +22,9 @@ int interval = 40;
 //Counts down the game intro and game time
 Stopwatch gameTimer;
 Stopwatch countTimer;
-Stopwatch stopAllow;
 
 //
 int gameTime = 15000;
-int stopBtnTime = 1000;
 int counter = 0; //for stop watch image
 
 //images
@@ -65,8 +63,9 @@ int titleY = 810;
 boolean gameOn = false;
 boolean stopMovie = false;
 boolean soundOn = true;
-boolean gameIn = false;
+boolean countIn = true;
 boolean showResults = false;
+boolean allowStop = false;
 
 void setup() {
   fullScreen();
@@ -123,53 +122,38 @@ void setup() {
   //Timer setup
   gameTimer = new Stopwatch(this);
   countTimer = new Stopwatch(this);
-  stopAllow = new Stopwatch(this);
 }
 
 void draw() {
   background(255);
-  noFill();
-
-  //results();
+  noFill();  
   if (gameOn == true)
-  {
+  {    
     //prevents movie from playing during gameplay
     stopMovie();
-    gameUpdate();
+
+    if (countIn == true)
+    {
+      gameCountIn();
+    } else if (countIn == false && showResults == false)
+    {
+      gameUpdate();
+    }
     //check the game timer
     if (gameTimer.time() >= gameTime)
     {
       timerTick();
+      showResults = true;
     }
-  } else
+
+    if (showResults == true)
+    {
+      results();
+    }
+  } else if(gameOn == false)
   {
     playMovie();
   }
-
-  //update Title for new sensor values
-  if (gameIn == true)
-  {
-  }
-
-
-
-
-
-
-
-
-
-
-
-  //if (stopMovie == true)
-  //{
-  //  stopMovie();
-  //} else {
-  //  if (Timer.time()<1)
-  //  {
-  //    Timer.start();
-  //  }
-  //}
 }
 
 void gameUpdate()
@@ -386,13 +370,15 @@ void gameCountIn()
   {
     println("Game Countdown over...");
     countTimer.reset();
-    gameIn = true;
+    countIn = false;
+    //allow stop button to be pressed
+    ardPort.write(41);
+    gameUpdate();
   }
 }
 
 void results()
 {
-
   if (countTimer.time()<1)
   {
     playWin();
@@ -425,7 +411,7 @@ void results()
   }
 
   //overlay results on top
-  counter =  10 - round(countTimer.time()/1000);
+  counter =  6 - round(countTimer.time()/1000);
   tint(255, 255);
   imageMode(CENTER);
   image(splash, width/2, height/2, 1224, 560);
@@ -450,10 +436,10 @@ void results()
   if (counter <= 0)
   {
     println("Results timer over..");
-    countTimer.reset();
-    showResults = false;
-    ardPort.write(40);
+    countTimer.reset();    
     println("sent results over");
+    gameTimer.reset();
+    flagReset();
   }
 }
 
@@ -464,15 +450,26 @@ void timerTick() {
   println("sent byte 36");
   //reset the game timer
   gameTimer.reset();
-  stopAllow.reset();
-  //allow results to be shown again
-  showResults = true;
+}
+
+void flagReset()
+{
+  //reset countdown
+  countIn = true;
+  //turn off results
+  showResults = false;
   //end the game loop
   gameOn = false;
-  //This isn't used anymore..keeping until RC
-  soundOn = false;
-  //reset allowing the game to count in
-  gameIn = false;
+  //allow movie
+  stopMovie = true;
+  //tell arduino to leave results
+  ardPort.write(40);
+}
+
+void stopReset()
+{
+  timerTick();
+  showResults = true;
 }
 
 void playWin()
@@ -504,10 +501,10 @@ void playWin()
     }
   }
 }
-void stopMovie()
-{
 
-  stopMovie = false;
+
+void stopMovie()
+{  
   //dont use .stop() it breaks assignment of the movie file
   attractor.pause();
   //reset video to start
@@ -545,12 +542,18 @@ void serialEvent(Serial port) {
   //looks for incomming Sensor Data
   inputStr = trim(port.readString());
 
-  //% = End game by stop button
-  //# = Start game
-  //! = Signals arduino knows game is over
+  //! (33) = Signals arduino knows game is over
+  //# (35) = Start game has been pressed
+  //$ (36) = Game over signal
+  //% (37) = End game by stop button
+  //& (38) = Entered Results
+  //' (39) = ask arduino to send sensor update
+  //( (40) = Left Results
+  //) (41) = Starting countdown
 
   if (inputStr.equals("#") == true)
   {
+    //Start the game
     //Stop Movie
     stopMovie = true;
     //Start game mode
@@ -558,10 +561,11 @@ void serialEvent(Serial port) {
     //allow sound to play
     playOnce = true;
   } else if (inputStr.equals("%") == true) {
-    //Stop button pressed end game
-    timerTick();
+    //Stop button pressed; end game early
+    stopReset();
   } else if (inputStr.equals("!") == true) {
-    //arduino sends but does nothing currently
+    //Arduino left game state
+    // we should use this to sync processing & arduino
   } else {
     //Convert to string to integer value to parse sensor data
     senLevels = float(inputStr);
