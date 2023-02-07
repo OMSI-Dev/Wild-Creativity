@@ -16,8 +16,7 @@ byte chargeMin = 0;
 //timers
 long senUpdate = 0;
 //how often should we ask for a sensor value in ms
-// reduced the amounts of calls from 20ms to 100ms
-int interval = 40;
+int interval = 60;
 
 //Counts down the game intro and game time
 Stopwatch gameTimer;
@@ -105,14 +104,17 @@ void setup() {
 
   // List all the available serial ports:
   printArray(Serial.list());
-
-  // List all the available serial ports:
-  printArray(Serial.list());
   // Com1 is Serial.list()[0]
   // Serial.list()[1] will pick up the next used COM port
   if (Serial.list().length > 1) {
+    try
+    {
     String portName = Serial.list()[1];
     ardPort = new Serial(this, portName, 115200);
+    }catch(Exception e){
+    String portName = Serial.list()[2];
+    ardPort = new Serial(this, portName, 115200);
+    }
   } else {
     String portName = Serial.list()[0];
     ardPort = new Serial(this, portName, 115200);
@@ -370,6 +372,7 @@ void gameCountIn()
   {
     println("Game Countdown over...");
     countTimer.reset();
+    gameTimer.start();
     countIn = false;
     //allow stop button to be pressed
     ardPort.write(41);
@@ -381,10 +384,11 @@ void results()
 {
   if (countTimer.time()<1)
   {
-    playWin();
-    countTimer.start();
     //tell arduino we are in results
     ardPort.write(38);
+    playWin();
+    countTimer.start();
+
   }
 
   //show the background tinted
@@ -438,7 +442,7 @@ void results()
     println("Results timer over..");
     countTimer.reset();    
     println("sent results over");
-    gameTimer.reset();
+    ardPort.write(40);
     flagReset();
   }
 }
@@ -446,24 +450,23 @@ void results()
 
 void timerTick() {
   //send game over signal
-  ardPort.write(36);
-  println("sent byte 36");
+  //ardPort.write(36);
+  //println("sent byte 36");
   //reset the game timer
   gameTimer.reset();
 }
 
 void flagReset()
 {
+  println("Reset countIn");
   //reset countdown
   countIn = true;
+  println("Reset results");
   //turn off results
   showResults = false;
+  println("Reset gameOn");
   //end the game loop
   gameOn = false;
-  //allow movie
-  stopMovie = true;
-  //tell arduino to leave results
-  ardPort.write(40);
 }
 
 void stopReset()
@@ -569,6 +572,6 @@ void serialEvent(Serial port) {
   } else {
     //Convert to string to integer value to parse sensor data
     senLevels = float(inputStr);
-    println ("Current Sensor: " + inputStr);
+    println ("Input Str: " + inputStr);
   }
 }
