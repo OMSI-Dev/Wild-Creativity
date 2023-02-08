@@ -25,6 +25,7 @@ Added comments & notes waiting to calibrate
          Removed Tone Generator as it is now controlled in processing
 11/7/22: re-calibrated Sensor
 11/11/22: Added calibration function & Floating Map function to have a smoother resolution to send to Processing
+2/8/23: Sorted through to find false start reading of sensor
 */
 
 #include <Arduino.h>
@@ -90,9 +91,9 @@ void setup()
 { 
   pinMode(startBtnPWM, OUTPUT); 
   pinMode(fanpin, OUTPUT);
-  
+
   digitalWrite(LED_BUILTIN, LOW);
-  //button inilize
+  //button initlize
   startBtn.attach(startBtnPin, INPUT_PULLUP);
   startBtn.interval(5);
   startBtn.setPressedState(LOW);
