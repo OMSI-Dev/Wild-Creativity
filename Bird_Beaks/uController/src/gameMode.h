@@ -1,105 +1,53 @@
 #include <definitions.h>
-byte i=25;
+
 
 void lightAttract()
 {   
-     
-    if(newNum == true)
+
+
+    if(lightNumUpdate.running() == false)
     {
         do{
-        lightNum = random(0,3);
+        lightNum = random(0,3);        
         }while(lightNum == previouslight);
-        newNum = false;         
+        previouslight = lightNum;
+        #ifdef debug      
+        Serial.print("lightNum: ");
+        Serial.println(lightNum);
+        #endif   
+        lightNumUpdate.setTime(lightNumUpdateDelay);
+                         
     }
 
     switch(lightNum) 
     {     
     case 0:
-        if(i<=250)
-        {
-            if (lightTime.running()== false ) 
-            {
-                analogWrite(nutLight, i);    
-                lightTime.restart();
-                previouslight = lightNum;
-                i++;
-            }else(analogWrite(nutLight, i));
-
-            if(i >= 250)
-            {
-                newNum = true;
-                i=25;
-                analogWrite(nutLight, 0);                                
-            }
-
-        }        
+       bugLightPWM.update(1);
+       nutLightPWM.update(0);
+       flowerLightPWM.update(0);       
         break;
 
     case 1:
-        if(i<=250)
-        {          
-            if (lightTime.running()== false) 
-            {
-                analogWrite(flowerLight, i);    
-                lightTime.restart();
-                previouslight = lightNum;
-                i++;
-
-            }else(analogWrite(flowerLight, i));
-
-            if(i >= 250)
-            {
-                newNum = true;
-                i=25;
-                analogWrite(flowerLight, 0);                   
-            }
-        }      
+       bugLightPWM.update(0);
+       nutLightPWM.update(1);
+       flowerLightPWM.update(0);              
         break;
 
     case 2:
-        if(i<=250)
-        {         
-            if (lightTime.running() == false) 
-            {
-                analogWrite(bugLight, i);    
-                lightTime.restart();
-                previouslight = lightNum;
-                i++;
-
-            }else(analogWrite(bugLight, i));
-
-            if(i >= 250)
-            {
-                newNum = true;
-                i=25;
-                analogWrite(bugLight, 0);                
-            }
-
-        }      
+       bugLightPWM.update(0);
+       nutLightPWM.update(0);
+       flowerLightPWM.update(1);       
         break;
-        }
+    }
 }
 
 void lightWin()
 {
     if(winTimer.running() == false)
     {
-        winTimer.restart();    
+        winTimer.setTime(winLightDelay);    
         lightNum = random(0,3);
     }
-
-    //give the last audio a chance to finish playing before playing win sound
-    
-    if(audioWinTimer.running() == false)
-    {
-      delay(1);
-      if(winPlayOnce == false)
-      {
-      winPlayOnce = true;
-      audioOut.playTrack(5);
-      }
-    }
-
 
     switch(lightNum) 
     {     
@@ -126,17 +74,29 @@ void lightWin()
 
 void resetGame()
 {
-delay(1);    
-analogWrite(nutLight, 0);
-analogWrite(flowerLight,0);
-analogWrite(bugLight,0);   
+//turn all the lights off       
+digitalWrite(nutLight, 0);
+digitalWrite(flowerLight,0);
+digitalWrite(bugLight,0);
+
+//reset triggerd values
 nutTriggered = false;
 flowerTriggered = false;
 bugTriggered = false;
+
+
+//set gameState to off && points to 0
 gameState = false;
-resetFlag = false;
 points = 0;
-playOnce = false;
-winPlayOnce = false;
+
+//allow audio to be played again
+playOnce = true;
+winPlayOnce = true;
+winAudioTimerFlag = true;
+stopOnce = true;
+
+
+//set reset to off
+resetFlag = false;
 
 }

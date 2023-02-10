@@ -1,5 +1,6 @@
 #include <gameMode.h>
 
+int fadeRate = 20;
 
 //button variables
 bool bugState,flowerState,nutState;
@@ -17,11 +18,11 @@ nutBtn.interval(5);
 nutBtn.setPressedState(LOW);
 
 flowerBtn.attach(flowerPin, INPUT_PULLUP);
-flowerBtn.interval(50);
+flowerBtn.interval(5);
 flowerBtn.setPressedState(LOW);
 
 bugBtn.attach(bugPin, INPUT_PULLUP);
-bugBtn.interval(50);
+bugBtn.interval(5);
 bugBtn.setPressedState(LOW);
 
 pinMode(nutLight, OUTPUT);
@@ -34,39 +35,60 @@ digitalWrite(bugLight, LOW);
 
 //starts all timers they will reset themselves when they are first used
 lightTime.setTime(lightDelay);
-winTimer.setTime(winLightDelay);
-gameTimer.setTime(gameTime);
 
-//set track 1 to loop
-audioOut.loop(1,1); 
+//attach pulse objects to pins
+bugLightPWM.attach(bugLight);
+flowerLightPWM.attach(flowerLight);
+nutLightPWM.attach(nutLight);
+//set pulse rate
+bugLightPWM.setRate(fadeRate);
+flowerLightPWM.setRate(fadeRate);
+nutLightPWM.setRate(fadeRate);
+
+//hard delay to give the wavtrigger time to startup
+delay(1000);
+
+#ifdef debug 
+Serial.begin(9600);
+#endif
+
+}
+
+void btnCheck()
+{
+  nutBtn.update();
+  flowerBtn.update();
+  bugBtn.update();
+
+  bugState = bugBtn.isPressed();
+  nutState = nutBtn.isPressed();
+  flowerState = flowerBtn.isPressed();
 
 }
 
 void loop() 
 {
-//   //update button states
-  nutBtn.update();
-  flowerBtn.update();
-  bugBtn.update();
-  bugState = bugBtn.isPressed();
-  nutState = nutBtn.isPressed();
-  flowerState = flowerBtn.isPressed();
+  //check to see if the attractor should run
+  if(gameState == false && playOnce == true)
+  {
+      //set track 1 to loop
+      audioOut.loop(1,1);
+      audioOut.playTrack(1);
+      playOnce = false;
+  }
+ //update button states
 
-  //Checks if the nut button has been pressed
-  //Checks if the game has already started
-  //updates points and triggered status
-
+  btnCheck();
   
-
   if(nutState == true)
   {
-    if(gameState != true)
+    if(gameState == false)
     {
       //update to start game
       gameState = true;
       audioOut.stopTrack(1);
-      gameTimer.restart();
-    }else if(nutTriggered != true)
+      gameTimer.setTime(gameTime);
+    }else if(nutTriggered == false)
     { 
         //update buttons triggered status
         nutTriggered = true;
@@ -83,18 +105,18 @@ void loop()
         #endif        
   }
 
-  //Checks if the nut button has been pressed
+  //Checks if the flower button has been pressed
   //Checks if the game has already started
   //updates points and triggered status
   if(flowerState == true)
   {
-    if(gameState != true)
+    if(gameState == false)
     {
       //update to start game
       gameState = true;
       audioOut.stopTrack(1);
-      gameTimer.restart();
-    }else if(flowerTriggered != true)
+      gameTimer.setTime(gameTime);
+    }else if(flowerTriggered == false)
     { 
         //update buttons triggered status
         flowerTriggered = true;
@@ -111,18 +133,18 @@ void loop()
     #endif    
   }
 
-  //Checks if the nut button has been pressed
+  //Checks if the bug button has been pressed
   //Checks if the game has already started
   //updates points and triggered status
   if(bugState == true)
   {
-    if(gameState != true)
+    if(gameState == false)
     {
       //update to start game
       gameState = true;
       audioOut.stopTrack(1);
-      gameTimer.restart();
-    }else if(bugTriggered != true)
+      gameTimer.setTime(gameTime);
+    }else if(bugTriggered == false)
     { 
         //update buttons triggered status
         bugTriggered = true;
@@ -141,35 +163,72 @@ void loop()
   }
 
   //Checks triggered status and updates lights accordingly if the game is running
-  if(gameState == true && resetFlag == false)
+  if(gameState == true && winPlayOnce == true )
   {
-    if(bugTriggered == true){analogWrite(bugLight, 50);}else(analogWrite(bugLight, 0));
-    if(nutTriggered == true){analogWrite(nutLight, 50);}else(analogWrite(nutLight, 0));
-    if(flowerTriggered == true){analogWrite(flowerLight, 50);}else(analogWrite(flowerLight, 0));
+    if(bugTriggered == true){digitalWrite(bugLight, HIGH);}else(digitalWrite(bugLight, LOW));
+    if(nutTriggered == true){digitalWrite(nutLight, HIGH);}else(digitalWrite(nutLight, LOW));
+    if(flowerTriggered == true){digitalWrite(flowerLight, HIGH);}else(digitalWrite(flowerLight, LOW));
   }
 
+  //if they earn enough points by the game time
+  // win sequence starts and resets
   if(points == pointMax)
   {
-    //start timers as soon as point max is reached
-    //and reset flag
-    if(resetFlag == false)
+    
+    if(winAudioTimerFlag == true)
     {
-    resetTimer.setTime(resetTime);
-    audioWinTimer.setTime(audioWinTime);
-    resetFlag = true;    
+      gameTimer.stop();
+      winAudioTimer.setTime(1500);
+      winAudioTimerFlag = false;
+      #ifdef debug
+      Serial.println("Game won!");
+      Serial.print("winAudioTimerFlag: ");
+      Serial.println(winAudioTimerFlag);
+      Serial.print("winAudioTimer running: ");
+      Serial.println(winAudioTimer.running());
+      #endif       
+    }
+    
+    //play win sound
+    if(winAudioTimer.running() == false)
+    {
+      if(stopOnce == true)
+      {
+      audioOut.stopAllTracks(); 
+      stopOnce = false;  
+      }
+
+      if(winPlayOnce == true)
+      {
+      audioOut.playTrack(5);
+      winPlayOnce = false;
+      resetTimer.setTime(resetTime);
+      resetFlag = true;         
+      }
     }
 
-    // when the reset timer finshes reset the game
-    if(resetTimer.running() == false)
+    //win sequence
+    if(winPlayOnce == false)
+    {
+    lightWin();
+    }
+
+    //reset game after
+    if (resetTimer.running() == false && resetFlag == true)
     {
       resetGame();
     }
-    lightWin();
+
   }
-   //check to see if the attractor should run
-  if(gameState != true)
+
+  if(gameState == false)
   {
-    if(playOnce == false){audioOut.playTrack(1);playOnce = true;}
-    lightAttract();      
-  }else {if(gameTimer.running() == false){resetGame();}}
+    lightAttract();
+  }
+
+  if(gameTimer.running() == false && gameState == true)
+  {
+    resetGame();
+  }
+
 }

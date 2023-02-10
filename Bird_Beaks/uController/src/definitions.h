@@ -2,6 +2,8 @@
 #include <bounce2.h>
 #include <audio/AudioOut.h>
 #include <MoToTimer.h>
+#include <pulse.h>
+
 AudioOut audioOut;
 
 //Pin definintions
@@ -22,26 +24,48 @@ AudioOut audioOut;
 
 //game variables 
 bool gameState = false;
-bool nutTriggered, flowerTriggered, bugTriggered; 
+bool nutTriggered=false, flowerTriggered=false, bugTriggered=false; 
+
 byte points = 0;
 byte pointMax = 3;
+
 MoToTimer gameTimer;
 MoToTimer resetTimer;
 MoToTimer audioWinTimer;
+
 int gameTime = 30000; //30 secs time in ms
 int resetTime = 5000;
 int audioWinTime = 1000;
+
 bool resetFlag = false;
-bool playOnce = false;
-bool winPlayOnce = false;
+bool playOnce = true;
+bool winPlayOnce = true;
+bool winAudioTimerFlag = true;
+bool stopOnce = true;
+
 //lightFunctions
 byte lightNum = 0;
 MoToTimer lightTime;
+//this timer runs until the win sequence should end
 MoToTimer winTimer;
-int winLightDelay = 100;
-int lightDelay = 40;
+//this addes a short delay before triggering the win sequence.
+MoToTimer winAudioTimer;
+
+//this timer update the random number
+MoToTimer lightNumUpdate;
+int lightNumUpdateDelay = 1000;
+
+int winLightDelay = 225;
+int lightDelay = 5000;
+
 int previouslight = 1;
-bool newNum = false;
+bool newNum = 1;
+bool numUpdate =1;
+
+//pulse
+Pulse bugLightPWM;
+Pulse flowerLightPWM;
+Pulse nutLightPWM;
 
 //enable to have serial debug
 //#define debug
