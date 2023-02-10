@@ -11,10 +11,10 @@ void lightAttract()
         lightNum = random(0,3);        
         }while(lightNum == previouslight);
         previouslight = lightNum;
-        #ifdef debug      
-        Serial.print("lightNum: ");
-        Serial.println(lightNum);
-        #endif   
+        // #ifdef debug      
+        // Serial.print("lightNum: ");
+        // Serial.println(lightNum);
+        // #endif   
         lightNumUpdate.setTime(lightNumUpdateDelay);
                          
     }
@@ -74,6 +74,7 @@ void lightWin()
 
 void resetGame()
 {
+         
 //turn all the lights off       
 digitalWrite(nutLight, 0);
 digitalWrite(flowerLight,0);
@@ -95,8 +96,38 @@ winPlayOnce = true;
 winAudioTimerFlag = true;
 stopOnce = true;
 
-
 //set reset to off
 resetFlag = false;
+
+#ifdef debug
+ Serial.println(" ");
+Serial.println("**********Resetting Game****************");
+Serial.print("nutTriggered: ");
+Serial.println(nutTriggered);
+Serial.print("flowerTriggered: ");
+Serial.println(flowerTriggered);
+Serial.print("bugTriggered: ");
+Serial.println(bugTriggered);
+Serial.print("gameState: ");
+Serial.println(gameState);
+Serial.print("points: ");
+Serial.println(points);
+Serial.print("playOnce: ");
+Serial.println(playOnce);
+Serial.print("winPlayOnce: ");
+Serial.println(winPlayOnce);
+Serial.print("winAudioTimerFlag: ");
+Serial.println(winAudioTimerFlag);
+Serial.print("stopOnce: ");
+Serial.println(stopOnce);
+Serial.print("resetFlag: ");
+Serial.println(resetFlag);
+Serial.println("**************Game Finished resetting************");
+ Serial.println(" ");
+
+#endif   
+
+
+
 
 }

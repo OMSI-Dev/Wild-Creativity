@@ -95,14 +95,14 @@ void loop()
         //update points
         points = points + 1;
         audioOut.playTrack(2);
-    }
         #ifdef debug
         Serial.println("Nut button Pressed & registered");
         Serial.print("Current Points: ");
         Serial.println(points);
         Serial.print("Nut button trigged status: ");
         Serial.println(nutTriggered);
-        #endif        
+        #endif                
+    }     
   }
 
   //Checks if the flower button has been pressed
@@ -123,14 +123,15 @@ void loop()
         //update points
         points = points + 1;
         audioOut.playTrack(3);
+        #ifdef debug
+        Serial.println("Flower button Pressed & registered");
+        Serial.print("Current Points: ");
+        Serial.println(points);
+        Serial.print("Flower button trigged status: ");
+        Serial.println(flowerTriggered);
+        #endif    
     }
-    #ifdef debug
-    Serial.println("Flower button Pressed & registered");
-    Serial.print("Current Points: ");
-    Serial.println(points);
-    Serial.print("Flower button trigged status: ");
-    Serial.println(flowerTriggered);
-    #endif    
+
   }
 
   //Checks if the bug button has been pressed
@@ -151,14 +152,15 @@ void loop()
         //update points
         points = points + 1;
         audioOut.playTrack(4);
-    } 
         #ifdef debug
         Serial.println("Bug button Pressed & registered");
         Serial.print("Current Points: ");
         Serial.println(points);
         Serial.print("Bug button trigged status: ");
         Serial.println(bugTriggered);
-        #endif    
+        #endif   
+    } 
+ 
 
   }
 
@@ -177,10 +179,13 @@ void loop()
     
     if(winAudioTimerFlag == true)
     {
-      gameTimer.stop();
+      //restart the game timer rather than stopping or it trips an early restart
+      //
+      gameTimer.restart();
       winAudioTimer.setTime(1500);
       winAudioTimerFlag = false;
       #ifdef debug
+      Serial.println(" ");      
       Serial.println("Game won!");
       Serial.print("winAudioTimerFlag: ");
       Serial.println(winAudioTimerFlag);
@@ -188,10 +193,30 @@ void loop()
       Serial.println(winAudioTimer.running());
       #endif       
     }
-    
+
+    #ifdef debug
+    Serial.println(" ");
+    Serial.println("Start win Sequence!");
+    Serial.print("stopOnce: ");
+    Serial.println(stopOnce);
+    Serial.print("winPlayOnce: ");
+    Serial.println(winPlayOnce);
+    Serial.print("winAudioTimer running: ");
+    Serial.println(winAudioTimer.getTime());
+    Serial.println(" ");
+    #endif 
+
     //play win sound
     if(winAudioTimer.running() == false)
     {
+        #ifdef debug
+        Serial.println(" ");
+        Serial.print("resetFlag: ");
+        Serial.println(resetFlag);    
+        Serial.print("winAudioTimer running: ");
+        Serial.println(winAudioTimer.running());
+        Serial.println(" ");
+        #endif
       if(stopOnce == true)
       {
       audioOut.stopAllTracks(); 
@@ -205,19 +230,22 @@ void loop()
       resetTimer.setTime(resetTime);
       resetFlag = true;         
       }
+
     }
 
-    //win sequence
-    if(winPlayOnce == false)
-    {
-    lightWin();
-    }
+      //win sequence
+      if(winPlayOnce == false)
+      {
+      lightWin();
+      }
 
-    //reset game after
-    if (resetTimer.running() == false && resetFlag == true)
-    {
-      resetGame();
-    }
+      //reset game after
+      if (resetTimer.running() == false && resetFlag == true)
+      {
+        resetGame();
+      }
+
+
 
   }
 

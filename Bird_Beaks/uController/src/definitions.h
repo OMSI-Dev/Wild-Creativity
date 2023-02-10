@@ -68,4 +68,4 @@ Pulse flowerLightPWM;
 Pulse nutLightPWM;
 
 //enable to have serial debug
-//#define debug
+#define debug
