@@ -13,10 +13,10 @@ bool Serial_Update(bool gameStatus)
   if(ByteRecv == 10)
   { 
     //Read the calibrated value saved to EEPROM
-    byte sensorValCalibrated = EEPROM.read(0);
+    double sensorValCalibrated = EEPROM.read(0);
     //this is a dummy number used in debugging and calibration
     //double sensorValCalibrated = 196;
-    sensorUpdate(sensorValCalibrated);           
+    sensorUpdate(sensorValCalibrated);         
     Serial.print(ByteSend);
     Serial.write(10); //sends LF to close buffer      
     gameStatus = true;      

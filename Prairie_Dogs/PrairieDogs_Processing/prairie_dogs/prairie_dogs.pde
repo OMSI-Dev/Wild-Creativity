@@ -31,7 +31,7 @@ float graphYmax = 300;
 
 //timers
 long senUpdate = 0;
-int interval = 20;
+int interval = 10;
 Stopwatch Timer;
 int gameTime = 30000;
 
@@ -241,7 +241,7 @@ void serialEvent(Serial port) {
   {
     //signal arduino it left knows game is over
   } else if (inputStr.length() == 0) {
-    senLevels = 100;
+    senLevels = 0;
   } else {
     //println ("Game Started: " + inputStr);
     //Convert to string to integer value to parse sensor data

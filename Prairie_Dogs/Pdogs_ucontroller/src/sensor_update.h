@@ -4,7 +4,7 @@
 
 const int CalNumReadings = 80;
 
-const int numReadings = 40;
+const int numReadings = 25;
 
 int readings[numReadings];      // the readings from the analog input
 int readIndex = 0;              // the index of the current reading
@@ -24,8 +24,10 @@ bool ledState = 0;
 bool lastLedState = 0;
 
 double modifiedMap(double x, double in_min, double in_max, double out_min, double out_max)
-{
+{    
+     
      double temp = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+
      temp = (int) (4*temp + .5);
      return (double) temp/4;
 }
@@ -84,8 +86,13 @@ double sensorUpdate(double sensorValLow)
 
      //map the value to a higher resoultion and force them to always be positive
      sensorVal = abs(modifiedMap(sensorVal,sensorValLow, sensorValHigh, 0, 300));
+     sensorVal = constrain(sensorVal,0,300);
 
      #ifdef debug
+          Serial.print("SenLow: ");
+          Serial.println(sensorValLow);
+          Serial.print("SenHigh: ");
+          Serial.println(sensorValHigh);          
           Serial.print("Mapped Value: ");
           Serial.println(sensorVal);
      #endif
