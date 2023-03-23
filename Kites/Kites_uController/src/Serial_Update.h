@@ -22,6 +22,7 @@ bool Serial_Update(bool gameStatus)
     //( (40) = Left Results
     //) (41) = allow stop button
     //  (42) = block stop button
+    //Z (90) = calibration over start fans & release zero
 
     if(ByteRecv == 39)
     {  
@@ -52,6 +53,11 @@ bool Serial_Update(bool gameStatus)
     }else if(ByteRecv == 41){
         //lets the stop btn be pressed
         allowStop = true;
+        return  gameStatus;
+
+  }  else if(ByteRecv == 90){
+        //lets the stop btn be pressed
+        zeroFlag = false;
         return  gameStatus;
 
   }  

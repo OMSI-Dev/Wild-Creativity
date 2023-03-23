@@ -344,6 +344,7 @@ void gameCountIn()
     if (countdown.isPlaying() == false)
     {
       countdown.play();
+       ardPort.write(90);
     }
   case 2:
     if (countdown.isPlaying() == false)
@@ -553,6 +554,7 @@ void serialEvent(Serial port) {
   //' (39) = ask arduino to send sensor update
   //( (40) = Left Results
   //) (41) = Starting countdown
+  //Z (90) = calibration over & release zero
 
   if (inputStr.equals("#") == true)
   {
