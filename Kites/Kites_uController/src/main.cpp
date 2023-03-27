@@ -14,10 +14,12 @@ Updates:
 
 #include <Arduino.h>
 #include <bounce2.h>
+#include <MoToTimer.h>
 #include <pin_define.h>
 #include <sensor_update.h>
 #include <Serial_Update.h>
 #include <pulse/PulseControl.h>
+
 
 //bytes being sent or received:
 //! (33) = Signals arduino knows game is over
@@ -96,7 +98,7 @@ void results()
 void inGame()
 {
   //turn fan on
-  fanOn(1);
+  
   //turn off start button
   startPulse.setRate(15);
   startPulse.update(0);
@@ -113,6 +115,7 @@ void inGame()
     Serial.print("%");
     Serial.write(10);    
   }
+  fanOn(1);
   
 }
 

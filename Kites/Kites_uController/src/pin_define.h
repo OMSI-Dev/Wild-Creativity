@@ -5,5 +5,3 @@
 #define stopBtnPWM 11
 #define fanPin 9
 #define sensorIn 18
-
-bool zeroFlag = true;

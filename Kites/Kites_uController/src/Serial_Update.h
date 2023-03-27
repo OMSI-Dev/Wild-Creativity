@@ -1,6 +1,8 @@
 extern bool resultsFlag;
+extern bool zeroFlag;
 extern bool gameOn,allowStop;
 extern void results();
+extern void sensorUpdate();
 
 bool Serial_Update(bool gameStatus)
 {
@@ -23,6 +25,7 @@ bool Serial_Update(bool gameStatus)
     //) (41) = allow stop button
     //  (42) = block stop button
     //Z (90) = calibration over start fans & release zero
+    //C (67) = Start calibration
 
     if(ByteRecv == 39)
     {  
@@ -53,14 +56,12 @@ bool Serial_Update(bool gameStatus)
     }else if(ByteRecv == 41){
         //lets the stop btn be pressed
         allowStop = true;
+        return  gameStatus;}
+      else if(ByteRecv == 67){
+        //calibrate
+        Calibration();
         return  gameStatus;
-
-  }  else if(ByteRecv == 90){
-        //lets the stop btn be pressed
-        zeroFlag = false;
-        return  gameStatus;
-
-  }  
+  } 
 
   return gameStatus;
 }

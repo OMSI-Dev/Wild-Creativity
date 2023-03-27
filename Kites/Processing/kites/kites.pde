@@ -344,7 +344,7 @@ void gameCountIn()
     if (countdown.isPlaying() == false)
     {
       countdown.play();
-       ardPort.write(90);
+      
     }
   case 2:
     if (countdown.isPlaying() == false)
@@ -563,6 +563,8 @@ void serialEvent(Serial port) {
     stopMovie = true;
     //Start game mode
     gameOn = true;
+    //send calbration signal
+    ardPort.write(67);
     //allow sound to play
     playOnce = true;
   } else if (inputStr.equals("%") == true) {
