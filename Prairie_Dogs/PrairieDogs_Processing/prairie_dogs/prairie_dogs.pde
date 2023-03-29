@@ -212,7 +212,10 @@ void draw() {
     background(255);
     pushMatrix();    
     imageMode(CENTER);
-    playMovie();     
+    playMovie();
+    plot1.setPoints(new GPointsArray());
+    xPoint = 10;
+    plot1.addPoint(0, 0);    
     popMatrix();
   }
 }
