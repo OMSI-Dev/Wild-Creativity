@@ -56,7 +56,7 @@ MoToTimer lightNumUpdate;
 int lightNumUpdateDelay = 1000;
 
 int winLightDelay = 225;
-int lightDelay = 5000;
+int lightDelay = 7000;
 
 int previouslight = 1;
 bool newNum = 1;

@@ -11,10 +11,10 @@ void lightAttract()
         lightNum = random(0,3);        
         }while(lightNum == previouslight);
         previouslight = lightNum;
-        // #ifdef debug      
-        // Serial.print("lightNum: ");
-        // Serial.println(lightNum);
-        // #endif   
+        #ifdef debug      
+        Serial.print("lightNum: ");
+        Serial.println(lightNum);
+        #endif   
         lightNumUpdate.setTime(lightNumUpdateDelay);
                          
     }
@@ -22,21 +22,21 @@ void lightAttract()
     switch(lightNum) 
     {     
     case 0:
-       bugLightPWM.update(1);
-       nutLightPWM.update(0);
-       flowerLightPWM.update(0);       
+        bugLightPWM.update(1);
+        nutLightPWM.update(0);
+        flowerLightPWM.update(0);       
         break;
 
     case 1:
-       bugLightPWM.update(0);
-       nutLightPWM.update(1);
-       flowerLightPWM.update(0);              
+        bugLightPWM.update(0);
+        nutLightPWM.update(1);
+        flowerLightPWM.update(0);              
         break;
 
     case 2:
-       bugLightPWM.update(0);
-       nutLightPWM.update(0);
-       flowerLightPWM.update(1);       
+        bugLightPWM.update(0);
+        nutLightPWM.update(0);
+        flowerLightPWM.update(1);       
         break;
     }
 }
