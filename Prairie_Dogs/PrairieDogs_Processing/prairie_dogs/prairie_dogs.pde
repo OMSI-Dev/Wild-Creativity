@@ -12,7 +12,7 @@ public GPlot plot1;
 //Serial Variables
 Serial ardPort;
 int inByte = -1;
-float senLevels = 175;
+float senLevels = 0;
 int lf = 10;
 int $ = 36;
 String inputStr;
@@ -110,15 +110,17 @@ void setup() {
 
   // List all the available serial ports:
   printArray(Serial.list());
-
+  
   // Com1 is Serial.list()[0]
-  // Serial.list()[1] will pick up the next used COM port
+  // Serial.list()[1] will pick up the next used COM port  
   if (Serial.list().length > 1) {
     String portName = Serial.list()[1];
-    ardPort = new Serial(this, portName, 9600);
+    ardPort = new Serial(this, portName, 115200);
+    println("connected to: " + '\t' + portName);
   } else {
     String portName = Serial.list()[0];
-    ardPort = new Serial(this, portName, 9600);
+    ardPort = new Serial(this, portName, 115200);
+    println("connected to: " + '\t' + portName);
   }
   ardPort.write(36);
   ardPort.bufferUntil(lf);
@@ -213,9 +215,11 @@ void draw() {
     pushMatrix();    
     imageMode(CENTER);
     playMovie();
+    senLevels = 0;
     plot1.setPoints(new GPointsArray());
-    xPoint = 1;
-    plot1.addPoint(0, 0);    
+    //xPoint = 1;
+    //plot1.addPoint(0, 0);
+    
     popMatrix();
   }
 }
@@ -249,6 +253,7 @@ void serialEvent(Serial port) {
     //println ("Game Started: " + inputStr);
     //Convert to string to integer value to parse sensor data
     senLevels = Integer.valueOf(inputStr);
+    println(senLevels);
   }
 }
 

@@ -1,5 +1,6 @@
 bool Serial_Update(bool gameStatus)
 {
+  //#define debug
   // send it to the computer as ASCII digits
   //bytes to talk with computer
   int ByteRecv, ByteSend = 0;    
@@ -13,7 +14,11 @@ bool Serial_Update(bool gameStatus)
   if(ByteRecv == 10)
   { 
     //Read the calibrated value saved to EEPROM
-    double sensorValCalibrated = EEPROM.read(0);
+    double sensorValCalibrated = (EEPROM.read(0) * 100 + EEPROM.read(1) * 10 + EEPROM.read(2));
+    #ifdef debug
+    Serial.print("sensorValCal: ");
+    Serial.println(sensorValCalibrated);
+    #endif
     //this is a dummy number used in debugging and calibration
     //double sensorValCalibrated = 196;
     sensorUpdate(sensorValCalibrated);         

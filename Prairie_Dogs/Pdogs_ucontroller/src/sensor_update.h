@@ -2,7 +2,7 @@
 #include <Mapf.h>
 //#define debug
 
-const int CalNumReadings = 80;
+const int CalNumReadings = 100;
 
 const int numReadings = 25;
 
@@ -18,7 +18,7 @@ double sensorVal;
 
 //used to constrain & Calibrate
 bool SenCalibrate = false;
-double sensorValHigh =  220;
+double sensorValHigh =  400; //init value set to low it will cause spikes. Set to high and game never calibrates
 double sensorValHighlast = 0;
 bool ledState = 0;
 bool lastLedState = 0;
@@ -70,23 +70,23 @@ double sensorUpdate(double sensorValLow)
                Serial.print("High Value: ");
                Serial.println(sensorValHigh);
           #endif
-     }    
+     }  
 
-     //sensorVal = constrain(sensorVal,sensorValLow,sensorValHigh);
+     //map the value to a higher resoultion and force them to always be positive
+     sensorVal = abs(modifiedMap(sensorVal,sensorValLow, sensorValHigh, 0, 300));
+
+     #ifdef debug
+     Serial.print("MapF Value: ");
+     Serial.println(sensorVal);
+     #endif
+
+     sensorVal = constrain(sensorVal,0,300);
 
      #ifdef debug
           Serial.print("constrain Value: ");
           Serial.println(sensorVal);
      #endif
 
-     #ifdef debug
-          Serial.print("MapF Value: ");
-          Serial.println(sensorVal);
-     #endif
-
-     //map the value to a higher resoultion and force them to always be positive
-     sensorVal = abs(modifiedMap(sensorVal,sensorValLow, sensorValHigh, 0, 300));
-     sensorVal = constrain(sensorVal,0,300);
 
      #ifdef debug
           Serial.print("SenLow: ");
@@ -145,8 +145,43 @@ int SensorCalibration(int sensorValCalibrated)
           Serial.println(CalTotal / CalNumReadings);
      #endif 
 
-    EEPROM.update(0,sensorValCalibrated);
 
+     sensorValCalibrated = round(sensorValCalibrated);
+
+     #ifdef debug
+          Serial.print("Round :"); 
+          Serial.println(sensorValCalibrated);
+     #endif 
+
+     byte hundreds = sensorValCalibrated / 100;
+     byte  tens = (sensorValCalibrated % 100) / 10;
+     byte  ones = sensorValCalibrated % 10;
+
+ #ifdef debug
+     Serial.print(" Hundred: ");
+     Serial.println(hundreds);
+     Serial.print(" tens: ");
+     Serial.println(tens);
+     Serial.print(" ones: ");
+     Serial.println(ones);
+#endif
+
+     EEPROM.update(0,hundreds);
+     EEPROM.update(1,tens);
+     EEPROM.update(2,ones);
+
+     #ifdef debug
+     Serial.print("EEPROM Read :"); 
+     Serial.println(EEPROM.read(0));
+     Serial.print("EEPROM Read :"); 
+     Serial.println(EEPROM.read(1));
+     Serial.print("EEPROM Read :"); 
+     Serial.println(EEPROM.read(2));
+     
+
+     Serial.print("EEprom Combine: ");
+     Serial.println(EEPROM.read(0) * 100 + EEPROM.read(1) * 10 + EEPROM.read(2));
+#endif
     return  sensorValCalibrated;
 
  }
