@@ -45,6 +45,11 @@ bugLightPWM.setRate(fadeRate);
 flowerLightPWM.setRate(fadeRate);
 nutLightPWM.setRate(fadeRate);
 
+//set Max value
+bugLightPWM.setMax(150);
+flowerLightPWM.setMax(150);
+nutLightPWM.setMax(200);
+
 //hard delay to give the wavtrigger time to startup
 delay(1000);
 
