@@ -13,21 +13,24 @@ MoToTimer chaseTimer;
 MoToTimer winTimer;
 MoToTimer restartTimer;
 MoToTimer gameTimer;
+MoToTimer darkTimer;
 
 MoToTimer audioTimeOut1;
 MoToTimer audioTimeOut2;
 MoToTimer audioTimeOut3;
 
-// Sensors
-#define largeSensor1 A0
-#define largeSensor2 A1
+int darkTime = 1500;
 
-#define smallSensor1 A2
-#define smallSensor2 A3
+// Sensors
+#define largeSensor1 A2
+#define largeSensor2 A3
+
+#define smallSensor1 A0
+#define smallSensor2 A1
 
 // Out pins
-#define largeTargetLeds 6
-#define smallTargetLeds 4
+#define largeTargetLeds 4
+#define smallTargetLeds 6
 
 
 // LED counts
@@ -48,14 +51,16 @@ bool lgFlag = 0;
 bool gameOverFlag = 0;
 bool winTimerFlag = true;
 bool playWin = true;
+bool smLight = true;
 
 byte smi = 0;
 byte lgi = 0;
 byte points = 0;
+byte i = 0;
 
 void setup() {
-  FastLED.addLeds<WS2811, largeTargetLeds,GRB>(largeLeds, lgLedCount);
-  FastLED.addLeds<WS2811, smallTargetLeds,GRB>(smallLeds, smLedCount);
+  FastLED.addLeds<WS2811, largeTargetLeds,RGB>(largeLeds, lgLedCount);
+  FastLED.addLeds<WS2811, smallTargetLeds,RGB>(smallLeds, smLedCount);
 
   pinMode(largeSensor1, INPUT_PULLUP);
   pinMode(largeSensor2, INPUT_PULLUP);
@@ -90,11 +95,15 @@ void setup() {
   Serial.begin(9600);
 }
 
-void attract() {
-  if(gameFlag==1){
+void attract() 
+{
+  if(gameFlag==0)
+  {
+    fadeToBlackBy(smallLeds, smLedCount, 190);
+    fadeToBlackBy(largeLeds, lgLedCount, 190);
     // Set the current LED to blue in both arrays
-    smallLeds[smi] = CRGB::Red;
-    largeLeds[lgi] = CRGB::Blue;
+    if(smLight){
+    smallLeds[smi] = CRGB::Blue;
 
     // Set the neighboring LEDs to aqua in both arrays
     int frontPos = (smi + smLedCount - 1) % smLedCount;
@@ -102,36 +111,64 @@ void attract() {
     smallLeds[frontPos] = CRGB::Aqua;
     smallLeds[backPos] = CRGB::Aqua;
 
-    //Large Array
-    frontPos = (lgi + lgLedCount - 1) % lgLedCount;
-    backPos = (lgi + 1) % lgLedCount;
-    largeLeds[frontPos] = CRGB::Aqua;
-    largeLeds[backPos] = CRGB::Aqua;
+
 
     // Set the LED two positions ahead of the blue LED to black in both arrays
     int offPos = (smi + 2) % smLedCount;
     smallLeds[offPos] = CRGB::Black;
-
-
-    offPos = (lgi + 2) % lgLedCount;
-    largeLeds[offPos] = CRGB::Black;
 
     // Shift the pattern in both arrays
     CRGB temp = smallLeds[smLedCount-1];
     for (int j = smLedCount-1; j > 0; j--) {
       smallLeds[j] = smallLeds[j-1];
     }
-    smallLeds[0] = temp;  
-    temp = largeLeds[lgLedCount-1];
+    smallLeds[0] = temp; 
+    } 
+  
+
+    if(!smLight)
+    {
+    //Large Array
+    largeLeds[lgi] = CRGB::Blue;
+    int frontPos = (lgi + lgLedCount - 1) % lgLedCount;
+    int backPos = (lgi + 1) % lgLedCount;
+    largeLeds[frontPos] = CRGB::Aqua;
+    largeLeds[backPos] = CRGB::Aqua;
+
+    int offPos = (lgi + 2) % lgLedCount;
+    largeLeds[offPos] = CRGB::Black;
+
+    CRGB temp = largeLeds[lgLedCount-1];
     for (int j = lgLedCount-1; j > 0; j--) {
       largeLeds[j] = largeLeds[j-1];
     }
     largeLeds[0] = temp;
+    }
 
     // Update the indices in both arrays
     smi = (smi + 1) % smLedCount;
-    lgi = (lgi + 1) % lgLedCount;
-  }else{/*clear the leds if target has been hit */FastLED.clear(); FastLED.show();}
+    lgi = (lgi + 1) % lgLedCount;    
+
+    if(smi == 15 && smLight){smLight = !smLight;  lgi=0; smi=0;};
+    if(lgi == 19 && !smLight){smLight = !smLight;lgi=0; smi=0;};
+    Serial.print("lgi: ");
+    Serial.println(lgi);
+  }
+  if(gameFlag == 1)
+  {
+      if( smState == 0)
+      {
+        fill_solid( smallLeds, smLedCount, CRGB::Black);
+
+      }
+
+     if( lgState == 0)
+      {
+      fill_solid(largeLeds, lgLedCount, CRGB::Black);
+
+      }
+
+  }
 
 }
 
@@ -150,6 +187,7 @@ void gameOver()
   winTimerFlag = true;
   playWin = true;
   chaseTimer.restart();
+  gameTimer.restart();
   }
 
 void smallTargetHit() 
@@ -176,9 +214,37 @@ void largeTargetHit()
   fill_rainbow(largeLeds, lgLedCount, gHue, 7);
 }
 
-void win(){}
+void goDark(){  
+  do{
+  FastLED.clear();
+  FastLED.show();
+  }while(darkTimer.running());
+  gameOver();
+}
 
-void loop() {
+void win()
+{
+  Serial.println("Win");
+  i++;
+  largeLeds[i] = CRGB::Purple;
+  largeLeds[i-1] = CRGB::Blue;
+  largeLeds[i-2] = CRGB::Black;
+  largeLeds[i+1] = CRGB::Purple;
+  largeLeds[i+2] = CRGB::Black;
+
+  smallLeds[i] = CRGB::Green;
+  smallLeds[i-1] = CRGB::Aqua;
+  smallLeds[i-2] = CRGB::Black;
+  smallLeds[i+1] = CRGB::Aqua;
+  smallLeds[i+2] = CRGB::Black;
+
+  FastLED.show();
+  if(i==20){i=0;}
+
+}
+
+void loop() 
+{
   //if gametimer ends, send to reset
   if(!gameTimer.running() && gameFlag == 1){gameOver();}
 
@@ -218,32 +284,39 @@ void loop() {
     Serial.println("large target");
   }
 
-if(points == 2){
+  if(lgFlag == 1 && gameFlag == 1 && points <2 ){
+    fill_rainbow(largeLeds, lgLedCount, gHue, 7);
+  }
+
+  if(smFlag == 1 && gameFlag == 1 && points <2 ){
+    fill_rainbow(smallLeds, smLedCount, gHue, 7);
+  }
+
+
+if(points == 2)
+{
   gameFlag = 2;
 
-  if(winTimerFlag){ FastLED.clear(); FastLED.show(); audioTimeOut3.setTime(1000); winTimer.restart(); restartTimer.restart(); winTimerFlag = false;}
+  if(winTimerFlag){ FastLED.clear(); FastLED.show(); audioTimeOut3.setTime(600); winTimer.restart(); restartTimer.restart(); winTimerFlag = false;}
 
   if(!audioTimeOut3.running() && playWin)
   {
     playWin = false;
-    audioOut.playTrack(4);
+    audioOut.playTrack(3);
   }
 
-  if(!winTimer.running()){
+  if(!winTimer.running())
+  {
   win();
   winTimer.restart();
   }
 
   if(gameFlag ==2 && !restartTimer.running())
   {
-    gameOver();
+    darkTimer.setTime(darkTime);
+    goDark();
   }
-
-
-  if (smState == 1 && lgState == 1) {
-    gameOver();
-  }
-
+}
 
   if(!chaseTimer.running() && gameFlag == 0)
   { 
