@@ -62,8 +62,6 @@ void setup() {
   pinMode(smallSensor1, INPUT_PULLUP);
   pinMode(smallSensor2, INPUT_PULLUP);
 
-  Serial.begin(9600);
-
   audioOut.begin();
 
   // Startup light test
@@ -80,59 +78,17 @@ void setup() {
   FastLED.show();
   Serial.println("setup");
 
-  //Timer setup
+  //Timer setup 
   chaseTimer.setTime(100);
   winTimer.setTime(20);
   restartTimer.setTime(3000);
   gameTimer.setTime(90000);
-
+  //set the audio time outs for repeat play
   audioTimeOut1.setTime(500);
   audioTimeOut2.setTime(500);
+
+  Serial.begin(9600);
 }
-
-// void gameOver() {
-//   FastLED.clear();
-//   FastLED.show();
-//   // Reset
-//   smFlag = 0;
-//   lgFlag = 0;
-//   gameFlag = 0;
-//   smState = 0;
-//   lgState = 0;
-//   points = 0;  
-//   winTimerFlag = true;
-//   playWin = true;
-//   chaseTimer.restart();
-//   }
-
-// void smallTargetHit() {
-//   if(smFlag == 0){
-  
-//   smFlag = 1;
-//   gameFlag = 1;
-//   points++;
-//   gameTimer.restart();
-//   }
-//   fill_rainbow(smallLeds, smLedCount, gHue, 7);
-// }
-
-// void largeTargetHit() {
-//   if(lgFlag == 0){
- 
-//   lgFlag = 1;
-//   gameFlag = 1;
-//   points++;
-
-//   gameTimer.restart();
-//   }
-//   fill_rainbow(largeLeds, lgLedCount, gHue, 7);
-// }
-
-
-
-// void gameOver() {
-
-// }
 
 void attract() {
     // Set the current LED to blue in both arrays
@@ -177,7 +133,45 @@ void attract() {
 }
 
 
+void gameOver() 
+{
+  FastLED.clear();
+  FastLED.show();
+  // Reset
+  smFlag = 0;
+  lgFlag = 0;
+  gameFlag = 0;
+  smState = 0;
+  lgState = 0;
+  points = 0;  
+  winTimerFlag = true;
+  playWin = true;
+  chaseTimer.restart();
+  }
 
+void smallTargetHit() 
+{
+  if(smFlag == 0)
+  {  
+  smFlag = 1;
+  gameFlag = 1;
+  points++;
+  gameTimer.restart();
+  }
+  fill_rainbow(smallLeds, smLedCount, gHue, 7);
+}
+
+void largeTargetHit() 
+{
+  if(lgFlag == 0)
+  { 
+  lgFlag = 1;
+  gameFlag = 1;
+  points++;
+  gameTimer.restart();
+  }
+  fill_rainbow(largeLeds, lgLedCount, gHue, 7);
+}
 
 
 void loop() {
