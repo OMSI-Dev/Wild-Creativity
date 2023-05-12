@@ -91,6 +91,7 @@ void setup() {
 }
 
 void attract() {
+  if(gameFlag==1){
     // Set the current LED to blue in both arrays
     smallLeds[smi] = CRGB::Red;
     largeLeds[lgi] = CRGB::Blue;
@@ -130,6 +131,8 @@ void attract() {
     // Update the indices in both arrays
     smi = (smi + 1) % smLedCount;
     lgi = (lgi + 1) % lgLedCount;
+  }else{/*clear the leds if target has been hit */FastLED.clear(); FastLED.show();}
+
 }
 
 
@@ -173,72 +176,88 @@ void largeTargetHit()
   fill_rainbow(largeLeds, lgLedCount, gHue, 7);
 }
 
+void win(){}
 
 void loop() {
-//   bool smSt1 = digitalRead(smallSensor1);
-//   bool smSt2 = digitalRead(smallSensor2);
-//   bool lgSt1 = digitalRead(largeSensor1);
-//   bool lgSt2 = digitalRead(largeSensor2);
+  //if gametimer ends, send to reset
+  if(!gameTimer.running() && gameFlag == 1){gameOver();}
 
-//   if (smSt1 == LOW || smSt2 == LOW) {
-//     smState = 1;
-//   }
-
-//   if (smState == 1) {
-//     smallTargetHit();
-//     Serial.println("small target");
-//   }
-
-//   if (lgSt1 == LOW || lgSt2 == LOW) {
-//     lgState = 1;
-//   }
-
-//   if (lgState == 1) {
-//     largeTargetHit();
-//     Serial.println("large target");
-//   }
+  //Read sensors
+  bool smSt1 = digitalRead(smallSensor1);
+  bool smSt2 = digitalRead(smallSensor2);
+  bool lgSt1 = digitalRead(largeSensor1);
+  bool lgSt2 = digitalRead(largeSensor2);
 
 
+  if (smSt1 == LOW || smSt2 == LOW) {
+    smState = 1;
+    if(!audioTimeOut1.running())
+    {
+      audioOut.playTrack(1);
+      audioTimeOut1.restart();
+    }
+  }
 
-// //Check to see if Dog was hit
-// if(smSt1 == 0 || smSt2 == 0){
-//     smState = 1;
-//     if(!audioTimeOut2.running()){
-//       audioOut.playTrack(2);
-//       audioTimeOut2.restart();
-//     }
+  if (smState == 1 && smFlag == 0) {
+    smallTargetHit();
+    Serial.println("Small target hit");
+  }
 
-//   }
-// if(smState == 1 && smFlag == 0){
-//       smallTargetHit();
-//   }
 
-// //Check to see if Horse was hit
-// if(lgSt1 == 0 || lgSt2 == 0 ){
-//     lgState = 1;
-//       if(!audioTimeOut2.running()){
-//       audioOut.playTrack(2);
-//       audioTimeOut2.restart();
-//     }
-//   }
-// if(lgState == 1 && lgFlag == 0){
-//         largeTargetHit();
-//   }
 
-//   if (smState == 1 && lgState == 1) {
-//     gameOver();
-//   }
-if(!chaseTimer.running()){
-  attract();
-  chaseTimer.restart();  
- } 
+  if (lgSt1 == LOW || lgSt2 == LOW) {
+    lgState = 1;    
+    if(!audioTimeOut2.running()){
+      audioOut.playTrack(2);
+      audioTimeOut2.restart();
+    }
+  }
 
-  //  fill_rainbow(smallLeds, smLedCount, gHue, 7);
-  // EVERY_N_MILLISECONDS( 10 ) 
-  // {
-  //   gHue--;
-  // } 
+  if (lgState == 1 && lgFlag == 0) {
+    largeTargetHit();
+    Serial.println("large target");
+  }
 
+if(points == 2){
+  gameFlag = 2;
+
+  if(winTimerFlag){ FastLED.clear(); FastLED.show(); audioTimeOut3.setTime(1000); winTimer.restart(); restartTimer.restart(); winTimerFlag = false;}
+
+  if(!audioTimeOut3.running() && playWin)
+  {
+    playWin = false;
+    audioOut.playTrack(4);
+  }
+
+  if(!winTimer.running()){
+  win();
+  winTimer.restart();
+  }
+
+  if(gameFlag ==2 && !restartTimer.running())
+  {
+    gameOver();
+  }
+
+
+  if (smState == 1 && lgState == 1) {
+    gameOver();
+  }
+
+
+  if(!chaseTimer.running() && gameFlag == 0)
+  { 
+    //keep running attractor chase until a target is hit.
+    attract();
+    chaseTimer.restart();  
+  } 
+
+  if(!chaseTimer.running() && gameFlag == 1)
+  {
+    attract();
+  } 
+
+  EVERY_N_MILLISECONDS( 10 ){gHue--;}
   FastLED.show();
   
 }
