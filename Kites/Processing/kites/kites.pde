@@ -3,6 +3,8 @@ import processing.video.*;
 import processing.serial.*;
 import lord_of_galaxy.timing_utils.*;
 import processing.sound.*;
+import grafica.*;
+
 
 //Serial Variables
 Serial ardPort;
@@ -66,8 +68,19 @@ boolean countIn = true;
 boolean showResults = false;
 boolean allowStop = false;
 
+
+
+
+/* new plot data*/
+
+public GPlot plot1;
+//Graph Variables
+int limit;
+float x, y;
+
+
 void setup() {
-  fullScreen();
+  //fullScreen();
   size(1920, 1080);
 
   // create a font located in data folder
@@ -84,79 +97,118 @@ void setup() {
 
   //image assignment
 
-  dial = loadImage("/images/dial.png");
-  rGauge = loadImage("/images/rGauge.png");
-  yGauge = loadImage("/images/yGauge.png");
-  gGauge = loadImage("/images/gGauge.png");
-  rPhone = loadImage("/images/rPhone.png");
-  yPhone = loadImage("/images/yPhone.png");
-  gPhone = loadImage("/images/gPhone.png");
-  rBatt = loadImage("/images/battR.png");
-  yBatt = loadImage("/images/battY.png");
-  gBatt = loadImage("/images/battG.png");
-  actTimer = loadImage("/images/activeTimer.png");
-  countDownTimer = loadImage("/images/countdownTimer.png");
-  splash = loadImage("/images/splash.png");
-  results = loadImage("/images/results.png");
+  dial = requestImage("/images/dial.png");
+  rGauge = requestImage("/images/rGauge.png");
+  yGauge = requestImage("/images/yGauge.png");
+  gGauge = requestImage("/images/gGauge.png");
+  rPhone = requestImage("/images/rPhone.png");
+  yPhone = requestImage("/images/yPhone.png");
+  gPhone = requestImage("/images/gPhone.png");
+  rBatt = requestImage("/images/battR.png");
+  yBatt = requestImage("/images/battY.png");
+  gBatt = requestImage("/images/battG.png");
+  actTimer = requestImage("/images/activeTimer.png");
+  countDownTimer = requestImage("/images/countdownTimer.png");
+  splash = requestImage("/images/splash.png");
+  results = requestImage("/images/results.png");
 
   //movie assignment
-  attractor = new Movie(this, "/images/attractor.mp4");
+  //attractor = new Movie(this, "/images/attractor.mp4");
 
   // List all the available serial ports:
   printArray(Serial.list());
   // Com1 is Serial.list()[0]
   // Serial.list()[1] will pick up the next used COM port
-  if (Serial.list().length > 1) {
-    try
-    {
-    String portName = Serial.list()[1];
-    ardPort = new Serial(this, portName, 115200);
-    }catch(Exception e){
-    String portName = Serial.list()[2];
-    ardPort = new Serial(this, portName, 115200);
-    }
-  } else {
-    String portName = Serial.list()[0];
-    ardPort = new Serial(this, portName, 115200);
-  }
-  ardPort.bufferUntil(lf);
+  
+  
+  //if (Serial.list().length > 1) {
+  //  try
+  //  {
+  //  String portName = Serial.list()[1];
+  //  ardPort = new Serial(this, portName, 115200);
+  //  }catch(Exception e){
+  //  String portName = Serial.list()[2];
+  //  ardPort = new Serial(this, portName, 115200);
+  //  }
+  //} else {
+  //  String portName = Serial.list()[0];
+  //  ardPort = new Serial(this, portName, 115200);
+  //}
+  //ardPort.bufferUntil(lf);
 
   //Timer setup
   gameTimer = new Stopwatch(this);
   countTimer = new Stopwatch(this);
+  
+  
+  
+    //Graph Setup
+  plot1 = new GPlot(this);
+  plot1.setPos(100, 215);
+  plot1.setDim(1370, 757);
+  plot1.setMar(0, 0, 0, 0);
+
+  //Set Title
+  updateTitle();
+
+  //Sets Grid limit to start
+  plot1.setYLim(0.00, 300.000);
+  plot1.setXLim(0.00, 100.000);
+  //Sets how much info is show per axis
+  plot1.setVerticalAxesNTicks(3);
+  plot1.setHorizontalAxesNTicks(0);
+
+  //sets colors & weights for plot box
+  plot1.setBoxBgColor(#FFFFFF);
+  plot1.setBoxLineColor(0);
+  plot1.setBoxLineWidth(5);
+  plot1.setGridLineColor(0);
+
+  //sets color & width for plot line
+  plot1.setLineColor(0);
+  plot1.setLineWidth(4.00);
+  plot1.setPointColor(0);
+  plot1.setPointSize(4.00);
+    
 }
 
 void draw() {
   background(255);
   noFill();  
-  if (gameOn == true)
-  {    
-    //prevents movie from playing during gameplay
-    stopMovie();
-
-    if (countIn == true)
-    {
-      gameCountIn();
-    } else if (countIn == false && showResults == false)
-    {
-      gameUpdate();
-    }
-    //check the game timer
-    if (gameTimer.time() >= gameTime)
-    {
-      timerTick();
-      showResults = true;
-    }
-
-    if (showResults == true)
-    {
-      results();
-    }
-  } else if(gameOn == false)
-  {
-    playMovie();
-  }
+ drawGraph();
 }
+
+
+void drawGraph()
+{
+   // Draw the  plot
+  plot1.beginDraw();
+  
+  plot1.drawBackground();
+
+  //adds horizontal grid lins
+  plot1.drawGridLines(GPlot.HORIZONTAL);
+  plot1.setLineColor(0); 
+  plot1.drawLine(new GPoint(0.00,0.00),new GPoint(100.00,0));
+  //white out the top line
+  plot1.setLineColor(#FFFFFF);
+  plot1.drawLine(new GPoint(0.00,300.00),new GPoint(100.00,300.00));
+  
+
+  //plots lines and points from senLevels
+  plot1.drawLines();
+  plot1.drawPoints();
+
+  plot1.endDraw();
+  
+}
+
+
+
+
+
+
+
 
 void gameUpdate()
 {
