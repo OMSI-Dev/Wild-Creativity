@@ -4,32 +4,30 @@ import processing.serial.*;
 import lord_of_galaxy.timing_utils.*;
 import processing.sound.*;
 import grafica.*;
+import de.looksgood.ani.*;
+import de.looksgood.ani.easing.*;
 
 
 //Serial Variables
 Serial ardPort;
 int inByte = -1;
 float senLevels = 175;
-int lf = 10;
-int $ = 36;
+
 String inputStr;
-byte chargeMin = 0;
 
 //timers
-long senUpdate = 0;
-//how often should we ask for a sensor value in ms
-int interval = 60;
-
 //Counts down the game intro and game time
 Stopwatch gameTimer;
 Stopwatch countTimer;
+Stopwatch senUpdate;
 
 //
 int gameTime = 15000;
 int counter = 0; //for stop watch image
+int ping = 20;
 
 //images
-PImage dial, rGauge, yGauge, gGauge, rPhone, yPhone, gPhone, actTimer, countDownTimer, splash, results, gBatt, yBatt, rBatt;
+PImage gPhone, actTimer, countDownTimer, splash, results,light;
 
 //set the dial indicator to half size
 float pointWidth = 89/2;
@@ -54,11 +52,24 @@ boolean playOnce;
 
 
 //Text placements & strings
-String spanish = "¡Mantén la aguja en la parte verde!";
-String english = "Keep the needle in the green!";
+String spanish = "Fuerza/Force: ";
+String english = " ";
 
-int titleX = 660;
-int titleY = 810;
+String spanishResults = "Cargos Telefonico";
+String englishResults = "Phone Charge";
+
+
+int titleXResults = 150;
+int titleYResults = 850;
+
+int titleX = 1920/2-150;
+int titleY = 100;
+int titlePadding = 200;
+
+float smoothedSenLevels = 0;
+boolean calcResults = false;
+float sum = 0;
+float previousSenLevels = 0;
 
 //gamestate flags
 boolean gameOn = false;
@@ -68,8 +79,9 @@ boolean countIn = true;
 boolean showResults = false;
 boolean allowStop = false;
 
-
-
+//sensor array storage
+float[] senStorage = new float[1000];
+int arrayAdvance = 0;
 
 /* new plot data*/
 
@@ -77,11 +89,16 @@ public GPlot plot1;
 //Graph Variables
 int limit;
 float x, y;
+float plotX = 0;
 
+//Animation 
+Ani pulseX,pulseY;
+
+float pulseDimX = 100;
+float pulseDimY = 300;
 
 void setup() {
-  //fullScreen();
-  size(1920, 1080);
+  fullScreen();
 
   // create a font located in data folder
   PFont Hel = createFont("/font/helv.otf", 32);
@@ -93,20 +110,9 @@ void setup() {
   green = new SoundFile(this, "/sound/green.mp3");
   countdown = new SoundFile(this, "/sound/countdown.mp3");
   countdownStart = new SoundFile(this, "/sound/countdownStart.mp3");
-
-
+  light  = requestImage("/images/light.png"); 
   //image assignment
-
-  dial = requestImage("/images/dial.png");
-  rGauge = requestImage("/images/rGauge.png");
-  yGauge = requestImage("/images/yGauge.png");
-  gGauge = requestImage("/images/gGauge.png");
-  rPhone = requestImage("/images/rPhone.png");
-  yPhone = requestImage("/images/yPhone.png");
   gPhone = requestImage("/images/gPhone.png");
-  rBatt = requestImage("/images/battR.png");
-  yBatt = requestImage("/images/battY.png");
-  gBatt = requestImage("/images/battG.png");
   actTimer = requestImage("/images/activeTimer.png");
   countDownTimer = requestImage("/images/countdownTimer.png");
   splash = requestImage("/images/splash.png");
@@ -139,365 +145,192 @@ void setup() {
   //Timer setup
   gameTimer = new Stopwatch(this);
   countTimer = new Stopwatch(this);
+  senUpdate = new Stopwatch(this);
   
   
   
     //Graph Setup
   plot1 = new GPlot(this);
-  plot1.setPos(100, 215);
-  plot1.setDim(1370, 757);
+  plot1.setPos(150, 300);
+  plot1.setDim(1200, 700);
   plot1.setMar(0, 0, 0, 0);
 
   //Set Title
   updateTitle();
 
   //Sets Grid limit to start
-  plot1.setYLim(0.00, 300.000);
-  plot1.setXLim(0.00, 100.000);
+  plot1.setYLim(0.00, 400.000);
+  plot1.setXLim(0.00, 1000.000);
   //Sets how much info is show per axis
-  plot1.setVerticalAxesNTicks(3);
+  plot1.setVerticalAxesNTicks(2);
   plot1.setHorizontalAxesNTicks(0);
 
   //sets colors & weights for plot box
   plot1.setBoxBgColor(#FFFFFF);
   plot1.setBoxLineColor(0);
-  plot1.setBoxLineWidth(5);
+  plot1.setBoxLineWidth(8);
   plot1.setGridLineColor(0);
+  plot1.setGridLineWidth(2);
 
   //sets color & width for plot line
   plot1.setLineColor(0);
   plot1.setLineWidth(4.00);
   plot1.setPointColor(0);
   plot1.setPointSize(4.00);
-    
+  senUpdate.start();
+  
+  //Animation
+Ani.init(this);
+
+pulseX = new Ani(this,1,"pulseDimX",75);
+pulseY = new Ani(this,1,"pulseDimY",200);
+pulseX.start();
+pulseY.start();
 }
 
 void draw() {
   background(255);
-  noFill();  
- drawGraph();
+  noFill();
+  if(!showResults){
+  drawGraph();
+  sensorPing();
+  updatePhone();
+  }else{results();};
+
 }
 
 
 void drawGraph()
 {
+  updateTitle();
    // Draw the  plot
   plot1.beginDraw();
   
   plot1.drawBackground();
-
+  
   //adds horizontal grid lins
   plot1.drawGridLines(GPlot.HORIZONTAL);
   plot1.setLineColor(0); 
-  plot1.drawLine(new GPoint(0.00,0.00),new GPoint(100.00,0));
-  //white out the top line
-  plot1.setLineColor(#FFFFFF);
-  plot1.drawLine(new GPoint(0.00,300.00),new GPoint(100.00,300.00));
+  plot1.drawLine(new GPoint(0.00,0.00),new GPoint(1000.00,0));
   
-
+  
+  
+  if(smoothedSenLevels < 200){plot1.setLineColor(#FF0000);plot1.setPointColor(#FF0000);};
+  if(smoothedSenLevels >=200 || smoothedSenLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);};
+  if(smoothedSenLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);};
   //plots lines and points from senLevels
   plot1.drawLines();
-  plot1.drawPoints();
-
-  plot1.endDraw();
-  
+  plot1.drawPoints();  
+  plot1.endDraw();    
 }
-
-
-
-
-
 
 
 
 void gameUpdate()
 {
   sensorPing();
-  updateTitle();
-  updateTimer();
-  updateImages();
-  updatePointer();
+  drawGraph();
+  updatePhone();
+  
 }
 
+void updatePhone()
+{
+  imageMode(CENTER);
+  image(gPhone, 1700, 525,400,600);
+  image(light, 1700, 525, pulseDimX, pulseDimY);
+  
+  if(pulseX.isEnded())
+  {
+    pulseX.reverse();
+    pulseX.start();
+  }
+    if(pulseY.isEnded())
+  {
+    pulseY.reverse();
+    pulseY.start();
+  }
+}
 
 void sensorPing()
 {
-  //Sends LF to get a sensor udpate
-  long currentMillis = millis();
-  if (currentMillis - senUpdate >= interval)
+  if (senUpdate.time() > ping && plotX != 1000) 
   {
-    //send ' to get sensor update
-    senUpdate = currentMillis;
-    ardPort.write(39);
+    //ardPort.write(39);
+    float smoothingFactor = 0.01; 
+    senLevels = random(500.00);
+    smoothedSenLevels = lerp(previousSenLevels, senLevels, smoothingFactor); 
+    println("Smoothed value: " + smoothedSenLevels);
+    float mapped = map(smoothedSenLevels,0,400,0,400);
+    plot1.addPoint(plotX,mapped);
+    senUpdate.restart();
+    plotX = plotX +1;
+    
+     previousSenLevels = smoothedSenLevels;
+    //store each sensor reading to array to be average
+    senStorage[arrayAdvance] = smoothedSenLevels;
+    arrayAdvance++;    
   }
+  
+  if(plotX == 1000){calcResults = true; showResults = true;}
+
 }
 
 
 void updateTitle()
 {
-  textAlign(CENTER);
-  textSize(70.5);
+  textAlign(CENTER, CENTER);
+  textSize(100);
   fill(#275daa);
   text(spanish, titleX, titleY);
-  fill(#004d43);
-  text(english, titleX, titleY+70.5);
-}
-
-void updateTimer()
-{
-  counter = (gameTime/1000) - round(gameTimer.time()/1000);
-  imageMode(CENTER);
-  image(actTimer, 1643, 172, 251/2, 294/2);
-  textSize(40);
   fill(#000000);
-  text(counter, 1642, 195);
+  String senString = str(senLevels);
+  text(senString, titleX + titlePadding + textWidth(senString), titleY);
+  textSize(30);
+  text(200, 1400, 655);
+  text(400, 1400, 300);
 }
 
-void updateImages() {
-
-  //Update gauge highlight and phone Highlight
-  if (senLevels > 35)
-  {
-    imageMode(CENTER);
-    image(gGauge, 650, 500, 880, 480);
-    image(gPhone, 1640, 550, 739/2, 1153/2);
-  } else if (senLevels >= -35 && senLevels <= 35)
-  {
-    imageMode(CENTER);
-    image(yGauge, 650, 500, 880, 480);
-    image(yPhone, 1640, 550, 739/2, 1153/2);
-  } else if (senLevels < -35)
-  {
-    imageMode(CENTER);
-    image(rGauge, 650, 500, 880, 480);
-    image(rPhone, 1640, 550, 739/2, 1153/2);
-  }
-
-  //update the fullness of the battery
-  if (senLevels > 45)
-  {
-    imageMode(CENTER);
-    tint(255, 255);
-    image(gBatt, 1645, 440, 92, 35);
-    image(gBatt, 1645, 480, 92, 35);
-    image(yBatt, 1645, 520, 92, 35);
-    image(yBatt, 1645, 560, 92, 35);
-    image(rBatt, 1645, 600, 92, 35);
-    image(rBatt, 1645, 640, 92, 35);
-  } else if (senLevels >= 35 && senLevels <= 45)
-  {
-    imageMode(CENTER);
-    tint(255, 128);
-    image(gBatt, 1645, 440, 92, 35);
-    tint(255, 255);
-    image(gBatt, 1645, 480, 92, 35);
-    image(yBatt, 1645, 520, 92, 35);
-    image(yBatt, 1645, 560, 92, 35);
-    image(rBatt, 1645, 600, 92, 35);
-    image(rBatt, 1645, 640, 92, 35);
-  } else if (senLevels > 0 && senLevels <= 35)
-  {
-    imageMode(CENTER);
-    tint(255, 128);
-    image(gBatt, 1645, 440, 92, 35);
-    image(gBatt, 1645, 480, 92, 35);
-    tint(255, 255);
-    image(yBatt, 1645, 520, 92, 35);
-    image(yBatt, 1645, 560, 92, 35);
-    image(rBatt, 1645, 600, 92, 35);
-    image(rBatt, 1645, 640, 92, 35);
-  } else if (senLevels >= -35 && senLevels <= 0)
-  {
-    imageMode(CENTER);
-    tint(255, 128);
-    image(gBatt, 1645, 440, 92, 35);
-    image(gBatt, 1645, 480, 92, 35);
-    image(yBatt, 1645, 520, 92, 35);
-    tint(255, 255);
-    image(yBatt, 1645, 560, 92, 35);
-    image(rBatt, 1645, 600, 92, 35);
-    image(rBatt, 1645, 640, 92, 35);
-  } else if (senLevels >= -80 && senLevels <= -35)
-  {
-    imageMode(CENTER);
-    tint(255, 128);
-    image(gBatt, 1645, 440, 92, 35);
-    image(gBatt, 1645, 480, 92, 35);
-    image(yBatt, 1645, 520, 92, 35);
-    image(yBatt, 1645, 560, 92, 35);
-    tint(255, 255);
-    image(rBatt, 1645, 600, 92, 35);
-    image(rBatt, 1645, 640, 92, 35);
-  } else if (senLevels < -80)
-  {
-    imageMode(CENTER);
-    tint(255, 128);
-    image(gBatt, 1645, 440, 92, 35);
-    image(gBatt, 1645, 480, 92, 35);
-    image(yBatt, 1645, 520, 92, 35);
-    image(yBatt, 1645, 560, 92, 35);
-    image(rBatt, 1645, 600, 92, 35);
-    tint(255, 255);
-    image(rBatt, 1645, 640, 92, 35);
-  }
-}
-
-void updatePointer()
+void mouseReleased()
 {
-  //translate senLevels between -90 and 90 degrees.
-  //Set to center and offset from 0,0
-  translate(673, 673);
-  //push & pop to only translate the pointer
-  pushMatrix();
-  rotate(radians(senLevels));
-  imageMode(CENTER);
-  image(dial, 0, pointOffset*-1, pointWidth, pointHeight);
-  popMatrix();
-}
-
-
-
-void gameCountIn()
-{
-
-  if (countTimer.time()<1) {
-    countTimer.start();
-  }
-
-  counter =  5 - round(countTimer.time()/1000);
-
-  imageMode(CENTER);
-  image(splash, width/2, height/2, 924, 545);
-  image(countDownTimer, 1267, height/2, 251/2, 294/2);
-  fill(#000000);
-  textAlign(CENTER);
-
-  if (counter >=0)
-  {
-    text(counter, 1266, 568);
-  }
-
-  textSize(50);
-  textAlign(RIGHT);
-  fill(#275daa);
-  text("La prueba comienza en", 1127, height/2);
-  fill(#004d43);
-  text("Testing starts in ", 1120, height/2+50);
-
-  //playing countdown timer
-  switch (counter)
-  {
-  case 0:
-    if (countdown.isPlaying() == false)
-    {
-      countdownStart.play();
-    }
-  case 1:
-    if (countdown.isPlaying() == false)
-    {
-      countdown.play();
-      
-    }
-  case 2:
-    if (countdown.isPlaying() == false)
-    {
-      countdown.play();
-    }
-  case 3:
-    if (countdown.isPlaying() == false)
-    {
-      countdown.play();
-    }
-  case 4:
-    if (countdown.isPlaying() == false)
-    {
-      countdown.play();
-    }
-  case 5:
-    if (countdown.isPlaying() == false)
-    {
-      countdown.play();
-    }
-  }
-
-  //counter over start game.
-  if (counter < 0)
-  {
-    println("Game Countdown over...");
-    countTimer.reset();
-    gameTimer.start();
-    countIn = false;
-    //allow stop button to be pressed
-    ardPort.write(41);
-    gameUpdate();
-  }
+ println("Mouse X:" + mouseX + " Mouse Y:" + mouseY); 
 }
 
 void results()
 {
-  if (countTimer.time()<1)
+  if(calcResults)
   {
-    //tell arduino we are in results
-    ardPort.write(38);
-    playWin();
-    countTimer.start();
-
+    for(int i = 0; i<1000; i++)
+    {
+      sum += senStorage[i];
+    }
+    sum = sum/senStorage.length;
+    calcResults = false;
   }
 
-  //show the background tinted
-  tint(255, 128);
   imageMode(CENTER);
-  image(yGauge, 650, 500, 880, 480);
-  image(yPhone, 1640, 550, 739/2, 1153/2);
-  image(gBatt, 1645, 440, 92, 35);
-  image(gBatt, 1645, 480, 92, 35);
-  image(yBatt, 1645, 520, 92, 35);
-  image(yBatt, 1645, 560, 92, 35);
-  image(rBatt, 1645, 600, 92, 35);
-  image(rBatt, 1645, 640, 92, 35);
+  image(gPhone, 1700, 525,400,600);
+  text(spanishResults, titleXResults, titleYResults);
+  println(sum);
+  
+//  if (countTimer.time()<1)
+//  {
+//    //tell arduino we are in results
+//    ardPort.write(38);
+//    playWin();
+//    countTimer.start();
 
-  //update min value based on charge section
-  if (senLevels >= 35 ) {
-    chargeMin = 10;
-  }
-  if ( senLevels >=-35 && senLevels < 35 ) {
-    chargeMin = 20;
-  }
-  if ( senLevels <-35) {
-    chargeMin = 40;
-  }
+//  }
 
-  //overlay results on top
-  counter =  6 - round(countTimer.time()/1000);
-  tint(255, 255);
-  imageMode(CENTER);
-  image(splash, width/2, height/2, 1224, 560);
-  image(results, 490, (height/2)-50, 450/2, 700/2);
-  textSize(72);
-  textAlign(RIGHT);
-  fill(#275daa);
-  text("RESULTADOS", 1525, 400);
-  textSize(52);
-  text("Tu teléfono se cargaría en", 1525, 452);
-  text(chargeMin, 1318, 504);
-  text("minutos", 1525, 504);
-  fill(#004d43);
-  textSize(72);
-  text("RESULTS ", 1525, 625);
-  textSize(52);
-  text("Your phone would charge in", 1525, 677);
-  text(chargeMin, 1318, 729);
-  text("minutes", 1525, 729);
-
-  println("counter in results: " + counter);
-  if (counter <= 0)
-  {
-    println("Results timer over..");
-    countTimer.reset();    
-    println("sent results over");
-    ardPort.write(40);
-    flagReset();
-  }
+//  println("counter in results: " + counter);
+//  if (counter <= 0)
+//  {
+//    println("Results timer over..");
+//    countTimer.reset();    
+//    println("sent results over");
+//    ardPort.write(40);
+//    flagReset();
+//  }
 }
 
 
@@ -628,6 +461,7 @@ void serialEvent(Serial port) {
   } else {
     //Convert to string to integer value to parse sensor data
     senLevels = float(inputStr);
+    plot1.addPoint(plotX, senLevels);
     println ("Input Str: " + inputStr);
   }
 }
