@@ -6,6 +6,8 @@ import processing.sound.*;
 import grafica.*;
 import de.looksgood.ani.*;
 import de.looksgood.ani.easing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 //Serial Variables
@@ -68,6 +70,7 @@ int titlePadding = 200;
 
 float smoothedSenLevels = 100;
 boolean calcResults = false;
+
 float sum = 0;
 float previousSenLevels = 0;
 float perCount = 0;
@@ -80,7 +83,7 @@ boolean showResults = false;
 boolean allowStop = false;
 
 //sensor array storage
-float[] senStorage = new float[1000];
+int[] senStorage = new int[1000];
 int arrayAdvance = 0;
 
 /* new plot data*/
@@ -255,28 +258,35 @@ void updatePhone()
 
 void sensorPing()
 {
-  if (senUpdate.time() > ping && plotX != 1000) 
+  if (senUpdate.time() > ping && plotX != 995) 
   {
     //ardPort.write(39);
     float smoothingFactor = 0.03; 
     //Change senLevels to serial input
-    senLevels = random(500.00,500.00);
-    ///////////////////
+    senLevels = random(375.00,375.00);
     smoothedSenLevels = lerp(previousSenLevels, senLevels, smoothingFactor); 
     println("Smoothed value: " + smoothedSenLevels);
     float mapped = map(smoothedSenLevels,0,400,0,400);
     plot1.addPoint(plotX,mapped);
     senUpdate.restart();
-    plotX = plotX +2;
+    plotX += 5;
+    senStorage[int(arrayAdvance)] = int(smoothedSenLevels);
     
+    arrayAdvance++; 
      previousSenLevels = smoothedSenLevels;
     //store each sensor reading to array to be average
-    senStorage[arrayAdvance] = smoothedSenLevels;
-    arrayAdvance++;    
+   
   }
   
-  if(plotX == 1000){calcResults = true; showResults = true;}
-
+  if(plotX == 995){
+  
+    for(int i=0; i <999; i++)
+    {
+      println("array:" + senStorage[i]);
+    }
+    
+  calcResults = true; showResults = true;}
+  
 }
 
 
@@ -301,15 +311,27 @@ void mouseReleased()
 
 void results()
 {
-  if(calcResults)
-  {
-    for(int i = 0; i<1000; i++)
-    {
-      sum += senStorage[i];
+if (calcResults) {
+    // Count the occurrences of each element in senStorage
+    Map<Integer, Integer> occurrences = new HashMap<>();
+    int maxCount = 0;
+    int mode = 0;
+
+    for (int i = 0; i < senStorage.length; i++) {
+        int value = int(senStorage[i]);
+        
+        int count = occurrences.getOrDefault(value, 0) + 1;
+        occurrences.put(value, count);
+
+        if (count > maxCount) {
+            maxCount = count;
+            mode = value;
+        }
     }
-    sum = sum/senStorage.length;
-    calcResults = false;    
-  }
+
+    calcResults = false;
+    println("Mode: " + mode + ", Frequency: " + maxCount);
+}
   
   float percentage = (smoothedSenLevels / 500.0) * 100.0;
   imageMode(CENTER);
