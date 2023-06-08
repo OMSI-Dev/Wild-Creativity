@@ -66,11 +66,11 @@ int titleX = 1920/2-150;
 int titleY = 100;
 int titlePadding = 200;
 
-float smoothedSenLevels = 0;
+float smoothedSenLevels = 100;
 boolean calcResults = false;
 float sum = 0;
 float previousSenLevels = 0;
-
+float perCount = 0;
 //gamestate flags
 boolean gameOn = false;
 boolean stopMovie = false;
@@ -96,6 +96,7 @@ Ani pulseX,pulseY;
 
 float pulseDimX = 100;
 float pulseDimY = 300;
+float rectHeight = 0;
 
 void setup() {
   fullScreen();
@@ -159,7 +160,7 @@ void setup() {
   updateTitle();
 
   //Sets Grid limit to start
-  plot1.setYLim(0.00, 400.000);
+  plot1.setYLim(0.00, 500.000);
   plot1.setXLim(0.00, 1000.000);
   //Sets how much info is show per axis
   plot1.setVerticalAxesNTicks(2);
@@ -174,9 +175,9 @@ void setup() {
 
   //sets color & width for plot line
   plot1.setLineColor(0);
-  plot1.setLineWidth(4.00);
+  plot1.setLineWidth(12.00);
   plot1.setPointColor(0);
-  plot1.setPointSize(4.00);
+  plot1.setPointSize(12.00);
   senUpdate.start();
   
   //Animation
@@ -215,9 +216,9 @@ void drawGraph()
   
   
   
-  if(smoothedSenLevels < 200){plot1.setLineColor(#FF0000);plot1.setPointColor(#FF0000);};
-  if(smoothedSenLevels >=200 || smoothedSenLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);};
-  if(smoothedSenLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);};
+  if(smoothedSenLevels < 200){plot1.setLineColor(#FF0000);plot1.setPointColor(#FF0000);}
+  else if(smoothedSenLevels >=200 && smoothedSenLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);}
+  else if(smoothedSenLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);};
   //plots lines and points from senLevels
   plot1.drawLines();
   plot1.drawPoints();  
@@ -257,14 +258,16 @@ void sensorPing()
   if (senUpdate.time() > ping && plotX != 1000) 
   {
     //ardPort.write(39);
-    float smoothingFactor = 0.01; 
-    senLevels = random(500.00);
+    float smoothingFactor = 0.03; 
+    //Change senLevels to serial input
+    senLevels = random(500.00,500.00);
+    ///////////////////
     smoothedSenLevels = lerp(previousSenLevels, senLevels, smoothingFactor); 
     println("Smoothed value: " + smoothedSenLevels);
     float mapped = map(smoothedSenLevels,0,400,0,400);
     plot1.addPoint(plotX,mapped);
     senUpdate.restart();
-    plotX = plotX +1;
+    plotX = plotX +2;
     
      previousSenLevels = smoothedSenLevels;
     //store each sensor reading to array to be average
@@ -284,7 +287,7 @@ void updateTitle()
   fill(#275daa);
   text(spanish, titleX, titleY);
   fill(#000000);
-  String senString = str(senLevels);
+  String senString = str(smoothedSenLevels);
   text(senString, titleX + titlePadding + textWidth(senString), titleY);
   textSize(30);
   text(200, 1400, 655);
@@ -305,13 +308,39 @@ void results()
       sum += senStorage[i];
     }
     sum = sum/senStorage.length;
-    calcResults = false;
+    calcResults = false;    
   }
-
+  
+  float percentage = (smoothedSenLevels / 500.0) * 100.0;
   imageMode(CENTER);
   image(gPhone, 1700, 525,400,600);
+  textSize(50);
+  textAlign(LEFT);
   text(spanishResults, titleXResults, titleYResults);
-  println(sum);
+  text(englishResults, titleXResults, titleYResults+50);
+  textSize(150);
+  textAlign(CENTER);
+ 
+  if(perCount < 33){fill(#FF0000);}
+  else if(perCount >=33 && perCount <=65){fill(#FF9900);}
+  else if(perCount > 65){fill(#6aa84f);};
+  
+  if(perCount < percentage)
+  {
+    text(str(round(perCount))+"%",790, 900);
+    perCount++;
+  }else{text(str(round(perCount))+"%",790, 900);}
+  
+  int corner1X = 1650;
+  int corner1Y = 645;
+  float rectHeight = map(perCount,0, 100,corner1Y,385);
+
+  
+  //corner2X,corner2Y,corner3X,corner3Y,
+   rectMode(CORNERS);
+   rect(corner1X,corner1Y,1760,rectHeight,20);
+   fill(0);
+
   
 //  if (countTimer.time()<1)
 //  {
