@@ -19,6 +19,8 @@ Updates:
 Base code: 7/6/22
 Added comments & notes waiting to calibrate
 
+
+
 7/14/22 - Added Notes
 8/25/22 - changed tone generation Hz (this might be removed in RC)
 8/29/22: Moved all pin def to its own header
@@ -33,6 +35,7 @@ Added comments & notes waiting to calibrate
 #include <EEPROM.h>
 #include <bounce2.h>
 #include <MoToTimer.h>
+#include <FastLED.h>
 
 #include <pin_define.h>
 #include <sensor_update.h>
@@ -109,6 +112,14 @@ void setup()
   Serial.begin(9600);
   while (!Serial) 
     {delay(10);} 
+
+    // creates LIGHT array and lighttimer set to update every 100 millis
+    FastLED.addLeds<NEOPIXEL,RGB_pin>(tubelight,20);
+    /*fill_solid(tubelight,20,CRGB::Red);
+    FastLED.show();
+    Serial.println("Lights");
+    delay(5000);*/
+    LED_timer.setTime(10);
 }
 
 void loop() 

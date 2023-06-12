@@ -15,13 +15,16 @@ bool Serial_Update(bool gameStatus)
   { 
     //Read the calibrated value saved to EEPROM
     double sensorValCalibrated = (EEPROM.read(0) * 100 + EEPROM.read(1) * 10 + EEPROM.read(2));
+    //double sensorValCalibrated = rand()%300+1;
+
     #ifdef debug
     Serial.print("sensorValCal: ");
     Serial.println(sensorValCalibrated);
     #endif
     //this is a dummy number used in debugging and calibration
     //double sensorValCalibrated = 196;
-    sensorUpdate(sensorValCalibrated);         
+    sensorUpdate(sensorValCalibrated);
+    lightupdate(ByteSend);         
     Serial.print(ByteSend);
     Serial.write(10); //sends LF to close buffer      
     gameStatus = true;      

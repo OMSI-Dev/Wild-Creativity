@@ -1,4 +1,4 @@
-#include <pin_define.h>
+//#include <pin_define.h>
 #include <Mapf.h>
 //#define debug
 
@@ -16,6 +16,15 @@ double CalTotal = 0;                  // the running total
 
 double sensorVal;
 
+
+int brightness = 60;   
+byte hue = 0;          
+int led_pointer=0; 
+
+
+
+MoToTimer LED_timer;
+
 //used to constrain & Calibrate
 bool SenCalibrate = false;
 double sensorValHigh =  400; //init value set to low it will cause spikes. Set to high and game never calibrates
@@ -30,6 +39,45 @@ double modifiedMap(double x, double in_min, double in_max, double out_min, doubl
 
      temp = (int) (4*temp + .5);
      return (double) temp/4;
+}
+
+// this is the function to control the ARGB strips and output the correct color 
+void lightupdate(double sensorVal)
+{
+
+          if (!LED_timer.running()&& led_pointer<=numofLEDS)
+          {
+               Serial.print(" this is the led_pointer");
+               Serial.println( led_pointer);
+               if( sensorVal>=0 && sensorVal<=100)
+               {
+                    tubelight[led_pointer]= CRGB:: Red; 
+                    FastLED.show();
+                    fadeToBlackBy(tubelight,numofLEDS,60);
+
+               }
+               if(sensorVal>100 && sensorVal<200)
+               {
+                    tubelight[led_pointer]= CRGB:: Yellow;
+                    FastLED.show();
+                    fadeToBlackBy(tubelight,numofLEDS,90);
+                    
+               }
+               if(sensorVal>=200)
+               {
+                    tubelight[led_pointer]= CRGB:: Green;
+                    FastLED.show();
+                    fadeToBlackBy(tubelight,numofLEDS,120);
+                    
+               }
+               LED_timer.restart();
+               led_pointer++;
+               fadeToBlackBy(tubelight,numofLEDS,70);
+          }
+          if (led_pointer>numofLEDS)
+          {
+               led_pointer= 0;
+          }
 }
 
 double sensorUpdate(double sensorValLow)
