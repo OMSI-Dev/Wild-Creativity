@@ -13,7 +13,7 @@ import java.util.Map;
 //Serial Variables
 Serial ardPort;
 int inByte = -1;
-float senLevels = 175;
+float senLevels = 0;
 
 String inputStr;
 
@@ -24,9 +24,9 @@ Stopwatch countTimer;
 Stopwatch senUpdate;
 
 //
-int gameTime = 15000;
+int gameTime = 8000;
 int counter = 0; //for stop watch image
-int ping = 20;
+int ping = 5;
 
 //images
 PImage gPhone, actTimer, countDownTimer, splash, results,light;
@@ -68,7 +68,7 @@ int titleX = 1920/2-150;
 int titleY = 100;
 int titlePadding = 200;
 
-float smoothedSenLevels = 100;
+float smoothedSenLevels = 0;
 boolean calcResults = false;
 
 float sum = 0;
@@ -123,7 +123,7 @@ void setup() {
   results = requestImage("/images/results.png");
 
   //movie assignment
-  //attractor = new Movie(this, "/images/attractor.mp4");
+  attractor = new Movie(this, "/images/attractor.mp4");
 
   // List all the available serial ports:
   printArray(Serial.list());
@@ -131,20 +131,20 @@ void setup() {
   // Serial.list()[1] will pick up the next used COM port
   
   
-  //if (Serial.list().length > 1) {
-  //  try
-  //  {
-  //  String portName = Serial.list()[1];
-  //  ardPort = new Serial(this, portName, 115200);
-  //  }catch(Exception e){
-  //  String portName = Serial.list()[2];
-  //  ardPort = new Serial(this, portName, 115200);
-  //  }
-  //} else {
-  //  String portName = Serial.list()[0];
-  //  ardPort = new Serial(this, portName, 115200);
-  //}
-  //ardPort.bufferUntil(lf);
+  if (Serial.list().length > 1) {
+    try
+    {
+    String portName = Serial.list()[1];
+    ardPort = new Serial(this, portName, 115200);
+    }catch(Exception e){
+    String portName = Serial.list()[2];
+    ardPort = new Serial(this, portName, 115200);
+    }
+  } else {
+    String portName = Serial.list()[0];
+    ardPort = new Serial(this, portName, 115200);
+  }
+  ardPort.bufferUntil(10);
 
   //Timer setup
   gameTimer = new Stopwatch(this);
@@ -186,8 +186,8 @@ void setup() {
   //Animation
 Ani.init(this);
 
-pulseX = new Ani(this,1,"pulseDimX",75);
-pulseY = new Ani(this,1,"pulseDimY",200);
+pulseX = new Ani(this,.25,"pulseDimX",75);
+pulseY = new Ani(this,.25,"pulseDimY",200);
 pulseX.start();
 pulseY.start();
 }
@@ -195,12 +195,15 @@ pulseY.start();
 void draw() {
   background(255);
   noFill();
-  if(!showResults){
-  drawGraph();
-  sensorPing();
-  updatePhone();
-  }else{results();};
-
+  
+  if(gameOn)
+  {
+    if(!showResults){
+    drawGraph();
+    sensorPing();
+    updatePhone();
+    }else{results();};
+  }else{playMovie();}
 }
 
 
@@ -219,9 +222,9 @@ void drawGraph()
   
   
   
-  if(smoothedSenLevels < 200){plot1.setLineColor(#FF0000);plot1.setPointColor(#FF0000);}
-  else if(smoothedSenLevels >=200 && smoothedSenLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);}
-  else if(smoothedSenLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);};
+  if(senLevels < 200){plot1.setLineColor(#FF0000);plot1.setPointColor(#FF0000);}
+  else if(senLevels >=200 && senLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);}
+  else if(senLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);};
   //plots lines and points from senLevels
   plot1.drawLines();
   plot1.drawPoints();  
@@ -258,32 +261,29 @@ void updatePhone()
 
 void sensorPing()
 {
-  if (senUpdate.time() > ping && plotX != 995) 
+  if (senUpdate.time() > ping && plotX != 999) 
   {
-    //ardPort.write(39);
-    float smoothingFactor = 0.03; 
+    ardPort.write(39);
+    float smoothingFactor = 0.55; 
     //Change senLevels to serial input
-    senLevels = random(375.00,375.00);
     smoothedSenLevels = lerp(previousSenLevels, senLevels, smoothingFactor); 
-    println("Smoothed value: " + smoothedSenLevels);
-    float mapped = map(smoothedSenLevels,0,400,0,400);
-    plot1.addPoint(plotX,mapped);
+    
+   // println("Smoothed value: " + smoothedSenLevels);
+    
+    plot1.addPoint(plotX,smoothedSenLevels);
     senUpdate.restart();
-    plotX += 5;
-    senStorage[int(arrayAdvance)] = int(smoothedSenLevels);
+    plotX += 3;
+    println("plotX: " + plotX);
+    senStorage[int(arrayAdvance)] = int(senLevels);
     
     arrayAdvance++; 
-     previousSenLevels = smoothedSenLevels;
+    
+    previousSenLevels = smoothedSenLevels;
     //store each sensor reading to array to be average
    
   }
   
-  if(plotX == 995){
-  
-    for(int i=0; i <999; i++)
-    {
-      println("array:" + senStorage[i]);
-    }
+  if(plotX == 999){
     
   calcResults = true; showResults = true;}
   
@@ -297,7 +297,7 @@ void updateTitle()
   fill(#275daa);
   text(spanish, titleX, titleY);
   fill(#000000);
-  String senString = str(smoothedSenLevels);
+  String senString = str(senLevels);
   text(senString, titleX + titlePadding + textWidth(senString), titleY);
   textSize(30);
   text(200, 1400, 655);
@@ -309,16 +309,48 @@ void mouseReleased()
  println("Mouse X:" + mouseX + " Mouse Y:" + mouseY); 
 }
 
+
+
+int[] removeZeros(int[] arr) {
+  int count = 0;
+  
+  // Count the number of non-zero elements
+  for (int i = 0; i < arr.length; i++) {
+    if (arr[i] != 0) {
+      count++;
+    }
+  }
+  
+  // Create a new array with non-zero elements
+  int[] filteredArray = new int[count];
+  int index = 0;
+  
+  for (int i = 0; i < arr.length; i++) {
+    if (arr[i] != 0) {
+      filteredArray[index] = arr[i];
+      index++;
+    }
+  }
+  printArray(filteredArray);
+  return filteredArray;
+}
+
 void results()
 {
+
+ 
+  
 if (calcResults) {
+    gameTimer.restart();
+    int[] filteredArray = removeZeros(senStorage);
+    
     // Count the occurrences of each element in senStorage
     Map<Integer, Integer> occurrences = new HashMap<>();
     int maxCount = 0;
     int mode = 0;
 
-    for (int i = 0; i < senStorage.length; i++) {
-        int value = int(senStorage[i]);
+    for (int i = 0; i < filteredArray.length; i++) {
+        int value = int(filteredArray[i]);
         
         int count = occurrences.getOrDefault(value, 0) + 1;
         occurrences.put(value, count);
@@ -331,9 +363,11 @@ if (calcResults) {
 
     calcResults = false;
     println("Mode: " + mode + ", Frequency: " + maxCount);
+    //send that game is over and in results
+    ardPort.write(38);
 }
   
-  float percentage = (smoothedSenLevels / 500.0) * 100.0;
+  float percentage = (senLevels / 500.0) * 100.0;
   imageMode(CENTER);
   image(gPhone, 1700, 525,400,600);
   textSize(50);
@@ -364,14 +398,12 @@ if (calcResults) {
    fill(0);
 
   
-//  if (countTimer.time()<1)
-//  {
-//    //tell arduino we are in results
-//    ardPort.write(38);
-//    playWin();
-//    countTimer.start();
-
-//  }
+  if (gameTimer.time()>gameTime)
+  {
+    //tell arduino we are in results
+    ardPort.write(40);
+  flagReset();
+  }
 
 //  println("counter in results: " + counter);
 //  if (counter <= 0)
@@ -382,15 +414,6 @@ if (calcResults) {
 //    ardPort.write(40);
 //    flagReset();
 //  }
-}
-
-
-void timerTick() {
-  //send game over signal
-  //ardPort.write(36);
-  //println("sent byte 36");
-  //reset the game timer
-  gameTimer.reset();
 }
 
 void flagReset()
@@ -408,7 +431,7 @@ void flagReset()
 
 void stopReset()
 {
-  timerTick();
+
   showResults = true;
 }
 
@@ -481,7 +504,7 @@ void serialEvent(Serial port) {
 
   //looks for incomming Sensor Data
   inputStr = trim(port.readString());
-
+  println ("Input Str: " + inputStr);
   //! (33) = Signals arduino knows game is over
   //# (35) = Start game has been pressed
   //$ (36) = Game over signal
@@ -513,6 +536,6 @@ void serialEvent(Serial port) {
     //Convert to string to integer value to parse sensor data
     senLevels = float(inputStr);
     plot1.addPoint(plotX, senLevels);
-    println ("Input Str: " + inputStr);
+    
   }
 }

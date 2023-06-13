@@ -132,7 +132,6 @@ void gameOver()
 
 void loop() 
 {
-
  startBtn.update();
  stopBtn.update(); 
  

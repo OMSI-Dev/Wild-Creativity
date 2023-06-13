@@ -8,9 +8,8 @@ bool Serial_Update(bool gameStatus)
 {
     // send it to the computer as ASCII digits
     //bytes to talk with computer
-    int ByteRecv, ByteSend = 0;    
-
-    ByteSend = sensorVal;    
+    int ByteRecv = 0;    
+    float ByteSend = 0.0;
     //get start byte
     ByteRecv = Serial.read();
 
@@ -29,7 +28,8 @@ bool Serial_Update(bool gameStatus)
 
     if(ByteRecv == 39)
     {  
-      sensorUpdate();        
+      ByteSend = sensorUpdate(ByteSend);  
+
       Serial.print(ByteSend);
       Serial.write(10); //sends LF to close buffer     
       return  gameStatus;
