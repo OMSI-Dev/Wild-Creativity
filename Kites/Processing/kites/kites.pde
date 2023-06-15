@@ -199,10 +199,14 @@ void draw() {
   if(gameOn)
   {
     if(!showResults){
-    drawGraph();
-    sensorPing();
-    updatePhone();
+      if(!countIn){
+        drawGraph();
+        sensorPing();
+        updatePhone();
+      }else{countDown();}
+      
     }else{results();};
+    
   }else{playMovie();}
 }
 
@@ -537,5 +541,34 @@ void serialEvent(Serial port) {
     senLevels = float(inputStr);
     plot1.addPoint(plotX, senLevels);
     
+  }
+}
+
+
+void countDown(){
+  println("Count in timer: " + countTimer.time());
+  
+  if (countTimer.time()<1) {
+    countTimer.start();
+  }
+
+  counter =  3 - round(countTimer.time()/1000);
+
+  println("Count: " + counter);
+  fill(#000000);
+  textAlign(CENTER,CENTER);
+
+  if (counter >=0)
+  {
+    textSize(500);
+    text(str(counter), width/2, height/2);
+  }
+  if(counter == 0)
+  {
+    countIn = false;
+    gameOn = true;
+    countTimer.restart();
+    countTimer.pause();
+     
   }
 }
