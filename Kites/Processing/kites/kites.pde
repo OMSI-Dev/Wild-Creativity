@@ -37,6 +37,8 @@ float pointHeight = 719/2;
 //offset the center point to move to the center of the circle
 float pointOffset = ((pointHeight/2)-22);
 
+float previousSenLevels1 = senLevels;
+String displayedSenLevels = "";
 
 //movie
 Movie attractor;
@@ -84,6 +86,9 @@ boolean allowStop = false;
 
 //sensor array storage
 int[] senStorage = new int[1000];
+// Create an ArrayList to store integers
+ArrayList<Integer> variableSizeArray = new ArrayList<>();
+
 int arrayAdvance = 0;
 
 /* new plot data*/
@@ -100,6 +105,9 @@ Ani pulseX,pulseY;
 float pulseDimX = 100;
 float pulseDimY = 300;
 float rectHeight = 0;
+
+
+
 
 void setup() {
   fullScreen();
@@ -293,16 +301,21 @@ void sensorPing()
   
 }
 
-
-void updateTitle()
-{
+void updateTitle() {
   textAlign(CENTER, CENTER);
   textSize(100);
   fill(#275daa);
   text(spanish, titleX, titleY);
+  textAlign(LEFT, CENTER);
+  // Check if senLevels has changed by 2
+  if (abs(senLevels - previousSenLevels1) >= 2) {
+    previousSenLevels1 = senLevels;
+    displayedSenLevels = trim(str(round(senLevels)));
+  }
+  
   fill(#000000);
-  String senString = str(senLevels);
-  text(senString, titleX + titlePadding + textWidth(senString), titleY);
+  text(displayedSenLevels, titleX + titlePadding + 150, titleY);
+  
   textSize(30);
   text(200, 1400, 655);
   text(400, 1400, 300);
@@ -339,39 +352,64 @@ int[] removeZeros(int[] arr) {
   return filteredArray;
 }
 
-void results()
+
+void calc()
 {
 
- 
-  
-if (calcResults) {
-    gameTimer.restart();
-    int[] filteredArray = removeZeros(senStorage);
-    
-    // Count the occurrences of each element in senStorage
-    Map<Integer, Integer> occurrences = new HashMap<>();
-    int maxCount = 0;
-    int mode = 0;
-
-    for (int i = 0; i < filteredArray.length; i++) {
-        int value = int(filteredArray[i]);
+      if (calcResults) 
+    {
+        gameTimer.restart();
         
-        int count = occurrences.getOrDefault(value, 0) + 1;
-        occurrences.put(value, count);
-
-        if (count > maxCount) {
-            maxCount = count;
-            mode = value;
+        //remove any zeros from the array        
+        int[] filteredArray = removeZeros(senStorage);
+        
+        //store filteredArray to array list to use for percentage later
+        for (int i = 0; i < filteredArray.length; i++) {
+        variableSizeArray.add(filteredArray[i]);
         }
-    }
-
-    calcResults = false;
-    println("Mode: " + mode + ", Frequency: " + maxCount);
-    //send that game is over and in results
-    ardPort.write(38);
+        
+        //find Mode
+        // Count the occurrences of each element in senStorage
+        Map<Integer, Integer> occurrences = new HashMap<>();
+        int maxCount = 0;
+        int mode = 0;
+    
+        for (int i = 0; i < filteredArray.length; i++) {
+            int value = int(filteredArray[i]);
+            
+            int count = occurrences.getOrDefault(value, 0) + 1;
+            occurrences.put(value, count);
+    
+            if (count > maxCount) {
+                maxCount = count;
+                mode = value;
+            }
+        }    
+        calcResults = false;
+        println("Mode: " + mode + ", Frequency: " + maxCount);
+        //send that game is over and in results
+        ardPort.write(38);
+        
+        int avg = 0;
+        
+      //find average       
+      for (int i = 0; i < filteredArray.length; i++) 
+      {
+        avg += int(filteredArray[i]);        
+      }
+      avg = avg/filteredArray.length;
+      println("avg: " + avg);
+     }
 }
+
+void results()
+{  
+  //calculate results to be displayed
+  calc();
   
-  float percentage = (senLevels / 500.0) * 100.0;
+  //update graphics whith proper graphic and score.
+  float percentage = (senLevels / 500) * 100.0;
+  
   imageMode(CENTER);
   image(gPhone, 1700, 525,400,600);
   textSize(50);
@@ -381,6 +419,7 @@ if (calcResults) {
   textSize(150);
   textAlign(CENTER);
  
+  //adjust colors
   if(perCount < 33){fill(#FF0000);}
   else if(perCount >=33 && perCount <=65){fill(#FF9900);}
   else if(perCount > 65){fill(#6aa84f);};
@@ -401,23 +440,14 @@ if (calcResults) {
    rect(corner1X,corner1Y,1760,rectHeight,20);
    fill(0);
 
-  
+   //leave results
   if (gameTimer.time()>gameTime)
   {
     //tell arduino we are in results
     ardPort.write(40);
-  flagReset();
+    flagReset();
   }
 
-//  println("counter in results: " + counter);
-//  if (counter <= 0)
-//  {
-//    println("Results timer over..");
-//    countTimer.reset();    
-//    println("sent results over");
-//    ardPort.write(40);
-//    flagReset();
-//  }
 }
 
 void flagReset()
@@ -431,13 +461,23 @@ void flagReset()
   println("Reset gameOn");
   //end the game loop
   gameOn = false;
+  
+  //clear tracking variables
+  arrayAdvance = 0;
+  previousSenLevels = 1; 
+  smoothedSenLevels= 1;
+  plotX = 0;
+  perCount = 0;
+  
+  //clear graph
+  plot1.setPoints(new GPointsArray());
+  //reset game array:
+  for(int i=0;i<senStorage.length;i++)
+  {
+   senStorage[i] = 0;
+  }
 }
 
-void stopReset()
-{
-
-  showResults = true;
-}
 
 void playWin()
 {
@@ -516,7 +556,7 @@ void serialEvent(Serial port) {
   //& (38) = Entered Results
   //' (39) = ask arduino to send sensor update
   //( (40) = Left Results
-  //) (41) = Starting countdown
+  //) (41) = allow stop button
   //Z (90) = calibration over & release zero
 
   if (inputStr.equals("#") == true)
@@ -532,7 +572,8 @@ void serialEvent(Serial port) {
     playOnce = true;
   } else if (inputStr.equals("%") == true) {
     //Stop button pressed; end game early
-    stopReset();
+    flagReset();
+    ardPort.write(40);
   } else if (inputStr.equals("!") == true) {
     //Arduino left game state
     // we should use this to sync processing & arduino
@@ -569,6 +610,7 @@ void countDown(){
     gameOn = true;
     countTimer.restart();
     countTimer.pause();
+    ardPort.write(41);
      
   }
 }

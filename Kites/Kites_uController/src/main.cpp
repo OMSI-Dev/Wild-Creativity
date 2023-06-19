@@ -109,7 +109,7 @@ void inGame()
   gameOn = Serial_Update(gameOn);
   //check to see if signal to allow stop button has been sent
 
-  if(stopBtn.pressed() == true && allowStop == true)
+  if(stopBtn.pressed() && allowStop == true)
   { 
     //Send game over signal
     Serial.print("%");
@@ -128,6 +128,7 @@ void gameOver()
   stopPulse.setRate(15);
   stopPulse.update(0);  
   allowStop = false;  
+  fanOn(false);
 }
 
 void loop() 
