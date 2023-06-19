@@ -25,30 +25,9 @@ bugBtn.attach(bugPin, INPUT_PULLUP);
 bugBtn.interval(5);
 bugBtn.setPressedState(LOW);
 
-pinMode(nutLight, OUTPUT);
-pinMode(flowerLight, OUTPUT);
-pinMode(bugLight, OUTPUT);
-
-digitalWrite(nutLight, LOW);
-digitalWrite(flowerLight, LOW);
-digitalWrite(bugLight, LOW);
 
 //starts all timers they will reset themselves when they are first used
 lightTime.setTime(lightDelay);
-
-//attach pulse objects to pins
-bugLightPWM.attach(bugLight);
-flowerLightPWM.attach(flowerLight);
-nutLightPWM.attach(nutLight);
-//set pulse rate
-bugLightPWM.setRate(fadeRate);
-flowerLightPWM.setRate(fadeRate);
-nutLightPWM.setRate(fadeRate);
-
-//set Max value
-bugLightPWM.setMax(150);
-flowerLightPWM.setMax(150);
-nutLightPWM.setMax(200);
 
 //hard delay to give the wavtrigger time to startup
 delay(1000);

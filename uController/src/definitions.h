@@ -2,18 +2,24 @@
 #include <bounce2.h>
 #include <audio/AudioOut.h>
 #include <MoToTimer.h>
-#include <pulse.h>
 
 AudioOut audioOut;
 
 //Pin definintions
-#define nutPin 7
-#define flowerPin 12
-#define bugPin 13
+#define nutPin 4
+#define flowerPin 8
+#define bugPin 6
 
-#define nutLight 9
-#define flowerLight 10
-#define bugLight 11
+#define nutLight 10
+#define flowerLight 7
+#define bugLight 9
+
+#define Treecreeper_Light 3
+#define Hummingbird_Light 2
+#define Finch_Light 5
+
+
+
 
 //audio defines
 #define attractor 1
@@ -61,11 +67,6 @@ int lightDelay = 7000;
 int previouslight = 1;
 bool newNum = 1;
 bool numUpdate =1;
-
-//pulse
-Pulse bugLightPWM;
-Pulse flowerLightPWM;
-Pulse nutLightPWM;
 
 //enable to have serial debug
 #define debug
