@@ -11,10 +11,12 @@ void lightAttract()
         lightNum = random(0,3);        
         }while(lightNum == previouslight);
         previouslight = lightNum;
+        
         #ifdef debug      
         Serial.print("lightNum: ");
         Serial.println(lightNum);
         #endif   
+        
         lightNumUpdate.setTime(lightNumUpdateDelay);
                          
     }
@@ -22,21 +24,15 @@ void lightAttract()
     switch(lightNum) 
     {     
     case 0:
-        bugLightPWM.update(1);
-        nutLightPWM.update(0);
-        flowerLightPWM.update(0);       
+
         break;
 
     case 1:
-        bugLightPWM.update(0);
-        nutLightPWM.update(1);
-        flowerLightPWM.update(0);              
+       
         break;
 
     case 2:
-        bugLightPWM.update(0);
-        nutLightPWM.update(0);
-        flowerLightPWM.update(1);       
+     
         break;
     }
 }
@@ -52,21 +48,15 @@ void lightWin()
     switch(lightNum) 
     {     
     case 0:
-        digitalWrite(nutLight, HIGH);
-        digitalWrite(flowerLight,LOW);
-        digitalWrite(bugLight,LOW);
+
         break;
 
     case 1:
-        digitalWrite(nutLight, LOW);
-        digitalWrite(flowerLight,HIGH);
-        digitalWrite(bugLight,LOW);
+
         break;
 
     case 2:
-        digitalWrite(nutLight, LOW);
-        digitalWrite(flowerLight,LOW);
-        digitalWrite(bugLight,HIGH); 
+
         break;
     }
 
@@ -76,9 +66,7 @@ void resetGame()
 {
          
 //turn all the lights off       
-digitalWrite(nutLight, 0);
-digitalWrite(flowerLight,0);
-digitalWrite(bugLight,0);
+
 
 //reset triggerd values
 nutTriggered = false;
