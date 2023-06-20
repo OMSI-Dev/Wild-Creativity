@@ -14,7 +14,7 @@ import java.util.Map;
 Serial ardPort;
 int inByte = -1;
 float senLevels = 0;
-
+float percentage = 0;
 String inputStr;
 
 //timers
@@ -27,9 +27,9 @@ Stopwatch senUpdate;
 int gameTime = 8000;
 int counter = 0; //for stop watch image
 int ping = 5;
-
+int senReturn = 0;
 //images
-PImage gPhone, actTimer, countDownTimer, splash, results,light;
+PImage phone, splash, results,light,rKite,gKite,yKite,rFace,yFace,gFace;
 
 //set the dial indicator to half size
 float pointWidth = 89/2;
@@ -122,14 +122,18 @@ void setup() {
   green = new SoundFile(this, "/sound/green.mp3");
   countdown = new SoundFile(this, "/sound/countdown.mp3");
   countdownStart = new SoundFile(this, "/sound/countdownStart.mp3");
-  light  = requestImage("/images/light.png"); 
-  //image assignment
-  gPhone = requestImage("/images/gPhone.png");
-  actTimer = requestImage("/images/activeTimer.png");
-  countDownTimer = requestImage("/images/countdownTimer.png");
-  splash = requestImage("/images/splash.png");
-  results = requestImage("/images/results.png");
 
+  //image assignment
+  phone = requestImage("/images/results.png");
+  rKite = requestImage("/images/rKite.png");
+  yKite = requestImage("/images/yKite.png");
+  gKite = requestImage("/images/gKite.png");
+  rFace = requestImage("/images/rFace.png");
+  yFace = requestImage("/images/yFace.png");
+  gFace = requestImage("/images/gFace.png");
+  light = requestImage("/images/light.png");
+  
+  
   //movie assignment
   attractor = new Movie(this, "/images/attractor.mp4");
 
@@ -194,8 +198,8 @@ void setup() {
   //Animation
 Ani.init(this);
 
-pulseX = new Ani(this,.25,"pulseDimX",75);
-pulseY = new Ani(this,.25,"pulseDimY",200);
+pulseX = new Ani(this,.25,"pulseDimX",75,Ani.BOUNCE_OUT);
+pulseY = new Ani(this,.25,"pulseDimY",200,Ani.BOUNCE_OUT);
 pulseX.start();
 pulseY.start();
 }
@@ -233,12 +237,16 @@ void drawGraph()
   plot1.drawLine(new GPoint(0.00,0.00),new GPoint(1000.00,0));
   
   
+  //red
+  if(senLevels < 200){plot1.setLineColor(#FF0000);plot1.setPointColor(#FF0000);plot1.drawPoint(new GPoint(plotX,smoothedSenLevels),rKite);}
+  //yellow
+  else if(senLevels >=200 && senLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);plot1.drawPoint(new GPoint(plotX,smoothedSenLevels),yKite);}
+  //green
+  else if(senLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);plot1.drawPoint(new GPoint(plotX,smoothedSenLevels),gKite);};
   
-  if(senLevels < 200){plot1.setLineColor(#FF0000);plot1.setPointColor(#FF0000);}
-  else if(senLevels >=200 && senLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);}
-  else if(senLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);};
   //plots lines and points from senLevels
   plot1.drawLines();
+  
   plot1.drawPoints();  
   plot1.endDraw();    
 }
@@ -256,8 +264,8 @@ void gameUpdate()
 void updatePhone()
 {
   imageMode(CENTER);
-  image(gPhone, 1700, 525,400,600);
-  image(light, 1700, 525, pulseDimX, pulseDimY);
+  image(phone, 1700, 525,400,600);
+  image(light, 1740, 470, pulseDimX, pulseDimY);
   
   if(pulseX.isEnded())
   {
@@ -283,6 +291,7 @@ void sensorPing()
    // println("Smoothed value: " + smoothedSenLevels);
     
     plot1.addPoint(plotX,smoothedSenLevels);
+
     senUpdate.restart();
     plotX += 3;
     println("plotX: " + plotX);
@@ -353,7 +362,7 @@ int[] removeZeros(int[] arr) {
 }
 
 
-void calc()
+int calc(int avgReturn)
 {
 
       if (calcResults) 
@@ -385,7 +394,7 @@ void calc()
                 mode = value;
             }
         }    
-        calcResults = false;
+        
         println("Mode: " + mode + ", Frequency: " + maxCount);
         //send that game is over and in results
         ardPort.write(38);
@@ -398,20 +407,28 @@ void calc()
         avg += int(filteredArray[i]);        
       }
       avg = avg/filteredArray.length;
-      println("avg: " + avg);
+      
+      avgReturn = avg;   
+      println("avg: " + senReturn);
      }
+       calcResults = false;
+      return avgReturn;
 }
 
 void results()
 {  
   //calculate results to be displayed
-  calc();
-  
-  //update graphics whith proper graphic and score.
-  float percentage = (senLevels / 500) * 100.0;
+    if (calcResults) 
+    {
+      senReturn = calc(senReturn);
+      println("return: " + senReturn);
+      //update graphics whith proper graphic and score.
+     percentage = (senReturn / 500) * 100.0;
+     println("return percentage: " + percentage);
+    }
   
   imageMode(CENTER);
-  image(gPhone, 1700, 525,400,600);
+  image(phone, 1650, 535,400,600);
   textSize(50);
   textAlign(LEFT);
   text(spanishResults, titleXResults, titleYResults);
@@ -424,6 +441,8 @@ void results()
   else if(perCount >=33 && perCount <=65){fill(#FF9900);}
   else if(perCount > 65){fill(#6aa84f);};
   
+
+  
   if(perCount < percentage)
   {
     text(str(round(perCount))+"%",790, 900);
@@ -433,12 +452,37 @@ void results()
   int corner1X = 1650;
   int corner1Y = 645;
   float rectHeight = map(perCount,0, 100,corner1Y,385);
-
   
+ 
   //corner2X,corner2Y,corner3X,corner3Y,
    rectMode(CORNERS);
    rect(corner1X,corner1Y,1760,rectHeight,20);
    fill(0);
+    //println("perCount: " + round(perCount) );
+    //println("percent: " + round(percentage));
+    println("perCount: " + ceil(perCount) );
+    println("percent: " + ceil(percentage));
+    
+    //play sound based on results
+    if (percentage >= 66 && ceil(perCount) == ceil(percentage) )
+    {
+        image(gFace,760,375,rFace.width*2,rFace.height*2);
+          playWin(int(percentage));
+        
+    } else if (percentage >= 33 && percentage < 66 && ceil(perCount) == ceil(percentage))
+    {
+
+        image(yFace,760,375,rFace.width*2,rFace.height*2);
+          playWin(int(percentage));
+          
+    } else if (percentage < 33 && ceil(perCount) == ceil(percentage))
+    {
+
+        image(rFace,760,375,rFace.width*2,rFace.height*2);
+        playWin(int(percentage));
+    }
+
+
 
    //leave results
   if (gameTimer.time()>gameTime)
@@ -479,26 +523,26 @@ void flagReset()
 }
 
 
-void playWin()
+void playWin(int percentage)
 {
   if (showResults == true)
   {
     //play sound based on results
-    if (senLevels >= 35)
+    if (percentage >= 66)
     {
       if (playOnce == true)
       {
         green.play();
         playOnce = false;
       }
-    } else if (senLevels >=-35 && senLevels < 35 )
+    } else if (percentage >= 33 && percentage < 66)
     {
       if (playOnce == true)
       {
         orange.play();
         playOnce = false;
       }
-    } else if (senLevels <-35)
+    } else if (percentage < 33)
     {
       if (playOnce == true)
       {
@@ -507,6 +551,8 @@ void playWin()
       }
     }
   }
+
+  
 }
 
 
@@ -590,11 +636,18 @@ void countDown(){
   println("Count in timer: " + countTimer.time());
   
   if (countTimer.time()<1) {
-    countTimer.start();
+    countTimer.start();    
   }
 
   counter =  3 - round(countTimer.time()/1000);
-
+    
+  if((counter < 1000 || counter < 2000 && counter >1000 || counter >3000) && playOnce){
+  countdown.play();
+  playOnce = false;
+  }
+  
+  if(counter == 0){countdownStart.play();}
+  
   println("Count: " + counter);
   fill(#000000);
   textAlign(CENTER,CENTER);
@@ -608,6 +661,7 @@ void countDown(){
   {
     countIn = false;
     gameOn = true;
+    playOnce = true;
     countTimer.restart();
     countTimer.pause();
     ardPort.write(41);
