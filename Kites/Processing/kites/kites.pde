@@ -56,19 +56,20 @@ boolean playOnce;
 
 
 //Text placements & strings
-String spanish = "Fuerza/Force: ";
-String english = " ";
+String spanish = "Fuerza";
+String english = "/Force: ";
 
 String spanishResults = "Cargos Telefonico";
 String englishResults = "Phone Charge";
 
-
-int titleXResults = 150;
+int circleRad = 300;
+int perOffset = 450;
+int titleXResults = 450;
 int titleYResults = 850;
 
-int titleX = 1920/2-150;
+int titleX = 1920/2-300;
 int titleY = 100;
-int titlePadding = 200;
+float titlePadding = 0;
 
 float smoothedSenLevels = 0;
 boolean calcResults = false;
@@ -106,6 +107,7 @@ float pulseDimX = 100;
 float pulseDimY = 300;
 float rectHeight = 0;
 
+int prevCount = 0;
 
 
 
@@ -167,7 +169,7 @@ void setup() {
   
     //Graph Setup
   plot1 = new GPlot(this);
-  plot1.setPos(150, 300);
+  plot1.setPos(100, 300);
   plot1.setDim(1200, 700);
   plot1.setMar(0, 0, 0, 0);
 
@@ -178,7 +180,7 @@ void setup() {
   plot1.setYLim(0.00, 500.000);
   plot1.setXLim(0.00, 1000.000);
   //Sets how much info is show per axis
-  plot1.setVerticalAxesNTicks(2);
+  plot1.setVerticalAxesNTicks(3);
   plot1.setHorizontalAxesNTicks(0);
 
   //sets colors & weights for plot box
@@ -220,6 +222,8 @@ void draw() {
     }else{results();};
     
   }else{playMovie();}
+//results();
+
 }
 
 
@@ -315,19 +319,23 @@ void updateTitle() {
   textSize(100);
   fill(#275daa);
   text(spanish, titleX, titleY);
+  fill(#000000);
+  text(english, titleX+textWidth(spanish)+20, titleY);
   textAlign(LEFT, CENTER);
   // Check if senLevels has changed by 2
   if (abs(senLevels - previousSenLevels1) >= 2) {
     previousSenLevels1 = senLevels;
     displayedSenLevels = trim(str(round(senLevels)));
   }
+  if(previousSenLevels1 == 0.00){displayedSenLevels = "0";}
   
   fill(#000000);
-  text(displayedSenLevels, titleX + titlePadding + 150, titleY);
+  titlePadding = (titleX+textWidth(spanish) + textWidth(english));
+  text(displayedSenLevels + " N", titlePadding-150, titleY);
   
   textSize(30);
-  text(200, 1400, 655);
-  text(400, 1400, 300);
+  text(200, 1350, 720);
+  text(400, 1350, 440);
 }
 
 void mouseReleased()
@@ -347,6 +355,8 @@ int[] removeZeros(int[] arr) {
     }
   }
   
+  if(count == 0){count = 6;};
+  
   // Create a new array with non-zero elements
   int[] filteredArray = new int[count];
   int index = 0;
@@ -355,7 +365,7 @@ int[] removeZeros(int[] arr) {
     if (arr[i] != 0) {
       filteredArray[index] = arr[i];
       index++;
-    }
+    } 
   }
   printArray(filteredArray);
   return filteredArray;
@@ -373,8 +383,21 @@ int calc(int avgReturn)
         int[] filteredArray = removeZeros(senStorage);
         
         //store filteredArray to array list to use for percentage later
+        //REMOVE
         for (int i = 0; i < filteredArray.length; i++) {
         variableSizeArray.add(filteredArray[i]);
+        }
+        
+        println("Array " + filteredArray.length);
+        
+        if(filteredArray.length <=1)
+        {          
+          for(int i = 0; i<5; i++)
+          {
+            println("Array assigne index : " + i);
+            filteredArray[i] = 1;
+            println("Array after update " + filteredArray.length);
+          }
         }
         
         //find Mode
@@ -396,9 +419,7 @@ int calc(int avgReturn)
         }    
         
         println("Mode: " + mode + ", Frequency: " + maxCount);
-        //send that game is over and in results
-        ardPort.write(38);
-        
+
         int avg = 0;
         
       //find average       
@@ -409,9 +430,12 @@ int calc(int avgReturn)
       avg = avg/filteredArray.length;
       
       avgReturn = avg;   
-      println("avg: " + senReturn);
+      println("avg: " + avgReturn);
      }
        calcResults = false;
+       //send that game is over and in results
+      ardPort.write(38);
+        
       return avgReturn;
 }
 
@@ -423,18 +447,11 @@ void results()
       senReturn = calc(senReturn);
       println("return: " + senReturn);
       //update graphics whith proper graphic and score.
-     percentage = (senReturn / 500) * 100.0;
+     percentage = (float(senReturn) / 500) * 100.0;
      println("return percentage: " + percentage);
     }
   
-  imageMode(CENTER);
-  image(phone, 1650, 535,400,600);
-  textSize(50);
-  textAlign(LEFT);
-  text(spanishResults, titleXResults, titleYResults);
-  text(englishResults, titleXResults, titleYResults+50);
-  textSize(150);
-  textAlign(CENTER);
+
  
   //adjust colors
   if(perCount < 33){fill(#FF0000);}
@@ -445,40 +462,88 @@ void results()
   
   if(perCount < percentage)
   {
-    text(str(round(perCount))+"%",790, 900);
+    pushStyle();
+    textAlign(LEFT);
+    text(str(round(perCount))+"%",(titleXResults+spanishResults.length())+perOffset, 900);
+    popStyle();
     perCount++;
-  }else{text(str(round(perCount))+"%",790, 900);}
+  }else
+{
+  pushStyle();
+  textAlign(LEFT);
+text(str(round(perCount))+"%",(titleXResults+spanishResults.length())+perOffset, 900);
+popStyle();
+}
   
-  int corner1X = 1650;
-  int corner1Y = 645;
-  float rectHeight = map(perCount,0, 100,corner1Y,385);
+  int corner1X = 1630;
+  int corner1Y = 647;
+  float rectHeight = map(perCount,0, 100,corner1Y,330); //385
   
  
   //corner2X,corner2Y,corner3X,corner3Y,
    rectMode(CORNERS);
-   rect(corner1X,corner1Y,1760,rectHeight,20);
+   rect(corner1X,corner1Y,1780,rectHeight,20);
    fill(0);
     //println("perCount: " + round(perCount) );
     //println("percent: " + round(percentage));
-    println("perCount: " + ceil(perCount) );
-    println("percent: " + ceil(percentage));
+    //println("perCount: " + ceil(perCount) );
+    //println("percent: " + ceil(percentage));
+    
+    imageMode(CENTER);
+    image(phone, 1665, 555,400,600);
+    textSize(50);
+    textAlign(LEFT);
+    fill(#275daa);
+    text(spanishResults, titleXResults, titleYResults);
+    fill(#000000);
+    text(englishResults, titleXResults, titleYResults+50);
+    textSize(150);
+    textAlign(CENTER);
+    
     
     //play sound based on results
     if (percentage >= 66 && ceil(perCount) == ceil(percentage) )
     {
-        image(gFace,760,375,rFace.width*2,rFace.height*2);
+                pushStyle();
+        image(gFace,width/2- 50,375,gFace.width+100,gFace.height+100);
+         popStyle();
+        
+        pushStyle();
+        noFill();
+        stroke(#6aa84f);
+        strokeWeight(30);
+        circle(width/2-50,375,gFace.width + 200); 
+        popStyle();
           playWin(int(percentage));
         
     } else if (percentage >= 33 && percentage < 66 && ceil(perCount) == ceil(percentage))
     {
 
-        image(yFace,760,375,rFace.width*2,rFace.height*2);
-          playWin(int(percentage));
+                pushStyle();
+        image(yFace,width/2- 50,375,yFace.width+100,yFace.height+100);
+         popStyle();
+        
+        pushStyle();
+        noFill();
+        stroke(#FF9900);
+        strokeWeight(30);
+        circle(width/2-50,375,rFace.width + 200); 
+        popStyle();
+         playWin(int(percentage));
           
     } else if (percentage < 33 && ceil(perCount) == ceil(percentage))
     {
-
-        image(rFace,760,375,rFace.width*2,rFace.height*2);
+        pushStyle();
+        image(rFace,width/2- 50,375,rFace.width+100,rFace.height+100);
+         popStyle();
+        
+        pushStyle();
+        noFill();
+        stroke(#FF0000);
+        strokeWeight(30);
+        circle(width/2-50,375,rFace.width + 200); 
+        popStyle();
+        
         playWin(int(percentage));
     }
 
@@ -512,7 +577,7 @@ void flagReset()
   smoothedSenLevels= 1;
   plotX = 0;
   perCount = 0;
-  
+  senReturn = 0;
   //clear graph
   plot1.setPoints(new GPointsArray());
   //reset game array:
@@ -640,7 +705,9 @@ void countDown(){
   }
 
   counter =  3 - round(countTimer.time()/1000);
-    
+
+ if(counter != prevCount){prevCount = counter; playOnce = true;};
+     
   if((counter < 1000 || counter < 2000 && counter >1000 || counter >3000) && playOnce){
   countdown.play();
   playOnce = false;
