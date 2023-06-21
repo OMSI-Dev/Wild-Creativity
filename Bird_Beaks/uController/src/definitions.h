@@ -5,11 +5,13 @@
 
 AudioOut audioOut;
 
-//Pin definintions
+//Pin definintions Input
 #define nutPin 4
 #define flowerPin 8
 #define bugPin 6
 
+
+//Neopixel Data Pin
 #define nutLight 10
 #define flowerLight 7
 #define bugLight 9
@@ -17,8 +19,6 @@ AudioOut audioOut;
 #define Treecreeper_Light 3
 #define Hummingbird_Light 2
 #define Finch_Light 5
-
-
 
 
 //audio defines

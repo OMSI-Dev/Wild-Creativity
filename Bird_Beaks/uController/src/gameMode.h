@@ -1,6 +1,5 @@
 #include <definitions.h>
 
-
 void lightAttract()
 {   
 
