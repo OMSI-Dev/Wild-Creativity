@@ -24,7 +24,7 @@ Stopwatch countTimer;
 Stopwatch senUpdate;
 
 //
-int gameTime = 8000;
+int gameTime = 15000;
 int counter = 0; //for stop watch image
 int ping = 5;
 int senReturn = 0;
@@ -467,6 +467,9 @@ void results()
     text(str(round(perCount))+"%",(titleXResults+spanishResults.length())+perOffset, 900);
     popStyle();
     perCount++;
+    //stall the code to increase count time
+    // the delay will work just fine as the Arduino waits for a signal before moving on
+    delay(50);
   }else
 {
   pushStyle();
