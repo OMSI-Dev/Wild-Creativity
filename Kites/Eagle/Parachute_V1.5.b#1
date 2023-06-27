@@ -538,6 +538,10 @@ IO3 -&gt; D9</text>
 <text x="97.028" y="93.599" size="1.016" layer="25" rot="R270">FAN_Trigger</text>
 <text x="20.701" y="73.152" size="1.016" layer="25">Start_PWM</text>
 <text x="33.401" y="73.152" size="1.016" layer="25">Stop_PWM</text>
+<text x="97.155" y="14.224" size="1.778" layer="25" rot="R90">24V</text>
+<text x="112.522" y="13.716" size="1.778" layer="25" rot="R90">GND</text>
+<text x="133.985" y="94.996" size="1.778" layer="25" rot="R270">24V</text>
+<text x="118.618" y="95.504" size="1.778" layer="25" rot="R270">GND</text>
 </plain>
 <libraries>
 <library name="th_libraries">
@@ -1624,12 +1628,14 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <wire x1="110.109" y1="29.083" x2="112.649" y2="33.782" width="0" layer="19" extent="1-1"/>
 <wire x1="59.69" y1="21.59" x2="110.109" y2="29.083" width="0" layer="19" extent="1-1"/>
 </signal>
-<signal name="N$12">
+<signal name="A3">
 <contactref element="U1" pad="A3"/>
 <contactref element="JP12" pad="3"/>
 <contactref element="JP3" pad="4"/>
+<contactref element="J2" pad="3"/>
 <wire x1="112.649" y1="29.083" x2="110.109" y2="33.782" width="0" layer="19" extent="1-1"/>
 <wire x1="59.69" y1="24.13" x2="110.109" y2="33.782" width="0" layer="19" extent="1-1"/>
+<wire x1="1.27" y1="64.77" x2="59.69" y2="24.13" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$13">
 <contactref element="JP12" pad="2"/>
