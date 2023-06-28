@@ -109,9 +109,12 @@ float rectHeight = 0;
 
 int prevCount = 0;
 
-
+PrintWriter logFile;
 
 void setup() {
+  String timeStamp = str(day()) + "_" + str(hour()) + "_" + str(minute());
+  logFile = createWriter(timeStamp+ "_" + "logFile.txt");
+  
   fullScreen();
 
   // create a font located in data folder
@@ -145,22 +148,24 @@ void setup() {
   // Serial.list()[1] will pick up the next used COM port
   
   
+  // List all the available serial ports:
+  printArray(Serial.list());
+  logFile.println("Seraching for Serial...");
+  logFile.flush();
+  // Com1 is Serial.list()[0]
+  // Serial.list()[1] will pick up the next used COM port  
   if (Serial.list().length > 1) {
-    try
-    {
     String portName = Serial.list()[1];
     ardPort = new Serial(this, portName, 115200);
-    println("Connected to: " + portName);
-    }catch(Exception e){
-    String portName = Serial.list()[2];
-    ardPort = new Serial(this, portName, 115200);
-    println("Connected to: " + portName);
-    }
+    logFile.println("connected to: " + '\t' + portName);
+    logFile.flush();
   } else {
     String portName = Serial.list()[0];
     ardPort = new Serial(this, portName, 115200);
-    println("Connected to: " + portName);
+    logFile.println("connected to: " + '\t' + portName);
+    logFile.flush();
   }
+
   ardPort.bufferUntil(10);
 
   //Timer setup
@@ -459,11 +464,25 @@ void results()
   //calculate results to be displayed
     if (calcResults) 
     {
-      senReturn = calc(senReturn);
-      println("return: " + senReturn);
+      try
+      {
+        senReturn = calc(senReturn);
+        println("return: " + senReturn);
+      }catch(Exception e){
+       logFile.println("Exception Error: " + e);
+       logFile.println("Returned Calc: " + senReturn);
+       logFile.flush();
+      }
       //update graphics whith proper graphic and score.
-     percentage = abs((float(senReturn) / 500) * 100.0);
-     println("return percentage: " + percentage);
+      try
+      {
+       percentage = abs((float(senReturn) / 500) * 100.0);
+      }catch(Exception e)
+      {
+       logFile.println("Exception Error: " + e);
+       logFile.println("return percentage: " + percentage);
+       logFile.flush();
+      }
     }
   
 
