@@ -300,7 +300,7 @@ void sensorPing()
     plot1.addPoint(plotX,smoothedSenLevels);
 
     senUpdate.restart();
-    plotX += 9;
+    plotX += 3;
     println("plotX: " + plotX);
     senStorage[int(arrayAdvance)] = int(senLevels);
     
