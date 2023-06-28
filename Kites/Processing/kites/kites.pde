@@ -21,10 +21,10 @@ String inputStr;
 //Counts down the game intro and game time
 Stopwatch gameTimer;
 Stopwatch countTimer;
-Stopwatch senUpdate;
+Stopwatch senUpdate; 
 
 //
-int gameTime = 15000;
+int gameTime = 3000;
 int counter = 0; //for stop watch image
 int ping = 5;
 int senReturn = 0;
@@ -150,13 +150,16 @@ void setup() {
     {
     String portName = Serial.list()[1];
     ardPort = new Serial(this, portName, 115200);
+    println("Connected to: " + portName);
     }catch(Exception e){
     String portName = Serial.list()[2];
     ardPort = new Serial(this, portName, 115200);
+    println("Connected to: " + portName);
     }
   } else {
     String portName = Serial.list()[0];
     ardPort = new Serial(this, portName, 115200);
+    println("Connected to: " + portName);
   }
   ardPort.bufferUntil(10);
 
@@ -297,7 +300,7 @@ void sensorPing()
     plot1.addPoint(plotX,smoothedSenLevels);
 
     senUpdate.restart();
-    plotX += 3;
+    plotX += 9;
     println("plotX: " + plotX);
     senStorage[int(arrayAdvance)] = int(senLevels);
     
@@ -377,8 +380,7 @@ int calc(int avgReturn)
 
       if (calcResults) 
     {
-        gameTimer.restart();
-        
+                
         //remove any zeros from the array        
         int[] filteredArray = removeZeros(senStorage);
         
@@ -394,10 +396,23 @@ int calc(int avgReturn)
         {          
           for(int i = 0; i<5; i++)
           {
-            println("Array assigne index : " + i);
+            println("Array assigned index : " + i);
             filteredArray[i] = 1;
             println("Array after update " + filteredArray.length);
           }
+        }
+        
+        if(filteredArray == null)
+        {
+          println("array is null, setting values to 1");
+          
+         filteredArray = new int[20];
+         
+         for(int i = 0; i<20; i++)
+         {
+            filteredArray[i] = 1;
+         }
+          
         }
         
         //find Mode
@@ -447,7 +462,7 @@ void results()
       senReturn = calc(senReturn);
       println("return: " + senReturn);
       //update graphics whith proper graphic and score.
-     percentage = (float(senReturn) / 500) * 100.0;
+     percentage = abs((float(senReturn) / 500) * 100.0);
      println("return percentage: " + percentage);
     }
   
@@ -468,15 +483,21 @@ void results()
     popStyle();
     perCount++;
     //stall the code to increase count time
-    // the delay will work just fine as the Arduino waits for a signal before moving on
-    delay(50);
+    //the delay will work just fine as the Arduino waits for a signal before moving on
+    delay(35); 
   }else
-{
+  {
+    
   pushStyle();
   textAlign(LEFT);
-text(str(round(perCount))+"%",(titleXResults+spanishResults.length())+perOffset, 900);
-popStyle();
-}
+  text(str(round(perCount))+"%",(titleXResults+spanishResults.length())+perOffset, 900);
+  popStyle();
+  if(gameTimer.isPaused())
+  {
+  gameTimer.restart();
+  println("Results countdown");
+  }
+  }
   
   int corner1X = 1630;
   int corner1Y = 647;
@@ -557,6 +578,8 @@ popStyle();
   {
     //tell arduino we are in results
     ardPort.write(40);
+    gameTimer.restart();
+    gameTimer.pause();
     flagReset();
   }
 
