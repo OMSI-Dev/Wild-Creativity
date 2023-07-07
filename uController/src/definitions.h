@@ -70,3 +70,7 @@ bool numUpdate =1;
 
 //enable to have serial debug
 #define debug
+
+#define orange #f7933f //humming
+#define red #ef4a33 //tree creeper
+#define teal #00ae9e //finch
