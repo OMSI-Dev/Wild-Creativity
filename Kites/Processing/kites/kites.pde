@@ -9,6 +9,7 @@ import de.looksgood.ani.easing.*;
 import java.util.HashMap;
 import java.util.Map;
 
+Runtime runtime = Runtime.getRuntime();
 
 //Serial Variables
 Serial ardPort;
@@ -212,9 +213,11 @@ pulseX = new Ani(this,.25,"pulseDimX",75,Ani.BOUNCE_OUT);
 pulseY = new Ani(this,.25,"pulseDimY",200,Ani.BOUNCE_OUT);
 pulseX.start();
 pulseY.start();
+
 }
 
 void draw() {
+  
   background(255);
   noFill();
   
@@ -255,12 +258,31 @@ void drawGraph()
   else if(senLevels >=200 && senLevels <=400){plot1.setLineColor(#FF9900);plot1.setPointColor(#FF9900);plot1.drawPoint(new GPoint(plotX,smoothedSenLevels),yKite);}
   //green
   else if(senLevels > 400){plot1.setLineColor(#6aa84f);plot1.setPointColor(#6aa84f);plot1.drawPoint(new GPoint(plotX,smoothedSenLevels),gKite);};
-  
+  try{
   //plots lines and points from senLevels
   plot1.drawLines();
   
   plot1.drawPoints();  
-  plot1.endDraw();    
+  plot1.endDraw(); 
+  }catch(Exception e)
+  {
+  logFile.println("Error at draw: " + e);
+      // Get the runtime object
+    Runtime runtime = Runtime.getRuntime();
+
+    // Get the total memory available to the JVM in bytes
+    long totalMemory = runtime.totalMemory();
+
+    // Get the memory currently used by the JVM in bytes
+    long usedMemory = totalMemory - runtime.freeMemory();
+
+    // Convert memory usage to gigabytes
+    double usedMemoryGB = usedMemory / (1024.0 * 1024.0 * 1024.0);
+
+    // Print the memory usage in GB with 2 decimal places
+    logFile.println("Memory usage: " + String.format("%.2f", usedMemoryGB) + " GB");
+    logFile.flush();
+}
 }
 
 
@@ -270,7 +292,6 @@ void gameUpdate()
   sensorPing();
   drawGraph();
   updatePhone();
-  
 }
 
 void updatePhone()
@@ -293,33 +314,39 @@ void updatePhone()
 
 void sensorPing()
 {
-  if (senUpdate.time() > ping && plotX != 999) 
+  
+  try
   {
-    ardPort.write(39);
-    float smoothingFactor = 0.55; 
-    //Change senLevels to serial input
-    smoothedSenLevels = lerp(previousSenLevels, senLevels, smoothingFactor); 
+    if (senUpdate.time() > ping && plotX != 999) 
+    {
+      ardPort.write(39);
+      float smoothingFactor = 0.55; 
+      //Change senLevels to serial input
+      smoothedSenLevels = lerp(previousSenLevels, senLevels, smoothingFactor); 
+      
+     // println("Smoothed value: " + smoothedSenLevels);
+      
+      plot1.addPoint(plotX,smoothedSenLevels);
+  
+      senUpdate.restart();
+      plotX += 3;
+      println("plotX: " + plotX);
+      senStorage[int(arrayAdvance)] = int(smoothedSenLevels);
+      
+      arrayAdvance++; 
+      
+      previousSenLevels = smoothedSenLevels;
+      //store each sensor reading to array to be average
+     
+    }
     
-   // println("Smoothed value: " + smoothedSenLevels);
-    
-    plot1.addPoint(plotX,smoothedSenLevels);
-
-    senUpdate.restart();
-    plotX += 3;
-    println("plotX: " + plotX);
-    senStorage[int(arrayAdvance)] = int(senLevels);
-    
-    arrayAdvance++; 
-    
-    previousSenLevels = smoothedSenLevels;
-    //store each sensor reading to array to be average
-   
+    if(plotX == 999){calcResults = true; showResults = true;}
+  }catch(Exception e)
+  {
+    logFile.println("Error in collecting sensor data!");
+    logFile.println("Exception Error: " + e);
+    logFile.println("Failed at plot point: " + plotX + ":" + smoothedSenLevels);
   }
-  
-  if(plotX == 999){
-    
-  calcResults = true; showResults = true;}
-  
 }
 
 void updateTitle() {
@@ -363,8 +390,6 @@ int[] removeZeros(int[] arr) {
     }
   }
   
-  if(count == 0){count = 6;};
-  
   // Create a new array with non-zero elements
   int[] filteredArray = new int[count];
   int index = 0;
@@ -395,32 +420,31 @@ int calc(int avgReturn)
         variableSizeArray.add(filteredArray[i]);
         }
         
-        println("Array " + filteredArray.length);
-        
+        println("Array: " + filteredArray.length);
+                 
         if(filteredArray.length <=1)
-        {          
-          for(int i = 0; i<5; i++)
+        { 
+         filteredArray = new int[100];
+         logFile.println("Array is empty after filtering!!");
+         logFile.println("Rebuilding....");
+         logFile.flush();
+          
+          for(int i = 0; i<100; i++)
           {
-            println("Array assigned index : " + i);
-            filteredArray[i] = 1;
-            println("Array after update " + filteredArray.length);
+          println("Array index : " + i);
+          filteredArray[i] = 1;
+          println("Array after update " + filteredArray[i]);
           }
-        }
-        
-        if(filteredArray == null)
-        {
-          println("array is null, setting values to 1");
-          
-         filteredArray = new int[20];
-         
-         for(int i = 0; i<20; i++)
+         logFile.println("Array rebuilt with new values:");
+         for(int i = 0; i<100; i++)
          {
-            filteredArray[i] = 1;
+         logFile.print("Index: " + i + ":");  
+         logFile.println(filteredArray[i]);
          }
-          
+         logFile.flush();
         }
         
-        //find Mode
+        //find Mode 
         // Count the occurrences of each element in senStorage
         Map<Integer, Integer> occurrences = new HashMap<>();
         int maxCount = 0;
@@ -703,8 +727,15 @@ void movieEvent(Movie m) {
 void serialEvent(Serial port) {
 
   //looks for incomming Sensor Data
+  try{
   inputStr = trim(port.readString());
   println ("Input Str: " + inputStr);
+  }catch(Exception e)
+  {
+    logFile.println("ERROR IN SERIAL INPUT");
+    logFile.println("Last input: " + inputStr);
+    logFile.println("Exception error: " + e);
+  }
   //! (33) = Signals arduino knows game is over
   //# (35) = Start game has been pressed
   //$ (36) = Game over signal
@@ -735,9 +766,15 @@ void serialEvent(Serial port) {
     // we should use this to sync processing & arduino
   } else {
     //Convert to string to integer value to parse sensor data
+    try
+    {
     senLevels = float(inputStr);
     plot1.addPoint(plotX, senLevels);
-    
+    }catch(Exception e)
+    {
+      logFile.println("Exception error when plotting!");
+      logFile.println("Exception error: " + e);
+    }
   }
 }
 
