@@ -666,22 +666,40 @@ void playWin(int percentage)
     {
       if (playOnce == true)
       {
+        try{
         green.play();
         playOnce = false;
+        }catch(Exception e)
+        {
+        logFile.println("error at green sound:" + e);
+        logFile.flush();
+        }
       }
     } else if (percentage >= 33 && percentage < 66)
     {
       if (playOnce == true)
       {
-        orange.play();
-        playOnce = false;
+        try{
+          orange.play();
+          playOnce = false;
+        }catch(Exception e)
+        {
+          logFile.println("error at orange sound:" + e);
+          logFile.flush();
+        }
       }
     } else if (percentage < 33)
     {
       if (playOnce == true)
       {
-        red.play();
-        playOnce = false;
+        try{
+          red.play();
+          playOnce = false;
+        }catch(Exception e)
+        {
+          logFile.println("error at red sound:" + e);
+          logFile.flush();
+        }
       }
     }
   }
@@ -774,6 +792,7 @@ void serialEvent(Serial port) {
     {
       logFile.println("Exception error when plotting!");
       logFile.println("Exception error: " + e);
+      logFile.flush();
     }
   }
 }
@@ -791,8 +810,15 @@ void countDown(){
  if(counter != prevCount){prevCount = counter; playOnce = true;};
      
   if((counter < 1000 || counter < 2000 && counter >1000 || counter >3000) && playOnce){
+    try{
   countdown.play();
   playOnce = false;
+    }catch(Exception e)
+    {
+      logFile.println("Exception error when playing countdown!");
+      logFile.println("Exception error: " + e);
+      logFile.flush();
+    }
   }
   
   if(counter == 0){countdownStart.play();}
