@@ -919,6 +919,31 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <text x="5.334" y="4.445" size="1.27" layer="21" ratio="10">5</text>
 <text x="10.414" y="4.445" size="1.27" layer="21" ratio="10">6</text>
 </package>
+<package name="R78B5015" urn="urn:adsk.eagle:footprint:40558380/1" library_version="18">
+<description>&lt;b&gt;R-78Bxx-1.5&lt;/b&gt;&lt;br&gt;
+</description>
+<pad name="1" x="0" y="0" drill="1.05" diameter="1.575"/>
+<pad name="2" x="2.54" y="0" drill="1.05" diameter="1.575"/>
+<pad name="3" x="5.08" y="0" drill="1.05" diameter="1.575"/>
+<text x="2.54" y="-1.975" size="1.27" layer="25" align="center">&gt;NAME</text>
+<text x="2.54" y="-1.975" size="1.27" layer="27" align="center">&gt;VALUE</text>
+<wire x1="-3.21" y1="2" x2="8.29" y2="2" width="0.2" layer="51"/>
+<wire x1="8.29" y1="2" x2="8.29" y2="-6.5" width="0.2" layer="51"/>
+<wire x1="8.29" y1="-6.5" x2="-3.21" y2="-6.5" width="0.2" layer="51"/>
+<wire x1="-3.21" y1="-6.5" x2="-3.21" y2="2" width="0.2" layer="51"/>
+<wire x1="-3.21" y1="2" x2="8.29" y2="2" width="0.1" layer="21"/>
+<wire x1="8.29" y1="2" x2="8.29" y2="-6.5" width="0.1" layer="21"/>
+<wire x1="8.29" y1="-6.5" x2="-3.21" y2="-6.5" width="0.1" layer="21"/>
+<wire x1="-3.21" y1="-6.5" x2="-3.21" y2="2" width="0.1" layer="21"/>
+<wire x1="-4.21" y1="3.55" x2="9.29" y2="3.55" width="0.1" layer="51"/>
+<wire x1="9.29" y1="3.55" x2="9.29" y2="-7.5" width="0.1" layer="51"/>
+<wire x1="9.29" y1="-7.5" x2="-4.21" y2="-7.5" width="0.1" layer="51"/>
+<wire x1="-4.21" y1="-7.5" x2="-4.21" y2="3.55" width="0.1" layer="51"/>
+<wire x1="0" y1="2.5" x2="0" y2="2.5" width="0.1" layer="21"/>
+<wire x1="0" y1="2.5" x2="0.1" y2="2.5" width="0.1" layer="21" curve="180"/>
+<wire x1="0.1" y1="2.5" x2="0.1" y2="2.5" width="0.1" layer="21"/>
+<wire x1="0.1" y1="2.5" x2="0" y2="2.5" width="0.1" layer="21" curve="180"/>
+</package>
 </packages>
 <packages3d>
 <package3d name="TLC5947" urn="urn:adsk.eagle:package:40550297/3" type="box" library_version="15">
@@ -958,6 +983,12 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <description>&lt;b&gt;PHOENIX&lt;/b&gt;</description>
 <packageinstances>
 <packageinstance name="PHOENIX_508_6PIN"/>
+</packageinstances>
+</package3d>
+<package3d name="R78B5015" urn="urn:adsk.eagle:package:40558381/1" type="box" library_version="18">
+<description>&lt;b&gt;R-78Bxx-1.5&lt;/b&gt;&lt;br&gt;</description>
+<packageinstances>
+<packageinstance name="R78B5015"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -1091,6 +1122,17 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <pin name="1" x="5.08" y="0" visible="pad" length="short" direction="pas" rot="R180"/>
 <text x="-7.62" y="-3.81" size="1.778" layer="96">&gt;VALUE</text>
 <text x="-6.604" y="0.889" size="1.778" layer="95" rot="R180">&gt;NAME</text>
+</symbol>
+<symbol name="R-78B5.0-1.5" urn="urn:adsk.eagle:symbol:40558379/1" library_version="18">
+<wire x1="5.08" y1="2.54" x2="20.32" y2="2.54" width="0.254" layer="94"/>
+<wire x1="20.32" y1="-7.62" x2="20.32" y2="2.54" width="0.254" layer="94"/>
+<wire x1="20.32" y1="-7.62" x2="5.08" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="5.08" y1="2.54" x2="5.08" y2="-7.62" width="0.254" layer="94"/>
+<text x="21.59" y="7.62" size="1.778" layer="95" align="center-left">&gt;NAME</text>
+<text x="21.59" y="5.08" size="1.778" layer="96" align="center-left">&gt;VALUE</text>
+<pin name="+VIN" x="0" y="0" length="middle"/>
+<pin name="GND" x="0" y="-2.54" length="middle"/>
+<pin name="+VOUT" x="0" y="-5.08" length="middle"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -1349,6 +1391,35 @@ https://www.adafruit.com/product/3677</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="R-78B5.0-1.5" urn="urn:adsk.eagle:component:40558382/1" prefix="PS" library_version="18">
+<description>&lt;b&gt;Recom Switching Regulator, 6.5  18 V, 8  18 V Input, 5V Output, 1.5A&lt;/b&gt;&lt;p&gt;
+Source: &lt;a href="https://www.recom-power.com/pdf/Innoline/R-78Bxx-1.5_L.pdf"&gt; Datasheet &lt;/a&gt;</description>
+<gates>
+<gate name="G$1" symbol="R-78B5.0-1.5" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="R78B5015">
+<connects>
+<connect gate="G$1" pin="+VIN" pad="1"/>
+<connect gate="G$1" pin="+VOUT" pad="3"/>
+<connect gate="G$1" pin="GND" pad="2"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:40558381/1"/>
+</package3dinstances>
+<technologies>
+<technology name="">
+<attribute name="DESCRIPTION" value="Recom Switching Regulator, 6.5  18 V, 8  18 V Input, 5V Output, 1.5A" constant="no"/>
+<attribute name="HEIGHT" value="18mm" constant="no"/>
+<attribute name="MANUFACTURER_NAME" value="RECOM Power" constant="no"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="R-78B5.0-1.5" constant="no"/>
+<attribute name="MOUSER_PART_NUMBER" value="919-R-78B5.0-1.5" constant="no"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.co.uk/ProductDetail/RECOM-Power/R-78B5.0-1.5?qs=YWgezujkI1JgY7IeN1uB3w%3D%3D" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -1408,6 +1479,7 @@ https://www.adafruit.com/product/3677</description>
 <part name="X5" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="PHOENIX_508_4PIN" device="" package3d_urn="urn:adsk.eagle:package:40091802/4"/>
 <part name="X6" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="PHOENIX_508_6PIN" device="" package3d_urn="urn:adsk.eagle:package:40091779/4"/>
 <part name="SUPPLY1" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="5V" device=""/>
+<part name="PS1" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="R-78B5.0-1.5" device="" package3d_urn="urn:adsk.eagle:package:40558381/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -2116,6 +2188,10 @@ Mag Lock - D13</text>
 <instance part="SUPPLY1" gate="G$1" x="152.4" y="139.7" smashed="yes" rot="R90">
 <attribute name="VALUE" x="149.606" y="139.7" size="1.778" layer="96" rot="R90" align="bottom-center"/>
 </instance>
+<instance part="PS1" gate="G$1" x="81.28" y="208.28" smashed="yes" rot="R270">
+<attribute name="NAME" x="72.39" y="185.42" size="1.778" layer="95" align="center-left"/>
+<attribute name="VALUE" x="72.39" y="182.88" size="1.778" layer="96" align="center-left"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -2151,6 +2227,14 @@ Mag Lock - D13</text>
 <wire x1="101.6" y1="210.82" x2="101.6" y2="208.28" width="0.1524" layer="91"/>
 <wire x1="91.44" y1="226.06" x2="91.44" y2="210.82" width="0.1524" layer="91"/>
 <junction x="91.44" y="210.82"/>
+<wire x1="91.44" y1="210.82" x2="78.74" y2="210.82" width="0.1524" layer="91"/>
+<pinref part="PS1" gate="G$1" pin="GND"/>
+<wire x1="78.74" y1="208.28" x2="78.74" y2="210.82" width="0.1524" layer="91"/>
+<pinref part="X4" gate="-1" pin="1"/>
+<wire x1="68.58" y1="213.36" x2="68.58" y2="212.09" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="212.09" x2="78.74" y2="212.09" width="0.1524" layer="91"/>
+<wire x1="78.74" y1="212.09" x2="78.74" y2="210.82" width="0.1524" layer="91"/>
+<junction x="78.74" y="210.82"/>
 </segment>
 <segment>
 <pinref part="GND1" gate="1" pin="GND"/>
@@ -2171,6 +2255,10 @@ Mag Lock - D13</text>
 <wire x1="96.52" y1="218.44" x2="101.6" y2="218.44" width="0.1524" layer="91"/>
 <pinref part="SUPPLY3" gate="G$1" pin="5V"/>
 <wire x1="101.6" y1="218.44" x2="101.6" y2="226.06" width="0.1524" layer="91"/>
+<pinref part="PS1" gate="G$1" pin="+VOUT"/>
+<wire x1="96.52" y1="218.44" x2="76.2" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="218.44" x2="76.2" y2="208.28" width="0.1524" layer="91"/>
+<junction x="96.52" y="218.44"/>
 </segment>
 <segment>
 <pinref part="SUPPLY5" gate="G$1" pin="5V"/>
@@ -2187,7 +2275,18 @@ Mag Lock - D13</text>
 <segment>
 <pinref part="SUPPLY2" gate="G$1" pin="12V"/>
 <pinref part="TP2" gate="-2" pin="TP"/>
-<wire x1="106.68" y1="226.06" x2="106.68" y2="208.28" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="226.06" x2="106.68" y2="213.36" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="213.36" x2="106.68" y2="208.28" width="0.1524" layer="91"/>
+<junction x="106.68" y="213.36"/>
+<pinref part="PS1" gate="G$1" pin="+VIN"/>
+<wire x1="81.28" y1="213.36" x2="106.68" y2="213.36" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="213.36" x2="81.28" y2="208.28" width="0.1524" layer="91"/>
+<pinref part="X4" gate="-2" pin="1"/>
+<wire x1="63.5" y1="210.82" x2="63.5" y2="213.36" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="210.82" x2="73.66" y2="210.82" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="210.82" x2="73.66" y2="213.36" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="213.36" x2="81.28" y2="213.36" width="0.1524" layer="91"/>
+<junction x="81.28" y="213.36"/>
 </segment>
 <segment>
 <pinref part="X1" gate="-8" pin="1"/>

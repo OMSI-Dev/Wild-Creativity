@@ -12,9 +12,9 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "c:/Users/Landtree/Documents/GitHub/Bird_Beaks/uController/.pio/build/itsybitsy32u4_5V/firmware.elf",
+            "executable": "C:/Users/msamaniego/Documents/GitHub/Bird_Beaks/uController/.pio/build/itsybitsy32u4_5V/firmware.elf",
             "projectEnvName": "itsybitsy32u4_5V",
-            "toolchainBinDir": "C:/Users/Landtree/.platformio/packages/toolchain-atmelavr/bin",
+            "toolchainBinDir": "C:/Users/msamaniego/.platformio/packages/toolchain-atmelavr/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": {
                 "type": "PlatformIO",
@@ -25,18 +25,18 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "c:/Users/Landtree/Documents/GitHub/Bird_Beaks/uController/.pio/build/itsybitsy32u4_5V/firmware.elf",
+            "executable": "C:/Users/msamaniego/Documents/GitHub/Bird_Beaks/uController/.pio/build/itsybitsy32u4_5V/firmware.elf",
             "projectEnvName": "itsybitsy32u4_5V",
-            "toolchainBinDir": "C:/Users/Landtree/.platformio/packages/toolchain-atmelavr/bin",
+            "toolchainBinDir": "C:/Users/msamaniego/.platformio/packages/toolchain-atmelavr/bin",
             "internalConsoleOptions": "openOnSessionStart"
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "c:/Users/Landtree/Documents/GitHub/Bird_Beaks/uController/.pio/build/itsybitsy32u4_5V/firmware.elf",
+            "executable": "C:/Users/msamaniego/Documents/GitHub/Bird_Beaks/uController/.pio/build/itsybitsy32u4_5V/firmware.elf",
             "projectEnvName": "itsybitsy32u4_5V",
-            "toolchainBinDir": "C:/Users/Landtree/.platformio/packages/toolchain-atmelavr/bin",
+            "toolchainBinDir": "C:/Users/msamaniego/.platformio/packages/toolchain-atmelavr/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "loadMode": "manual"
         }

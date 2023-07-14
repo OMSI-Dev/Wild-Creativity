@@ -1417,6 +1417,8 @@ bug 11</text>
 <text x="162.56" y="228.6" size="1.778" layer="97">Nut Lighting</text>
 <text x="223.52" y="228.6" size="1.778" layer="97">Bug Lighting</text>
 <text x="274.32" y="226.06" size="1.778" layer="97">Flower Lighting</text>
+<text x="114.3" y="101.6" size="1.778" layer="91">r1-r6 330 ohm</text>
+<text x="114.3" y="101.6" size="1.778" layer="91">r1-r6 330 ohm</text>
 </plain>
 <instances>
 <instance part="S1" gate="G$1" x="12.7" y="264.16" smashed="yes">

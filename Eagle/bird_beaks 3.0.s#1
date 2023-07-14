@@ -1335,7 +1335,7 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <classes>
 <class number="0" name="Low Power" width="0.1524" drill="0.254">
 </class>
-<class number="1" name="High Power" width="0.762" drill="0.4826">
+<class number="1" name="High Power" width="1.27" drill="0.4826">
 </class>
 </classes>
 <parts>
@@ -1751,13 +1751,6 @@ bug 11</text>
 <wire x1="147.32" y1="129.54" x2="114.3" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="HUMMINGIRD_OUTPUT" class="0">
-<segment>
-<pinref part="U1" gate="G$1" pin="SDA"/>
-<wire x1="114.3" y1="134.62" x2="116.84" y2="134.62" width="0.1524" layer="91"/>
-<label x="116.84" y="134.62" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="TREECREEPER_OUTPUT" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="SCL"/>
@@ -1916,13 +1909,6 @@ bug 11</text>
 <junction x="66.04" y="205.74"/>
 </segment>
 </net>
-<net name="HUMMINGBIRD_OUTPUT" class="0">
-<segment>
-<pinref part="X9" gate="-2" pin="1"/>
-<wire x1="292.1" y1="205.74" x2="292.1" y2="195.58" width="0.1524" layer="91"/>
-<label x="289.56" y="198.12" size="1.778" layer="95" rot="R270"/>
-</segment>
-</net>
 <net name="12V" class="1">
 <segment>
 <pinref part="X10" gate="-3" pin="1"/>
@@ -2002,6 +1988,18 @@ bug 11</text>
 <pinref part="R5" gate="G$1" pin="1"/>
 <wire x1="109.22" y1="78.74" x2="83.82" y2="78.74" width="0.1524" layer="91"/>
 <junction x="83.82" y="78.74"/>
+</segment>
+</net>
+<net name="HUMMINGBIRD_OUTPUT" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="SDA"/>
+<wire x1="114.3" y1="134.62" x2="116.84" y2="134.62" width="0.1524" layer="91"/>
+<label x="116.84" y="134.62" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="X9" gate="-2" pin="1"/>
+<wire x1="292.1" y1="205.74" x2="292.1" y2="195.58" width="0.1524" layer="91"/>
+<label x="292.1" y="175.26" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 </nets>

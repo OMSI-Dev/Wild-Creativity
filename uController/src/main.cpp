@@ -24,7 +24,16 @@ flowerBtn.setPressedState(LOW);
 bugBtn.attach(bugPin, INPUT_PULLUP);
 bugBtn.interval(5);
 bugBtn.setPressedState(LOW);
+FastLED.addLeds<NEOPIXEL,nutLight>(Nseq, Nut_led);
+FastLED.addLeds<NEOPIXEL,flowerLight>(Fseq, flower_led);
+FastLED.addLeds<NEOPIXEL,bugLight>(Bseq, bug_led);
+FastLED.addLeds<NEOPIXEL,Treecreeper_Light>(Treeseq, puck_led);
+FastLED.addLeds<NEOPIXEL,Hummingbird_Light>(Humseq, puck_led);
+FastLED.addLeds<NEOPIXEL,Finch_Light>(Finseq, puck_led);
 
+FastLED.setMaxPowerInVoltsAndMilliamps(5,17000);
+FastLED.show();
+ledsetuo();
 
 //starts all timers they will reset themselves when they are first used
 lightTime.setTime(lightDelay);
@@ -36,6 +45,9 @@ delay(1000);
 Serial.begin(9600);
 #endif
 
+#ifdef debug 
+Serial.println("exiting setup");
+#endif
 }
 
 void btnCheck()
@@ -52,6 +64,7 @@ void btnCheck()
 
 void loop() 
 {
+  /*
   //check to see if the attractor should run
   if(gameState == false && playOnce == true)
   {
@@ -79,6 +92,9 @@ void loop()
         //update points
         points = points + 1;
         audioOut.playTrack(2);
+        Nseq[Nut_led]= CRGB::Teal;
+        Finseq[puck_led]= CRGB:: Teal;
+        FastLED.show();
         #ifdef debug
         Serial.println("Nut button Pressed & registered");
         Serial.print("Current Points: ");
@@ -107,6 +123,9 @@ void loop()
         //update points
         points = points + 1;
         audioOut.playTrack(3);
+        Fseq[flower_led]= CRGB::Orange;
+        Humseq[puck_led]= CRGB:: Orange;
+        FastLED.show();
         #ifdef debug
         Serial.println("Flower button Pressed & registered");
         Serial.print("Current Points: ");
@@ -136,6 +155,9 @@ void loop()
         //update points
         points = points + 1;
         audioOut.playTrack(4);
+        Bseq[bug_led]= CRGB::Red;
+        Treeseq[bug_led]= CRGB::Red;
+        FastLED.show();
         #ifdef debug
         Serial.println("Bug button Pressed & registered");
         Serial.print("Current Points: ");
@@ -233,8 +255,13 @@ void loop()
 
   }
 
+
   if(gameState == false)
   {
+    #ifdef debug
+    Serial.println(" going to attract");
+    #endif
+
     lightAttract();
   }
 
@@ -242,5 +269,9 @@ void loop()
   {
     resetGame();
   }
+*/
+lightAttract();
+
+
 
 }

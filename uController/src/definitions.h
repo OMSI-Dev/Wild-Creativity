@@ -2,6 +2,7 @@
 #include <bounce2.h>
 #include <audio/AudioOut.h>
 #include <MoToTimer.h>
+#include <FastLED.h>
 
 AudioOut audioOut;
 
@@ -19,6 +20,20 @@ AudioOut audioOut;
 #define Treecreeper_Light 3
 #define Hummingbird_Light 2
 #define Finch_Light 5
+
+
+
+//neopixel setup
+#define puck_led 18
+#define bug_led 125
+#define Nut_led 80
+#define flower_led 79
+CRGBArray <Nut_led> Nseq;
+CRGBArray <bug_led> Bseq;
+CRGBArray <flower_led> Fseq;
+CRGBArray <puck_led> Treeseq;
+CRGBArray <puck_led> Humseq;
+CRGBArray <puck_led> Finseq;
 
 
 //audio defines
@@ -52,6 +67,10 @@ bool stopOnce = true;
 //lightFunctions
 byte lightNum = 0;
 MoToTimer lightTime;
+MoToTimer lightchase;
+byte ledchangetime = 100;
+MoToTimer Ledchange;
+
 //this timer runs until the win sequence should end
 MoToTimer winTimer;
 //this addes a short delay before triggering the win sequence.
@@ -61,11 +80,11 @@ MoToTimer winAudioTimer;
 MoToTimer lightNumUpdate;
 int lightNumUpdateDelay = 1000;
 
-int winLightDelay = 225;
-int lightDelay = 7000;
+byte winLightDelay = 225;
+#define lightDelay 7000
 
-int previouslight = 1;
-bool newNum = 1;
+byte previouslight = 1;
+bool up_or_down = 0;
 bool numUpdate =1;
 
 //enable to have serial debug

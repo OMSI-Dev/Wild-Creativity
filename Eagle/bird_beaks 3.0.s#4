@@ -1451,7 +1451,6 @@ Source: &lt;a href="https://www.recom-power.com/pdf/Innoline/R-78Bxx-1.5_L.pdf"&
 <part name="GND5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="TP1" library="testpad" library_urn="urn:adsk.eagle:library:385" deviceset="PTR2" device="" package3d_urn="urn:adsk.eagle:package:27945/1"/>
 <part name="TP2" library="testpad" library_urn="urn:adsk.eagle:library:385" deviceset="PTR2" device="" package3d_urn="urn:adsk.eagle:package:27945/1"/>
-<part name="SUPPLY5" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="5V" device=""/>
 <part name="U1" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="ADAFRUIT_ITSYBITSY_5V" device="" package3d_urn="urn:adsk.eagle:package:40091770/4"/>
 <part name="U$1" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="TLC5847" device="" package3d_urn="urn:adsk.eagle:package:40550297/3"/>
 <part name="U$2" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="MODULE_MOSFET" device="" package3d_urn="urn:adsk.eagle:package:40550674/3"/>
@@ -1560,11 +1559,6 @@ Accent</text>
 <instance part="U$8" gate="G$1" x="-66.04" y="144.78" smashed="yes" rot="R180"/>
 </instances>
 <busses>
-<bus name="B$1">
-<segment>
-<wire x1="38.1" y1="109.22" x2="53.34" y2="109.22" width="0.762" layer="92"/>
-</segment>
-</bus>
 </busses>
 <nets>
 <net name="N$15" class="0">
@@ -2069,9 +2063,6 @@ Mag Lock - D13</text>
 <attribute name="NAME" x="105.664" y="199.39" size="1.778" layer="95" rot="R90"/>
 <attribute name="TP_SIGNAL_NAME" x="107.95" y="203.2" size="1.778" layer="97"/>
 </instance>
-<instance part="SUPPLY5" gate="G$1" x="55.88" y="167.64" smashed="yes" rot="R90">
-<attribute name="VALUE" x="53.086" y="170.18" size="1.778" layer="96" rot="R90" align="bottom-center"/>
-</instance>
 <instance part="U1" gate="G$1" x="96.52" y="132.08" smashed="yes">
 <attribute name="NAME" x="84.328" y="165.862" size="1.778" layer="95"/>
 <attribute name="VALUE" x="88.9" y="165.862" size="1.778" layer="96"/>
@@ -2199,11 +2190,6 @@ Mag Lock - D13</text>
 </instance>
 </instances>
 <busses>
-<bus name="5V,VCC">
-<segment>
-<wire x1="60.96" y1="162.56" x2="60.96" y2="144.78" width="0.762" layer="92"/>
-</segment>
-</bus>
 </busses>
 <nets>
 <net name="GND" class="1">
@@ -2263,31 +2249,6 @@ Mag Lock - D13</text>
 <pinref part="SUPPLY1" gate="G$1" pin="5V"/>
 <wire x1="152.4" y1="139.7" x2="154.94" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="X5" gate="-3" pin="1"/>
-</segment>
-<segment>
-<pinref part="SUPPLY5" gate="G$1" pin="5V"/>
-<wire x1="55.88" y1="167.64" x2="63.5" y2="167.64" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="167.64" x2="63.5" y2="160.02" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="160.02" x2="81.28" y2="160.02" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="5V"/>
-<wire x1="63.5" y1="160.02" x2="60.96" y2="160.02" width="0.1524" layer="91"/>
-<junction x="63.5" y="160.02"/>
-</segment>
-<segment>
-<wire x1="60.96" y1="162.56" x2="60.96" y2="187.96" width="0.1524" layer="91"/>
-<wire x1="60.96" y1="187.96" x2="66.04" y2="187.96" width="0.1524" layer="91"/>
-<pinref part="TP1" gate="-2" pin="TP"/>
-<wire x1="96.52" y1="208.28" x2="96.52" y2="218.44" width="0.1524" layer="91"/>
-<wire x1="96.52" y1="218.44" x2="101.6" y2="218.44" width="0.1524" layer="91"/>
-<pinref part="SUPPLY3" gate="G$1" pin="5V"/>
-<wire x1="101.6" y1="218.44" x2="101.6" y2="226.06" width="0.1524" layer="91"/>
-<pinref part="PS1" gate="G$1" pin="+VOUT"/>
-<wire x1="96.52" y1="218.44" x2="76.2" y2="218.44" width="0.1524" layer="91"/>
-<wire x1="76.2" y1="218.44" x2="76.2" y2="208.28" width="0.1524" layer="91"/>
-<junction x="96.52" y="218.44"/>
-<wire x1="66.04" y1="187.96" x2="66.04" y2="208.28" width="0.1524" layer="91"/>
-<wire x1="66.04" y1="208.28" x2="76.2" y2="208.28" width="0.1524" layer="91"/>
-<junction x="76.2" y="208.28"/>
 </segment>
 </net>
 <net name="12V" class="1">
@@ -2544,8 +2505,21 @@ Mag Lock - D13</text>
 </net>
 <net name="VCC" class="1">
 <segment>
-<wire x1="60.96" y1="152.4" x2="55.88" y2="152.4" width="0.1524" layer="91"/>
-<label x="53.34" y="152.4" size="1.778" layer="95" rot="R90"/>
+<pinref part="TP1" gate="-2" pin="TP"/>
+<wire x1="96.52" y1="208.28" x2="96.52" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="218.44" x2="101.6" y2="218.44" width="0.1524" layer="91"/>
+<pinref part="SUPPLY3" gate="G$1" pin="5V"/>
+<wire x1="101.6" y1="218.44" x2="101.6" y2="226.06" width="0.1524" layer="91"/>
+<pinref part="PS1" gate="G$1" pin="+VOUT"/>
+<wire x1="96.52" y1="218.44" x2="76.2" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="218.44" x2="76.2" y2="208.28" width="0.1524" layer="91"/>
+<junction x="96.52" y="218.44"/>
+<wire x1="76.2" y1="208.28" x2="66.04" y2="208.28" width="0.1524" layer="91"/>
+<junction x="76.2" y="208.28"/>
+<wire x1="66.04" y1="208.28" x2="66.04" y2="160.02" width="0.1524" layer="91"/>
+<label x="55.88" y="177.8" size="1.778" layer="95"/>
+<pinref part="U1" gate="G$1" pin="5V"/>
+<wire x1="66.04" y1="160.02" x2="81.28" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

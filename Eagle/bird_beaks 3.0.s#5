@@ -1428,9 +1428,9 @@ Source: &lt;a href="https://www.recom-power.com/pdf/Innoline/R-78Bxx-1.5_L.pdf"&
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0" drill="0">
+<class number="0" name="Low Power" width="0.1524" drill="0.254">
 </class>
-<class number="1" name="High Power" width="0.4064" drill="0.4826">
+<class number="1" name="High Power" width="0.508" drill="0.4826">
 </class>
 </classes>
 <parts>
@@ -1560,6 +1560,11 @@ Accent</text>
 <instance part="U$8" gate="G$1" x="-66.04" y="144.78" smashed="yes" rot="R180"/>
 </instances>
 <busses>
+<bus name="B$1">
+<segment>
+<wire x1="38.1" y1="109.22" x2="53.34" y2="109.22" width="0.762" layer="92"/>
+</segment>
+</bus>
 </busses>
 <nets>
 <net name="N$15" class="0">
@@ -1839,133 +1844,133 @@ Accent</text>
 <label x="45.212" y="85.852" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="VCC" class="0">
+<net name="VCC" class="1">
 <segment>
 <pinref part="U$1" gate="G$1" pin="VCC"/>
 <wire x1="42.672" y1="76.2" x2="42.672" y2="77.978" width="0.1524" layer="91"/>
 <label x="42.672" y="85.598" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="NA_G" class="0">
+<net name="NA_G" class="1">
 <segment>
 <pinref part="U$10" gate="G$1" pin="OUTPUT"/>
 <wire x1="-43.18" y1="142.24" x2="-43.18" y2="132.08" width="0.1524" layer="91"/>
 <label x="-43.18" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="NA_R" class="0">
+<net name="NA_R" class="1">
 <segment>
 <pinref part="U$9" gate="G$1" pin="OUTPUT"/>
 <wire x1="-17.78" y1="142.24" x2="-17.78" y2="132.08" width="0.1524" layer="91"/>
 <label x="-17.78" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="FA_B" class="0">
+<net name="FA_B" class="1">
 <segment>
 <pinref part="U$5" gate="G$1" pin="OUTPUT"/>
 <wire x1="-40.64" y1="-48.26" x2="-25.4" y2="-48.26" width="0.1524" layer="91"/>
 <label x="-22.86" y="-48.26" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="FA_R" class="0">
+<net name="FA_R" class="1">
 <segment>
 <pinref part="U$6" gate="G$1" pin="OUTPUT"/>
 <wire x1="-40.64" y1="0" x2="-25.4" y2="0" width="0.1524" layer="91"/>
 <label x="-22.86" y="0" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="FB_B" class="0">
+<net name="FB_B" class="1">
 <segment>
 <pinref part="U$2" gate="G$1" pin="OUTPUT"/>
 <wire x1="-40.64" y1="20.32" x2="-27.94" y2="20.32" width="0.1524" layer="91"/>
 <label x="-22.86" y="20.32" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="FB_G" class="0">
+<net name="FB_G" class="1">
 <segment>
 <pinref part="U$4" gate="G$1" pin="OUTPUT"/>
 <wire x1="-40.64" y1="43.18" x2="-25.4" y2="43.18" width="0.1524" layer="91"/>
 <label x="-22.86" y="43.18" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="FB_R" class="0">
+<net name="FB_R" class="1">
 <segment>
 <pinref part="U$3" gate="G$1" pin="OUTPUT"/>
 <wire x1="-40.64" y1="68.58" x2="-25.4" y2="68.58" width="0.1524" layer="91"/>
 <label x="-22.86" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="NB_B" class="0">
+<net name="NB_B" class="1">
 <segment>
 <pinref part="U$11" gate="G$1" pin="OUTPUT"/>
 <wire x1="7.62" y1="142.24" x2="7.62" y2="132.08" width="0.1524" layer="91"/>
 <label x="7.62" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="NB_G" class="0">
+<net name="NB_G" class="1">
 <segment>
 <pinref part="U$13" gate="G$1" pin="OUTPUT"/>
 <wire x1="30.48" y1="142.24" x2="30.48" y2="132.08" width="0.1524" layer="91"/>
 <label x="30.48" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="NB_R" class="0">
+<net name="NB_R" class="1">
 <segment>
 <pinref part="U$12" gate="G$1" pin="OUTPUT"/>
 <wire x1="55.88" y1="142.24" x2="55.88" y2="132.08" width="0.1524" layer="91"/>
 <label x="55.88" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="BA_B" class="0">
+<net name="BA_B" class="1">
 <segment>
 <pinref part="U$14" gate="G$1" pin="OUTPUT"/>
 <wire x1="99.06" y1="142.24" x2="99.06" y2="132.08" width="0.1524" layer="91"/>
 <label x="99.06" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="BA_G" class="0">
+<net name="BA_G" class="1">
 <segment>
 <pinref part="U$16" gate="G$1" pin="OUTPUT"/>
 <wire x1="121.92" y1="142.24" x2="121.92" y2="132.08" width="0.1524" layer="91"/>
 <label x="121.92" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="BA_R" class="0">
+<net name="BA_R" class="1">
 <segment>
 <pinref part="U$15" gate="G$1" pin="OUTPUT"/>
 <wire x1="147.32" y1="142.24" x2="147.32" y2="132.08" width="0.1524" layer="91"/>
 <label x="147.32" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="BB_B" class="0">
+<net name="BB_B" class="1">
 <segment>
 <pinref part="U$17" gate="G$1" pin="OUTPUT"/>
 <wire x1="172.72" y1="142.24" x2="172.72" y2="132.08" width="0.1524" layer="91"/>
 <label x="172.72" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="BB_G" class="0">
+<net name="BB_G" class="1">
 <segment>
 <pinref part="U$19" gate="G$1" pin="OUTPUT"/>
 <wire x1="195.58" y1="142.24" x2="195.58" y2="132.08" width="0.1524" layer="91"/>
 <label x="195.58" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="BB_R" class="0">
+<net name="BB_R" class="1">
 <segment>
 <pinref part="U$18" gate="G$1" pin="OUTPUT"/>
 <wire x1="220.98" y1="142.24" x2="220.98" y2="132.08" width="0.1524" layer="91"/>
 <label x="220.98" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
-<net name="FA_G" class="0">
+<net name="FA_G" class="1">
 <segment>
 <pinref part="U$7" gate="G$1" pin="OUTPUT"/>
 <wire x1="-40.64" y1="-25.4" x2="-25.4" y2="-25.4" width="0.1524" layer="91"/>
 <label x="-22.86" y="-25.4" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="NA_B" class="0">
+<net name="NA_B" class="1">
 <segment>
 <pinref part="U$8" gate="G$1" pin="OUTPUT"/>
 <wire x1="-66.04" y1="142.24" x2="-66.04" y2="132.08" width="0.1524" layer="91"/>
@@ -2064,8 +2069,8 @@ Mag Lock - D13</text>
 <attribute name="NAME" x="105.664" y="199.39" size="1.778" layer="95" rot="R90"/>
 <attribute name="TP_SIGNAL_NAME" x="107.95" y="203.2" size="1.778" layer="97"/>
 </instance>
-<instance part="SUPPLY5" gate="G$1" x="71.12" y="160.02" smashed="yes" rot="R90">
-<attribute name="VALUE" x="68.326" y="160.02" size="1.778" layer="96" rot="R90" align="bottom-center"/>
+<instance part="SUPPLY5" gate="G$1" x="55.88" y="167.64" smashed="yes" rot="R90">
+<attribute name="VALUE" x="53.086" y="170.18" size="1.778" layer="96" rot="R90" align="bottom-center"/>
 </instance>
 <instance part="U1" gate="G$1" x="96.52" y="132.08" smashed="yes">
 <attribute name="NAME" x="84.328" y="165.862" size="1.778" layer="95"/>
@@ -2194,6 +2199,11 @@ Mag Lock - D13</text>
 </instance>
 </instances>
 <busses>
+<bus name="5V,VCC">
+<segment>
+<wire x1="60.96" y1="162.56" x2="60.96" y2="144.78" width="0.762" layer="92"/>
+</segment>
+</bus>
 </busses>
 <nets>
 <net name="GND" class="1">
@@ -2248,8 +2258,24 @@ Mag Lock - D13</text>
 <wire x1="142.24" y1="144.78" x2="154.94" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="5V" class="0">
+<net name="5V" class="1">
 <segment>
+<pinref part="SUPPLY1" gate="G$1" pin="5V"/>
+<wire x1="152.4" y1="139.7" x2="154.94" y2="139.7" width="0.1524" layer="91"/>
+<pinref part="X5" gate="-3" pin="1"/>
+</segment>
+<segment>
+<pinref part="SUPPLY5" gate="G$1" pin="5V"/>
+<wire x1="55.88" y1="167.64" x2="63.5" y2="167.64" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="167.64" x2="63.5" y2="160.02" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="160.02" x2="81.28" y2="160.02" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="5V"/>
+<wire x1="63.5" y1="160.02" x2="60.96" y2="160.02" width="0.1524" layer="91"/>
+<junction x="63.5" y="160.02"/>
+</segment>
+<segment>
+<wire x1="60.96" y1="162.56" x2="60.96" y2="187.96" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="187.96" x2="66.04" y2="187.96" width="0.1524" layer="91"/>
 <pinref part="TP1" gate="-2" pin="TP"/>
 <wire x1="96.52" y1="208.28" x2="96.52" y2="218.44" width="0.1524" layer="91"/>
 <wire x1="96.52" y1="218.44" x2="101.6" y2="218.44" width="0.1524" layer="91"/>
@@ -2259,19 +2285,12 @@ Mag Lock - D13</text>
 <wire x1="96.52" y1="218.44" x2="76.2" y2="218.44" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="218.44" x2="76.2" y2="208.28" width="0.1524" layer="91"/>
 <junction x="96.52" y="218.44"/>
-</segment>
-<segment>
-<pinref part="SUPPLY5" gate="G$1" pin="5V"/>
-<pinref part="U1" gate="G$1" pin="5V"/>
-<wire x1="71.12" y1="160.02" x2="81.28" y2="160.02" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="SUPPLY1" gate="G$1" pin="5V"/>
-<wire x1="152.4" y1="139.7" x2="154.94" y2="139.7" width="0.1524" layer="91"/>
-<pinref part="X5" gate="-3" pin="1"/>
+<wire x1="66.04" y1="187.96" x2="66.04" y2="208.28" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="208.28" x2="76.2" y2="208.28" width="0.1524" layer="91"/>
+<junction x="76.2" y="208.28"/>
 </segment>
 </net>
-<net name="12V" class="0">
+<net name="12V" class="1">
 <segment>
 <pinref part="SUPPLY2" gate="G$1" pin="12V"/>
 <pinref part="TP2" gate="-2" pin="TP"/>
@@ -2313,126 +2332,126 @@ Mag Lock - D13</text>
 <label x="274.32" y="198.12" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="NA_R" class="0">
+<net name="NA_R" class="1">
 <segment>
 <pinref part="X1" gate="-7" pin="1"/>
 <wire x1="157.48" y1="205.74" x2="157.48" y2="193.04" width="0.1524" layer="91"/>
 <label x="155.702" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="NA_G" class="0">
+<net name="NA_G" class="1">
 <segment>
 <pinref part="X1" gate="-6" pin="1"/>
 <wire x1="162.56" y1="205.74" x2="162.56" y2="193.04" width="0.1524" layer="91"/>
 <label x="161.544" y="190.246" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="NA_B" class="0">
+<net name="NA_B" class="1">
 <segment>
 <pinref part="X1" gate="-5" pin="1"/>
 <wire x1="167.64" y1="205.74" x2="167.64" y2="193.04" width="0.1524" layer="91"/>
 <label x="166.878" y="190.246" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="NB_R" class="0">
+<net name="NB_R" class="1">
 <segment>
 <pinref part="X1" gate="-3" pin="1"/>
 <wire x1="177.8" y1="205.74" x2="177.8" y2="193.04" width="0.1524" layer="91"/>
 <label x="176.784" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="NB_G" class="0">
+<net name="NB_G" class="1">
 <segment>
 <pinref part="X1" gate="-2" pin="1"/>
 <wire x1="182.88" y1="205.74" x2="182.88" y2="193.04" width="0.1524" layer="91"/>
 <label x="182.118" y="190.246" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="NB_B" class="0">
+<net name="NB_B" class="1">
 <segment>
 <pinref part="X1" gate="-1" pin="1"/>
 <wire x1="187.96" y1="205.74" x2="187.96" y2="193.04" width="0.1524" layer="91"/>
 <label x="187.198" y="190.246" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="BA_R" class="0">
+<net name="BA_R" class="1">
 <segment>
 <pinref part="X2" gate="-7" pin="1"/>
 <wire x1="218.44" y1="205.74" x2="218.44" y2="193.04" width="0.1524" layer="91"/>
 <label x="215.9" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="BA_G" class="0">
+<net name="BA_G" class="1">
 <segment>
 <pinref part="X2" gate="-6" pin="1"/>
 <wire x1="223.52" y1="205.74" x2="223.52" y2="193.04" width="0.1524" layer="91"/>
 <label x="220.98" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="BB_R" class="0">
+<net name="BB_R" class="1">
 <segment>
 <pinref part="X2" gate="-3" pin="1"/>
 <wire x1="238.76" y1="205.74" x2="238.76" y2="193.04" width="0.1524" layer="91"/>
 <label x="237.998" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="BB_G" class="0">
+<net name="BB_G" class="1">
 <segment>
 <pinref part="X2" gate="-2" pin="1"/>
 <wire x1="243.84" y1="205.74" x2="243.84" y2="193.04" width="0.1524" layer="91"/>
 <label x="243.078" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="BB_B" class="0">
+<net name="BB_B" class="1">
 <segment>
 <pinref part="X2" gate="-1" pin="1"/>
 <wire x1="248.92" y1="205.74" x2="248.92" y2="193.04" width="0.1524" layer="91"/>
 <label x="248.158" y="190.754" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="FA_R" class="0">
+<net name="FA_R" class="1">
 <segment>
 <pinref part="X3" gate="-7" pin="1"/>
 <wire x1="269.24" y1="205.74" x2="269.24" y2="193.04" width="0.1524" layer="91"/>
 <label x="268.224" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="FA_G" class="0">
+<net name="FA_G" class="1">
 <segment>
 <pinref part="X3" gate="-6" pin="1"/>
 <wire x1="274.32" y1="205.74" x2="274.32" y2="193.04" width="0.1524" layer="91"/>
 <label x="273.558" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="FA_B" class="0">
+<net name="FA_B" class="1">
 <segment>
 <pinref part="X3" gate="-5" pin="1"/>
 <wire x1="279.4" y1="205.74" x2="279.4" y2="193.04" width="0.1524" layer="91"/>
 <label x="278.638" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="FB_R" class="0">
+<net name="FB_R" class="1">
 <segment>
 <pinref part="X3" gate="-3" pin="1"/>
 <wire x1="289.56" y1="205.74" x2="289.56" y2="193.04" width="0.1524" layer="91"/>
 <label x="288.798" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="FB_G" class="0">
+<net name="FB_G" class="1">
 <segment>
 <pinref part="X3" gate="-2" pin="1"/>
 <wire x1="294.64" y1="205.74" x2="294.64" y2="193.04" width="0.1524" layer="91"/>
 <label x="293.878" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="FB_B" class="0">
+<net name="FB_B" class="1">
 <segment>
 <pinref part="X3" gate="-1" pin="1"/>
 <wire x1="299.72" y1="205.74" x2="299.72" y2="193.04" width="0.1524" layer="91"/>
 <label x="298.704" y="190.5" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="BA_B" class="0">
+<net name="BA_B" class="1">
 <segment>
 <pinref part="X2" gate="-5" pin="1"/>
 <wire x1="228.6" y1="205.74" x2="228.6" y2="193.04" width="0.1524" layer="91"/>
@@ -2521,6 +2540,12 @@ Mag Lock - D13</text>
 <pinref part="U1" gate="G$1" pin="*D10"/>
 <wire x1="114.3" y1="147.32" x2="116.84" y2="147.32" width="0.1524" layer="91"/>
 <label x="117.094" y="146.558" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="VCC" class="1">
+<segment>
+<wire x1="60.96" y1="152.4" x2="55.88" y2="152.4" width="0.1524" layer="91"/>
+<label x="53.34" y="152.4" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 </nets>
