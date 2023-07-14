@@ -1125,6 +1125,7 @@ https://www.adafruit.com/product/3677</description>
 <part name="X2" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="PHOENIX_508_8PIN" device="" package3d_urn="urn:adsk.eagle:package:40091777/4"/>
 <part name="X3" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="PHOENIX_508_8PIN" device="" package3d_urn="urn:adsk.eagle:package:40091777/4"/>
 <part name="U$7" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="MODULE_MOSFET" device="" package3d_urn="urn:adsk.eagle:package:40550674/3"/>
+<part name="U$8" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="MODULE_MOSFET" device="" package3d_urn="urn:adsk.eagle:package:40550674/3"/>
 </parts>
 <sheets>
 <sheet>
@@ -1202,6 +1203,7 @@ Accent</text>
 <instance part="U$18" gate="G$1" x="220.98" y="144.78" smashed="yes" rot="R180"/>
 <instance part="U$19" gate="G$1" x="195.58" y="144.78" smashed="yes" rot="R180"/>
 <instance part="U$7" gate="G$1" x="-43.18" y="-25.4" smashed="yes" rot="R270"/>
+<instance part="U$8" gate="G$1" x="-66.04" y="144.78" smashed="yes" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -1263,6 +1265,7 @@ Accent</text>
 <wire x1="-71.12" y1="142.24" x2="-71.12" y2="139.7" width="0.1524" layer="91"/>
 <wire x1="-71.12" y1="139.7" x2="-48.26" y2="139.7" width="0.1524" layer="91"/>
 <junction x="-48.26" y="139.7"/>
+<pinref part="U$8" gate="G$1" pin="GND"/>
 </segment>
 </net>
 <net name="N$14" class="0">
@@ -1368,6 +1371,7 @@ Accent</text>
 <pinref part="U$1" gate="G$1" pin="P$9"/>
 <wire x1="-7.62" y1="93.98" x2="-7.62" y2="50.546" width="0.1524" layer="91"/>
 <wire x1="-7.62" y1="50.546" x2="36.322" y2="50.546" width="0.1524" layer="91"/>
+<pinref part="U$8" gate="G$1" pin="INPUT"/>
 </segment>
 </net>
 <net name="N$21" class="0">
@@ -1605,6 +1609,13 @@ Accent</text>
 <pinref part="U$7" gate="G$1" pin="OUTPUT"/>
 <wire x1="-40.64" y1="-25.4" x2="-25.4" y2="-25.4" width="0.1524" layer="91"/>
 <label x="-22.86" y="-25.4" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="NA_B" class="0">
+<segment>
+<pinref part="U$8" gate="G$1" pin="OUTPUT"/>
+<wire x1="-66.04" y1="142.24" x2="-66.04" y2="132.08" width="0.1524" layer="91"/>
+<label x="-66.04" y="129.54" size="1.778" layer="95" rot="R270"/>
 </segment>
 </net>
 </nets>

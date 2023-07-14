@@ -1,70 +1,129 @@
 #include <definitions.h>
 
+void ledsetuo()
+{
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
 void lightAttract()
 {   
-
-
-    if(lightNumUpdate.running() == false)
-    {
-        do{
-        lightNum = random(0,3);        
-        }while(lightNum == previouslight);
+     if(lightNumUpdate.running() == false)
+     {
+        //find a number between 1 and 3 while lightnum and previous light are equal
+        do{lightNum = random(1,4);}
+        while(lightNum == previouslight);
+       //new # is found and previouslight is now updated
         previouslight = lightNum;
-        
-        #ifdef debug      
-        Serial.print("lightNum: ");
-        Serial.println(lightNum);
-        #endif   
-        
-        lightNumUpdate.setTime(lightNumUpdateDelay);
+       lightNumUpdate.setTime(lightNumUpdateDelay);
+       }
+
+    switch(lightNum)
+    {
+        //turn on treecreeper and bug light 
+        case 1:
+        Treeseq.fill_solid(CRGB::Red);
+        fadeToBlackBy(Nseq,Nut_led,10);
+        fadeToBlackBy(Bseq,bug_led,10);
+        fadeToBlackBy(Fseq,flower_led,10);
+
+        fadeToBlackBy(Treeseq,puck_led,10);
+        fadeToBlackBy(Finseq,puck_led,10);
+        fadeToBlackBy(Humseq,puck_led,10);
+        FastLED.show();
+             #ifdef debug      
+            Serial.println("case 1 ");
+            #endif   
+            break;
+        // turn on hummingbird and flower light
+        case 2:
+            Humseq.fill_solid(CRGB::Orange);
+            fadeToBlackBy(Nseq,Nut_led,10);
+            fadeToBlackBy(Bseq,bug_led,10);
+            fadeToBlackBy(Fseq,flower_led,10);
+
+            fadeToBlackBy(Treeseq,puck_led,10);
+            fadeToBlackBy(Finseq,puck_led,10);
+            fadeToBlackBy(Humseq,puck_led,10);
+            FastLED.show();
+              #ifdef debug      
+       Serial.println("case 2 ");
+              #endif
+            break;
+        //turns on finch and nut light 
+        case 3:
+            Finseq.fill_solid(CRGB::Teal);
+           fadeToBlackBy(Nseq,Nut_led,10);
+           fadeToBlackBy(Bseq,bug_led,10);
+           fadeToBlackBy(Fseq,flower_led,10);
+           fadeToBlackBy(Treeseq,puck_led,10);
+           fadeToBlackBy(Finseq,puck_led,10);
+           fadeToBlackBy(Humseq,puck_led,10);
+            FastLED.show();
+              #ifdef debug      
+            Serial.println("case 3 ");
+            #endif
+            break;
+    }
+        // #ifdef debug      
+        // Serial.print("light attractor ");
+
+        // #endif   
+
+         
+         Ledchange.setTime(ledchangetime);
                          
     }
 
-    switch(lightNum) 
-    {     
-    case 0:
-
-        break;
-
-    case 1:
-       
-        break;
-
-    case 2:
-     
-        break;
-    }
-}
 
 void lightWin()
 {
     if(winTimer.running() == false)
     {
         winTimer.setTime(winLightDelay);    
-        lightNum = random(0,3);
+
+
+        if(lightchase.running()==false)
+        {    
+         
+
+         Nseq[Nut_led]=CRGB::Teal;
+         Bseq[bug_led]=CRGB::Red;
+         Fseq[flower_led]=CRGB::Orange;
+         Humseq[puck_led]=CRGB::Orange;
+         Treeseq[puck_led]=CRGB::Red;
+         Finseq[puck_led]=CRGB::Teal;
+         FastLED.show();
+
+
+        }
+
     }
 
-    switch(lightNum) 
-    {     
-    case 0:
-
-        break;
-
-    case 1:
-
-        break;
-
-    case 2:
-
-        break;
-    }
-
-}
+ }
 
 void resetGame()
 {
          
 //turn all the lights off       
+Nseq[Nut_led]=CRGB::Black;
+Bseq[bug_led]=CRGB::Black;
+Fseq[flower_led]=CRGB::Black;
+Treeseq[puck_led]=CRGB::Black;
+Humseq[puck_led]=CRGB::Black;
+Finseq[puck_led]=CRGB::Black;
+FastLED.show();
+
 
 
 //reset triggerd values
