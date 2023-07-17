@@ -290,27 +290,44 @@ void win(){
 
 void loop() 
 {
-  Serial.print("Points: ");
-  Serial.println(points);
-  Serial.print("Hrose: ");
-  Serial.println(horseFlag);
-  Serial.print("Dog: ");
-  Serial.println(dogFlag);
-  Serial.print("cat: ");
-  Serial.println(catFlag);  
+
 
   if(!gameTimer.running() && gameFlag == 1){gameOver();}
 
   //Sensor reading
   bool catSt1 = digitalRead(catSensor1);
   bool catSt2 = digitalRead(catSensor2);
+  
   bool dogSt1 = digitalRead(dogSensor1);
   bool dogSt2 = digitalRead(dogSensor2);
+
   bool horseSt1 = digitalRead(horseSensor1);
   bool horseSt2 = digitalRead(horseSensor2);
 
+  Serial.print("Points: ");
+  Serial.println(points);
+  Serial.print("Horse: ");
+  Serial.println(horseSt1);
+  Serial.print("Dog: ");
+  Serial.println(dogSt1);
+  Serial.print("cat: ");
+  Serial.println(catSt1);
+  Serial.print("gameFlag: ");
+  Serial.println(gameFlag);
+
+  if(gameFlag == 0)
+  {
+    if(!catSt1 || !catSt2 ||  !dogSt1 || !dogSt2 || !horseSt1 || !horseSt2)
+    {
+      gameFlag = 1;
+
+    }
+
+  }
+
+  if(gameFlag == 1){
   //Check to see if Cat was hit
-  if(catSt1 == 0 || catSt2 == 0){
+  if(!catSt1|| !catSt2){
 
       if(!audioTimeOut1.running())
       {
@@ -327,7 +344,7 @@ void loop()
     }
 
   //Check to see if Dog was hit
-  if(dogSt1 == 0 || dogSt2 == 0){
+  if(!dogSt1 || !dogSt2){
       if(!audioTimeOut2.running())
       {
         audioOut.playTrack(2);
@@ -343,7 +360,7 @@ void loop()
     }
 
 //Check to see if Horse was hit
-  if(horseSt1 == 0 || horseSt2 == 0 )
+  if(!horseSt1 || !horseSt2 )
     {
 
         if(!audioTimeOut3.running())
@@ -358,7 +375,7 @@ void loop()
         horseTargetHit();
       }
     }
-
+  }
 
   if(points == 3)
   {
