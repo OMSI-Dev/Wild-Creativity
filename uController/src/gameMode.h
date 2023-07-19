@@ -1,21 +1,5 @@
 #include <definitions.h>
 
-void ledsetuo()
-{
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
 void lightAttract()
 {   
      if(lightNumUpdate.running() == false)
@@ -66,6 +50,7 @@ void lightAttract()
            fadeToBlackBy(Nseq,Nut_led,10);
            fadeToBlackBy(Bseq,bug_led,10);
            fadeToBlackBy(Fseq,flower_led,10);
+           
            fadeToBlackBy(Treeseq,puck_led,10);
            fadeToBlackBy(Finseq,puck_led,10);
            fadeToBlackBy(Humseq,puck_led,10);
@@ -75,42 +60,92 @@ void lightAttract()
             #endif
             break;
     }
-        // #ifdef debug      
-        // Serial.print("light attractor ");
-
-        // #endif   
-
-         
-         Ledchange.setTime(ledchangetime);
+         #ifdef debug      
+         Serial.print("light attractor ");
+         #endif
                          
     }
 
-
 void lightWin()
 {
-    if(winTimer.running() == false)
-    {
-        winTimer.setTime(winLightDelay);    
+        Serial.print(" entering bugchase: ");
+        if(bugchase.running() != true)
+        {
+           
+            Bseq[bugflag]=CRGB::Red;   // 9:1 led
+            fadeToBlackBy(Bseq,bug_led,50);
+            bugchase.setTime(bugtime);
+            
+            if(bugflag > bug_led-1)
+            { bugflag = 0; 
+              Bseq.fill_solid(CRGB::Black);
+            }
 
-
-        if(lightchase.running()==false)
-        {    
-         
-
-         Nseq[Nut_led]=CRGB::Teal;
-         Bseq[bug_led]=CRGB::Red;
-         Fseq[flower_led]=CRGB::Orange;
-         Humseq[puck_led]=CRGB::Orange;
-         Treeseq[puck_led]=CRGB::Red;
-         Finseq[puck_led]=CRGB::Teal;
-         FastLED.show();
-
-
+            #ifdef debug
+            Serial.print("bugflag: ");
+            Serial.println(bugflag);
+            #endif
+            bugflag++;
         }
+        Serial.println("exiting bugchase: ");
 
+        Serial.print(" entering fnchase: ");
+        if(fnchase.running() != true)
+        {
+            
+            Nseq[fnflag] = CRGB::Teal; // 4:1  led 
+            Fseq[fnflag] = CRGB::Orange; // 4:1 led
+            fadeToBlackBy(Nseq,Nut_led,50);
+            fadeToBlackBy(Fseq,flower_led,50);
+            
+            
+
+            if(fnflag > flower_led-1)
+            {  fnflag =0;
+               Nseq.fill_solid(CRGB::Black);
+               Fseq.fill_solid(CRGB::Black); 
+            }
+
+            
+            #ifdef debug 
+            Serial.print("fnflag: ");
+            Serial.println(fnflag);
+            #endif
+
+        } 
+            Serial.println("exiting fnchase: ");
+       
+            Serial.print(" entering puckchase: ");
+        if(puckchase.running() == false)
+        {   
+            Humseq[puckflag]=CRGB::Orange;
+            Treeseq[puckflag]=CRGB::Red;  
+            Finseq[puckflag]=CRGB::Teal;            
+            fadeToBlackBy(Humseq,puck_led,100);
+            fadeToBlackBy(Treeseq,puck_led,100);
+            fadeToBlackBy(Finseq,puck_led,100);
+
+            if (puckflag > puck_led-1 )
+            {   
+                Serial.println(puckflag);
+                puckflag = 0;
+                Humseq.fill_solid(CRGB::Black);
+                Treeseq.fill_solid(CRGB:: Black);
+                Finseq.fill_solid(CRGB:: Black);
+                Serial.println("clear");
+            }
+            puckchase.setTime(pucktime);
+            puckflag++; 
+            #ifdef debug
+            Serial.print("puckflag: ");
+            Serial.println(puckflag);
+            #endif
+        }
+        Serial.println(" exiting puckchase: ");
+        FastLED.show();
     }
 
- }
+
 
 void resetGame()
 {

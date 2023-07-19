@@ -5,6 +5,7 @@
 #include <FastLED.h>
 
 AudioOut audioOut;
+//ws2811 or ws2812 for leds 
 
 //Pin definintions Input
 #define nutPin 4
@@ -27,7 +28,7 @@ AudioOut audioOut;
 #define puck_led 18
 #define bug_led 125
 #define Nut_led 80
-#define flower_led 79
+#define flower_led 80
 CRGBArray <Nut_led> Nseq;
 CRGBArray <bug_led> Bseq;
 CRGBArray <flower_led> Fseq;
@@ -67,9 +68,16 @@ bool stopOnce = true;
 //lightFunctions
 byte lightNum = 0;
 MoToTimer lightTime;
-MoToTimer lightchase;
-byte ledchangetime = 100;
-MoToTimer Ledchange;
+MoToTimer fnchase;
+MoToTimer puckchase;
+MoToTimer bugchase;
+byte puckflag = 0;
+byte fnflag = 0;
+byte bugflag = 0;
+byte pucktime = 100;
+byte fntime = 25;
+byte bugtime = 10; 
+
 
 //this timer runs until the win sequence should end
 MoToTimer winTimer;
@@ -80,15 +88,13 @@ MoToTimer winAudioTimer;
 MoToTimer lightNumUpdate;
 int lightNumUpdateDelay = 1000;
 
-byte winLightDelay = 225;
+byte winLightDelay = 255;
 #define lightDelay 7000
 
 byte previouslight = 1;
-bool up_or_down = 0;
-bool numUpdate =1;
 
 //enable to have serial debug
-#define debug
+//#define debug
 
 #define orange #f7933f //humming
 #define red #ef4a33 //tree creeper
