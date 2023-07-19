@@ -23,20 +23,16 @@ String inputStr;
 Stopwatch gameTimer;
 Stopwatch countTimer;
 Stopwatch senUpdate; 
+Stopwatch percentageTimer;
 
 //
-int gameTime = 3000;
+int gameTime = 3750;
 int counter = 0; //for stop watch image
 int ping = 5;
 int senReturn = 0;
 //images
 PImage phone, splash, results,light,rKite,gKite,yKite,rFace,yFace,gFace;
 
-//set the dial indicator to half size
-float pointWidth = 89/2;
-float pointHeight = 719/2;
-//offset the center point to move to the center of the circle
-float pointOffset = ((pointHeight/2)-22);
 
 float previousSenLevels1 = senLevels;
 String displayedSenLevels = "";
@@ -53,6 +49,8 @@ SoundFile orange;
 SoundFile green;
 SoundFile countdown;
 SoundFile countdownStart;
+SoundFile points;
+
 boolean playOnce;
 
 
@@ -128,6 +126,7 @@ void setup() {
   green = new SoundFile(this, "/sound/green.mp3");
   countdown = new SoundFile(this, "/sound/countdown.mp3");
   countdownStart = new SoundFile(this, "/sound/countdownStart.mp3");
+  points = new SoundFile(this, "/sound/points.mp3");
 
   //image assignment
   phone = requestImage("/images/results.png");
@@ -144,7 +143,7 @@ void setup() {
   attractor = new Movie(this, "/images/attractor.mp4");
 
   // List all the available serial ports:
-  printArray(Serial.list());
+  
   // Com1 is Serial.list()[0]
   // Serial.list()[1] will pick up the next used COM port
   
@@ -159,11 +158,13 @@ void setup() {
     String portName = Serial.list()[1];
     ardPort = new Serial(this, portName, 115200);
     logFile.println("connected to: " + '\t' + portName);
+    println("connected to: " + '\t' + portName);
     logFile.flush();
   } else {
     String portName = Serial.list()[0];
     ardPort = new Serial(this, portName, 115200);
     logFile.println("connected to: " + '\t' + portName);
+    println("connected to: " + '\t' + portName);
     logFile.flush();
   }
 
@@ -173,7 +174,7 @@ void setup() {
   gameTimer = new Stopwatch(this);
   countTimer = new Stopwatch(this);
   senUpdate = new Stopwatch(this);
-  
+  percentageTimer = new Stopwatch(this);
   
   
     //Graph Setup
@@ -213,7 +214,7 @@ pulseX = new Ani(this,.25,"pulseDimX",75,Ani.BOUNCE_OUT);
 pulseY = new Ani(this,.25,"pulseDimY",200,Ani.BOUNCE_OUT);
 pulseX.start();
 pulseY.start();
-
+frameRate(120);
 }
 
 void draw() {
@@ -232,8 +233,7 @@ void draw() {
       
     }else{results();};
     
-  }else{playMovie();}
-//results();
+  }else{playMovie(); stopAudio();}
 
 }
 
@@ -507,6 +507,7 @@ void results()
        logFile.println("return percentage: " + percentage);
        logFile.flush();
       }
+      percentageTimer.start();
     }
   
 
@@ -518,28 +519,32 @@ void results()
   
 
   
-  if(perCount < percentage)
+  if(perCount < percentage && percentageTimer.time() >35)
   {
     pushStyle();
     textAlign(LEFT);
     text(str(round(perCount))+"%",(titleXResults+spanishResults.length())+perOffset, 900);
     popStyle();
     perCount++;
-    //stall the code to increase count time
-    //the delay will work just fine as the Arduino waits for a signal before moving on
-    delay(35); 
+    percentageTimer.restart();
   }else
-  {
-    
+  {    
   pushStyle();
   textAlign(LEFT);
   text(str(round(perCount))+"%",(titleXResults+spanishResults.length())+perOffset, 900);
   popStyle();
-  if(gameTimer.isPaused())
-  {
-  gameTimer.restart();
-  println("Results countdown");
+  
+    if(gameTimer.isPaused() && ceil(perCount) == ceil(percentage) )
+    {
+    points.stop();
+    gameTimer.restart();
+    println("Results countdown");
+    }
   }
+  
+  if(!points.isPlaying() && ceil(perCount) != ceil(percentage))
+  {
+    points.loop();
   }
   
   int corner1X = 1630;
@@ -586,7 +591,7 @@ void results()
     } else if (percentage >= 33 && percentage < 66 && ceil(perCount) == ceil(percentage))
     {
 
-                pushStyle();
+          pushStyle();
         image(yFace,width/2- 50,375,yFace.width+100,yFace.height+100);
          popStyle();
         
@@ -842,4 +847,14 @@ void countDown(){
     ardPort.write(41);
      
   }
+}
+
+void stopAudio()
+{
+  //stop any audio playing that maybe in the buffer
+  red.stop();
+  orange.stop();
+  green.stop();
+  countdown.stop();
+  countdownStart.stop();
 }
