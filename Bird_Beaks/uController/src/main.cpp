@@ -31,9 +31,8 @@ FastLED.addLeds<NEOPIXEL,Treecreeper_Light>(Treeseq, puck_led);
 FastLED.addLeds<NEOPIXEL,Hummingbird_Light>(Humseq, puck_led);
 FastLED.addLeds<NEOPIXEL,Finch_Light>(Finseq, puck_led);
 
-FastLED.setMaxPowerInVoltsAndMilliamps(5,17000);
+//FastLED.setMaxPowerInVoltsAndMilliamps(5,17000);
 FastLED.show();
-ledsetuo();
 
 //starts all timers they will reset themselves when they are first used
 lightTime.setTime(lightDelay);
@@ -270,8 +269,15 @@ void loop()
     resetGame();
   }
 */
-lightAttract();
-
-
+//Serial.print("entering lightwin: ");
+lightWin();
+//Serial.println("exiting lightwin: ");
+//Bseq.fill_solid(CRGB::Red);
+Nseq.fill_solid(CRGB::Red);
+//Fseq.fill_solid(CRGB::Red);
+//Finseq.fill_solid(CRGB::Red);
+//Treeseq.fill_solid(CRGB::Red);
+//Humseq.fill_solid(CRGB::Red);
+FastLED.show();
 
 }
