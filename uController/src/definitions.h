@@ -71,6 +71,7 @@ MoToTimer lightTime;
 MoToTimer fnchase;
 MoToTimer puckchase;
 MoToTimer bugchase;
+
 byte puckflag = 0;
 byte fnflag = 0;
 byte bugflag = 0;
@@ -96,6 +97,6 @@ byte previouslight = 1;
 //enable to have serial debug
 //#define debug
 
-#define orange #f7933f //humming
-#define red #ef4a33 //tree creeper
-#define teal #00ae9e //finch
+CRGB orange(247, 147, 64);//humming
+CRGB red(239, 74, 51);//tree creeper
+CRGB teal(0, 174, 158); //finch
