@@ -54,6 +54,7 @@ byte pointMax = 3;
 MoToTimer gameTimer;
 MoToTimer resetTimer;
 MoToTimer audioWinTimer;
+MoToTimer winTime;
 
 int gameTime = 30000; //30 secs time in ms
 int resetTime = 5000;
@@ -67,15 +68,17 @@ bool stopOnce = true;
 
 //lightFunctions
 byte lightNum = 0;
+
 MoToTimer lightTime;
 MoToTimer fnchase;
 MoToTimer puckchase;
 MoToTimer bugchase;
 
+
 byte puckflag = 0;
 byte fnflag = 0;
 byte bugflag = 0;
-byte pucktime = 100;
+byte pucktime = 105;
 byte fntime = 25;
 byte bugtime = 10; 
 
@@ -89,10 +92,9 @@ MoToTimer winAudioTimer;
 MoToTimer lightNumUpdate;
 int lightNumUpdateDelay = 1000;
 
-byte winLightDelay = 255;
 #define lightDelay 7000
-
 byte previouslight = 1;
+byte beforeprevious =0;
 
 //enable to have serial debug
 //#define debug
