@@ -6,9 +6,11 @@ void lightAttract()
      {
         //find a number between 1 and 3 while lightnum and previous light are equal
         do{lightNum = random(1,4);}
-        while(lightNum == previouslight);
+        while(lightNum == previouslight && beforeprevious==previouslight);
        //new # is found and previouslight is now updated
+        beforeprevious = previouslight;
         previouslight = lightNum;
+
        lightNumUpdate.setTime(lightNumUpdateDelay);
        }
 
@@ -16,7 +18,8 @@ void lightAttract()
     {
         //turn on treecreeper and bug light 
         case 1:
-        Treeseq.fill_solid(CRGB::Red);
+        Treeseq.fill_solid(red);
+        Bseq.fill_solid(red);
         fadeToBlackBy(Nseq,Nut_led,10);
         fadeToBlackBy(Bseq,bug_led,10);
         fadeToBlackBy(Fseq,flower_led,10);
@@ -31,7 +34,8 @@ void lightAttract()
             break;
         // turn on hummingbird and flower light
         case 2:
-            Humseq.fill_solid(CRGB::Orange);
+            Humseq.fill_solid(orange);
+            Fseq.fill_solid(orange);
             fadeToBlackBy(Nseq,Nut_led,10);
             fadeToBlackBy(Bseq,bug_led,10);
             fadeToBlackBy(Fseq,flower_led,10);
@@ -46,7 +50,8 @@ void lightAttract()
             break;
         //turns on finch and nut light 
         case 3:
-            Finseq.fill_solid(CRGB::Teal);
+            Finseq.fill_solid(teal);
+            Nseq.fill_solid(teal);
            fadeToBlackBy(Nseq,Nut_led,10);
            fadeToBlackBy(Bseq,bug_led,10);
            fadeToBlackBy(Fseq,flower_led,10);
@@ -68,104 +73,115 @@ void lightAttract()
 
 void lightWin()
 {
-        Serial.print(" entering bugchase: ");
-        if(bugchase.running() != true)
+    
+
+      Serial.print(" entering bugchase: ");
+
+        if(!bugchase.running())
         {
-           
-            Bseq[bugflag]=CRGB::Red;   // 9:1 led
-            fadeToBlackBy(Bseq,bug_led,50);
             bugchase.setTime(bugtime);
             
             if(bugflag > bug_led-1)
-            { bugflag = 0; 
-              Bseq.fill_solid(CRGB::Black);
-            }
+            { bugflag = 0; }
 
+            Bseq[bugflag]=red;  // 9:1 led
+            fadeToBlackBy(Bseq,bug_led,20);
             #ifdef debug
             Serial.print("bugflag: ");
             Serial.println(bugflag);
             #endif
             bugflag++;
         }
+
         Serial.println("exiting bugchase: ");
 
         Serial.print(" entering fnchase: ");
-        if(fnchase.running() != true)
+        if(!fnchase.running())
         {
-            
-            Nseq[fnflag] = CRGB::Teal; // 4:1  led 
-            Fseq[fnflag] = CRGB::Orange; // 4:1 led
-            fadeToBlackBy(Nseq,Nut_led,50);
-            fadeToBlackBy(Fseq,flower_led,50);
-            
-            
-
             if(fnflag > flower_led-1)
-            {  fnflag =0;
-               Nseq.fill_solid(CRGB::Black);
-               Fseq.fill_solid(CRGB::Black); 
-            }
+            {  fnflag =0; }
 
-            
+         Nseq[fnflag] = teal; // 4:1  led 
+         Fseq[fnflag] = orange; // 4:1 led
+         fadeToBlackBy(Nseq,Nut_led,20);
+         fadeToBlackBy(Fseq,flower_led,20);
+
             #ifdef debug 
             Serial.print("fnflag: ");
             Serial.println(fnflag);
             #endif
-
+            fnflag++;
         } 
-            Serial.println("exiting fnchase: ");
-       
-            Serial.print(" entering puckchase: ");
-        if(puckchase.running() == false)
-        {   
-            Humseq[puckflag]=CRGB::Orange;
-            Treeseq[puckflag]=CRGB::Red;  
-            Finseq[puckflag]=CRGB::Teal;            
-            fadeToBlackBy(Humseq,puck_led,100);
-            fadeToBlackBy(Treeseq,puck_led,100);
-            fadeToBlackBy(Finseq,puck_led,100);
+        Serial.println("exiting fnchase: ");
 
-            if (puckflag > puck_led-1 )
-            {   
-                Serial.println(puckflag);
-                puckflag = 0;
-                Humseq.fill_solid(CRGB::Black);
-                Treeseq.fill_solid(CRGB:: Black);
-                Finseq.fill_solid(CRGB:: Black);
-                Serial.println("clear");
+        Serial.print(" entering puckchase: ");
+        if(!puckchase.running())
+        {   
+            if(puckflag > puck_led-1)
+            { puckflag = 0;  }
+            if (puckflag < 1)
+            {
+                Humseq[puckflag]= orange;
+                Treeseq[puckflag]= red;
+                Finseq[puckflag]=teal;
+                fadeToBlackBy(Humseq,puck_led,20);
+                fadeToBlackBy(Treeseq,puck_led,20);
+                fadeToBlackBy(Finseq,puck_led,20); 
+            } 
+            if(puckflag>=1 && puckflag< puck_led-1){
+                Humseq[puckflag]= orange;
+                Humseq[puckflag-1]= orange;
+                Treeseq[puckflag]= red;
+                Treeseq[puckflag-1]= red;  
+                Finseq[puckflag]=teal;
+                Finseq[puckflag-1]=teal;
+                fadeToBlackBy(Humseq,puck_led,20);
+                fadeToBlackBy(Treeseq,puck_led,20);
+                fadeToBlackBy(Finseq,puck_led,20); 
             }
+            
+            
+            
+            
+            
+            
+            
+            
+                    
             puckchase.setTime(pucktime);
-            puckflag++; 
             #ifdef debug
             Serial.print("puckflag: ");
             Serial.println(puckflag);
             #endif
+            puckflag++;
         }
-        Serial.println(" exiting puckchase: ");
-        FastLED.show();
+            Serial.println(" exiting puckchase: ");
+
+        
+
     }
 
-
-
 void resetGame()
-{
-         
+
+{         
 //turn all the lights off       
-Nseq[Nut_led]=CRGB::Black;
-Bseq[bug_led]=CRGB::Black;
-Fseq[flower_led]=CRGB::Black;
-Treeseq[puck_led]=CRGB::Black;
-Humseq[puck_led]=CRGB::Black;
-Finseq[puck_led]=CRGB::Black;
+Nseq.fill_solid(CRGB::Black);
+Bseq.fill_solid(CRGB::Black);
+Fseq.fill_solid(CRGB::Black);
+Treeseq.fill_solid(CRGB::Black);;
+Humseq.fill_solid(CRGB::Black);;
+Finseq.fill_solid(CRGB::Black);;
 FastLED.show();
 
-
+//reset winseq flags
+bugflag = 0;
+fnflag = 0;
+puckflag = 0;
 
 //reset triggerd values
 nutTriggered = false;
 flowerTriggered = false;
 bugTriggered = false;
-
 
 //set gameState to off && points to 0
 gameState = false;
@@ -207,8 +223,5 @@ Serial.println("**************Game Finished resetting************");
  Serial.println(" ");
 
 #endif   
-
-
-
 
 }
