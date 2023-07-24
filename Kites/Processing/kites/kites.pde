@@ -2,7 +2,10 @@
 import processing.video.*;
 import processing.serial.*;
 import lord_of_galaxy.timing_utils.*;
-import processing.sound.*;
+
+//import processing.sound.*;
+import ddf.minim.*;
+
 import grafica.*;
 import de.looksgood.ani.*;
 import de.looksgood.ani.easing.*;
@@ -30,6 +33,7 @@ int gameTime = 3750;
 int counter = 0; //for stop watch image
 int ping = 5;
 int senReturn = 0;
+
 //images
 PImage phone, splash, results,light,rKite,gKite,yKite,rFace,yFace,gFace;
 
@@ -44,12 +48,23 @@ Movie attractor;
 float videoOffset = 0.037457;
 
 //sound files
-SoundFile red;
-SoundFile orange;
-SoundFile green;
-SoundFile countdown;
-SoundFile countdownStart;
-SoundFile points;
+//SoundFile red;
+//SoundFile orange;
+//SoundFile green;
+//SoundFile countdown;
+//SoundFile countdownStart;
+//SoundFile points;
+
+//Minim Sound files
+Minim minim;
+AudioSample red;
+AudioSample orange;
+AudioSample green;
+AudioSample countdown;
+AudioSample countdownStart;
+AudioPlayer points;
+
+
 
 boolean playOnce;
 
@@ -120,14 +135,25 @@ void setup() {
   PFont Hel = createFont("/font/helv.otf", 32);
   textFont(Hel);
 
-  //sound assignment
-  red = new SoundFile(this, "/sound/red.mp3");
-  orange = new SoundFile(this, "/sound/orange.mp3");
-  green = new SoundFile(this, "/sound/green.mp3");
-  countdown = new SoundFile(this, "/sound/countdown.mp3");
-  countdownStart = new SoundFile(this, "/sound/countdownStart.mp3");
-  points = new SoundFile(this, "/sound/points.mp3");
+  ////sound assignment
+  //red = new SoundFile(this, "/sound/red.mp3");
+  //orange = new SoundFile(this, "/sound/orange.mp3");
+  //green = new SoundFile(this, "/sound/green.mp3");
+  //countdown = new SoundFile(this, "/sound/countdown.mp3");
+  //countdownStart = new SoundFile(this, "/sound/countdownStart.mp3");
+  //points = new SoundFile(this, "/sound/points.mp3");
+  
+  //Minim Assignment
+  minim = new Minim(this);
 
+  // load BD.wav from the data folder
+  red = minim.loadSample( "/sound/red.mp3", 512);
+  orange = minim.loadSample( "/sound/orange.mp3",512);
+  green = minim.loadSample( "/sound/green.mp3",512);
+  countdown = minim.loadSample( "/sound/countdown.mp3",512);
+  countdownStart = minim.loadSample( "/sound/countdownStart.mp3",512);
+  points = minim.loadFile( "/sound/points.mp3",512);
+                              
   //image assignment
   phone = requestImage("/images/results.png");
   rKite = requestImage("/images/rKite.png");
@@ -536,7 +562,7 @@ void results()
   
     if(gameTimer.isPaused() && ceil(perCount) == ceil(percentage) )
     {
-    points.stop();
+    points.pause();
     gameTimer.restart();
     println("Results countdown");
     }
@@ -545,6 +571,7 @@ void results()
   if(!points.isPlaying() && ceil(perCount) != ceil(percentage))
   {
     points.loop();
+    println("begin loop");
   }
   
   int corner1X = 1630;
@@ -672,7 +699,7 @@ void playWin(int percentage)
       if (playOnce == true)
       {
         try{
-        green.play();
+        green.trigger();
         playOnce = false;
         }catch(Exception e)
         {
@@ -685,7 +712,7 @@ void playWin(int percentage)
       if (playOnce == true)
       {
         try{
-          orange.play();
+          orange.trigger();
           playOnce = false;
         }catch(Exception e)
         {
@@ -698,7 +725,7 @@ void playWin(int percentage)
       if (playOnce == true)
       {
         try{
-          red.play();
+          red.trigger();
           playOnce = false;
         }catch(Exception e)
         {
@@ -736,7 +763,6 @@ void playMovie() {
   } else {
     pushMatrix();
     imageMode(CENTER);
-    delay(1);
     image(attractor, width/2, height/2, width, height);
     popMatrix();
     attractor.play();
@@ -816,7 +842,7 @@ void countDown(){
      
   if((counter < 1000 || counter < 2000 && counter >1000 || counter >3000) && playOnce){
     try{
-  countdown.play();
+  countdown.trigger();
   playOnce = false;
     }catch(Exception e)
     {
@@ -826,7 +852,7 @@ void countDown(){
     }
   }
   
-  if(counter == 0){countdownStart.play();}
+  if(counter == 0){countdownStart.trigger();}
   
   println("Count: " + counter);
   fill(#000000);
