@@ -21,7 +21,8 @@ int brightness = 60;
 byte hue = 0;          
 int led_pointer=0; 
 
-
+float alpha = 0.3; // Adjust as needed: Larger number greater spikes. Smaller number less spikes.
+float ema = 0.00; // This will store the Exponential Moving Average
 
 MoToTimer LED_timer;
 
@@ -32,13 +33,10 @@ double sensorValHighlast = 0;
 bool ledState = 0;
 bool lastLedState = 0;
 
-double modifiedMap(double x, double in_min, double in_max, double out_min, double out_max)
-{    
-     
-     double temp = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-
-     temp = (int) (4*temp + .5);
-     return (double) temp/4;
+float modifiedMap(float value, float inMin, float inMax, float outMin, float outMax) {
+    // Map the input value from the input range to the output range
+    float mappedValue = (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    return mappedValue;
 }
 
 // this is the function to control the ARGB strips and output the correct color 
@@ -119,6 +117,8 @@ double sensorUpdate(double sensorValLow)
                Serial.println(sensorValHigh);
           #endif
      }  
+     ema = (alpha * sensorVal) + ((1 - alpha) * ema); // Calculate the EMA
+     sensorVal = ema //Swap values back to sensorVal before mapping occurs.
 
      //map the value to a higher resoultion and force them to always be positive
      sensorVal = abs(modifiedMap(sensorVal,sensorValLow, sensorValHigh, 0, 300));
