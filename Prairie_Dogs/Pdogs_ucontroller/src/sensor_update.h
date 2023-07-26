@@ -50,21 +50,21 @@ void lightupdate(double sensorVal)
                if( sensorVal>=0 && sensorVal<=100)
                {
                     tubelight[led_pointer]= CRGB:: Red; 
-                    FastLED.show();
+                    
                     fadeToBlackBy(tubelight,numofLEDS,60);
 
                }
                if(sensorVal>100 && sensorVal<200)
                {
                     tubelight[led_pointer]= CRGB:: Yellow;
-                    FastLED.show();
+                    
                     fadeToBlackBy(tubelight,numofLEDS,90);
                     
                }
                if(sensorVal>=200)
                {
                     tubelight[led_pointer]= CRGB:: Green;
-                    FastLED.show();
+                    
                     fadeToBlackBy(tubelight,numofLEDS,120);
                     
                }
@@ -76,6 +76,7 @@ void lightupdate(double sensorVal)
           {
                led_pointer= 0;
           }
+          FastLED.show();
 }
 
 double sensorUpdate(double sensorValLow)

@@ -35,7 +35,6 @@ Added comments & notes waiting to calibrate
 #include <EEPROM.h>
 #include <bounce2.h>
 #include <MoToTimer.h>
-#include <FastLED.h>
 
 #include <pin_define.h>
 #include <sensor_update.h>
@@ -114,18 +113,22 @@ void setup()
     {delay(10);} 
 
     // creates LIGHT array and lighttimer set to update every 100 millis
-    FastLED.addLeds<NEOPIXEL,RGB_pin>(tubelight,20);
+    FastLED.addLeds<NEOPIXEL,RGB_pin>(tubelight,numofLEDS);
     /*fill_solid(tubelight,20,CRGB::Red);
     FastLED.show();
     Serial.println("Lights");
     delay(5000);*/
     LED_timer.setTime(10);
+    tubelight.fill_solid(CRGB::Red);
+    FastLED.show();
+
 }
 
 void loop() 
 {
   startBtn.update();
   calBtn.update();
+
 
   if(calBtn.pressed()){calibration();}
   //game code
@@ -151,6 +154,7 @@ void loop()
   if(gameON == true) {
     digitalWrite(fanpin, HIGH);  
     gameON = (Serial_Update(gameON));
+    lightupdate(gameON);
     startPulse.setRate(10);
     startPulse.update(0);   
   }
