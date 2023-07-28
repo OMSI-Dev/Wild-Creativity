@@ -24,7 +24,7 @@ bool Serial_Update(bool gameStatus)
     //this is a dummy number used in debugging and calibration
     //double sensorValCalibrated = 196;
     sensorUpdate(sensorValCalibrated);
-    lightupdate(ByteSend);         
+            
     Serial.print(ByteSend);
     Serial.write(10); //sends LF to close buffer      
     gameStatus = true;      

@@ -114,11 +114,8 @@ void setup()
 
     // creates LIGHT array and lighttimer set to update every 100 millis
     FastLED.addLeds<NEOPIXEL,RGB_pin>(tubelight,numofLEDS);
-    /*fill_solid(tubelight,20,CRGB::Red);
-    FastLED.show();
-    Serial.println("Lights");
-    delay(5000);*/
     LED_timer.setTime(10);
+    FastLED.setBrightness(255);
     tubelight.fill_solid(CRGB::Red);
     FastLED.show();
     delay(1000);
@@ -156,7 +153,7 @@ void loop()
   if(gameON == true) {
     digitalWrite(fanpin, HIGH);  
     gameON = (Serial_Update(gameON));
-    lightupdate(gameON);
+    lightupdate(sensorVal);
     startPulse.setRate(10);
     startPulse.update(0);   
   }

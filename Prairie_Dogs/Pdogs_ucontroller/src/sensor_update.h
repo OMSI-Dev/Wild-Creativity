@@ -14,22 +14,22 @@ int CalReadings[CalNumReadings];      // the readings from the analog input
 int CalReadIndex = 0;              // the index of the current reading
 double CalTotal = 0;                  // the running total
 
-double sensorVal;
+float sensorVal;
 
 
 int brightness = 60;   
 byte hue = 0;          
 int led_pointer=0; 
 
-float alpha = 0.5; // Adjust as needed: Larger number greater spikes. Smaller number less spikes.
+float alpha = 0.7; // Adjust as needed: Larger number greater spikes. Smaller number less spikes.
 float ema = 0.00; // This will store the Exponential Moving Average
 
 MoToTimer LED_timer;
 
 //used to constrain & Calibrate
 bool SenCalibrate = false;
-double sensorValHigh =  400; //init value set to low it will cause spikes. Set to high and game never calibrates
-double sensorValHighlast = 0;
+float sensorValHigh =  400; //init value set to low it will cause spikes. Set to high and game never calibrates
+float sensorValHighlast = 0;
 bool ledState = 0;
 bool lastLedState = 0;
 
@@ -40,13 +40,15 @@ float modifiedMap(float value, float inMin, float inMax, float outMin, float out
 }
 
 // this is the function to control the ARGB strips and output the correct color 
-void lightupdate(double sensorVal)
+void lightupdate(float sensorVal)
 {
 
           if (!LED_timer.running()&& led_pointer<=numofLEDS)
-          {
-               //Serial.print(" this is the led_pointer");
-               //Serial.println( led_pointer);
+          {    
+               // Serial.print("sensorval in light update: ");
+               // Serial.println(sensorVal);
+               // Serial.print(" this is the led_pointer");
+               // Serial.println( led_pointer);
                if( sensorVal>=0 && sensorVal<=100)
                {
                     tubelight[led_pointer]= CRGB:: Red; 
@@ -59,7 +61,7 @@ void lightupdate(double sensorVal)
                {
                     tubelight[led_pointer]= CRGB:: Yellow;
                     
-                    fadeToBlackBy(tubelight,numofLEDS,90);
+                    fadeToBlackBy(tubelight,numofLEDS,60);
                     LED_timer.setTime(60);
                     
                }
@@ -67,19 +69,20 @@ void lightupdate(double sensorVal)
                {
                     tubelight[led_pointer]= CRGB:: Green;
                     
-                    fadeToBlackBy(tubelight,numofLEDS,120);
+                    fadeToBlackBy(tubelight,numofLEDS,60);
                     LED_timer.setTime(40);
                     
                }
                
                led_pointer++;
-               fadeToBlackBy(tubelight,numofLEDS,70);
+               //fadeToBlackBy(tubelight,numofLEDS,60);
           }
-          if (led_pointer>numofLEDS)
+          FastLED.show();
+          if (led_pointer>numofLEDS-1)
           {
                led_pointer= 0;
           }
-          FastLED.show();
+          
 }
 
 double sensorUpdate(double sensorValLow)
@@ -145,10 +148,8 @@ double sensorUpdate(double sensorValLow)
           Serial.println(sensorValLow);
           Serial.print("SenHigh: ");
           Serial.println(sensorValHigh);          
-          Serial.print("Mapped Value: ");
-          Serial.println(sensorVal);
      #endif
-
+     
 }
 
 //calibration routine to define the base level of the oxygen levels
