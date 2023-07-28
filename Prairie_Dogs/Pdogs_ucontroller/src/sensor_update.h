@@ -21,7 +21,7 @@ int brightness = 60;
 byte hue = 0;          
 int led_pointer=0; 
 
-float alpha = 0.3; // Adjust as needed: Larger number greater spikes. Smaller number less spikes.
+float alpha = 0.5; // Adjust as needed: Larger number greater spikes. Smaller number less spikes.
 float ema = 0.00; // This will store the Exponential Moving Average
 
 MoToTimer LED_timer;
@@ -45,13 +45,14 @@ void lightupdate(double sensorVal)
 
           if (!LED_timer.running()&& led_pointer<=numofLEDS)
           {
-               Serial.print(" this is the led_pointer");
-               Serial.println( led_pointer);
+               //Serial.print(" this is the led_pointer");
+               //Serial.println( led_pointer);
                if( sensorVal>=0 && sensorVal<=100)
                {
                     tubelight[led_pointer]= CRGB:: Red; 
                     
                     fadeToBlackBy(tubelight,numofLEDS,60);
+                    LED_timer.setTime(100);
 
                }
                if(sensorVal>100 && sensorVal<200)
@@ -59,6 +60,7 @@ void lightupdate(double sensorVal)
                     tubelight[led_pointer]= CRGB:: Yellow;
                     
                     fadeToBlackBy(tubelight,numofLEDS,90);
+                    LED_timer.setTime(60);
                     
                }
                if(sensorVal>=200)
@@ -66,9 +68,10 @@ void lightupdate(double sensorVal)
                     tubelight[led_pointer]= CRGB:: Green;
                     
                     fadeToBlackBy(tubelight,numofLEDS,120);
+                    LED_timer.setTime(40);
                     
                }
-               LED_timer.restart();
+               
                led_pointer++;
                fadeToBlackBy(tubelight,numofLEDS,70);
           }
@@ -119,7 +122,7 @@ double sensorUpdate(double sensorValLow)
           #endif
      }  
      ema = (alpha * sensorVal) + ((1 - alpha) * ema); // Calculate the EMA
-     sensorVal = ema //Swap values back to sensorVal before mapping occurs.
+     sensorVal = ema; //Swap values back to sensorVal before mapping occurs.
 
      //map the value to a higher resoultion and force them to always be positive
      sensorVal = abs(modifiedMap(sensorVal,sensorValLow, sensorValHigh, 0, 300));

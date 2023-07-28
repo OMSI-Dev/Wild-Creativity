@@ -121,7 +121,9 @@ void setup()
     LED_timer.setTime(10);
     tubelight.fill_solid(CRGB::Red);
     FastLED.show();
-
+    delay(1000);
+    tubelight.fill_solid(CRGB::Black);
+    FastLED.show();
 }
 
 void loop() 
