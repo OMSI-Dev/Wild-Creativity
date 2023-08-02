@@ -149,7 +149,7 @@ void loop()
     gameON = (Serial_Update(gameON));
     FastLED.clear();
     FastLED.show();
-    ema = 0.00;
+    ema = 90.00;
     sensorCount = 0;
     startPulse.setRate(30);
     startPulse.update(1);

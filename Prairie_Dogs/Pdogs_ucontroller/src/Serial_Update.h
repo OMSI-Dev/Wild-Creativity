@@ -4,7 +4,7 @@ bool Serial_Update(bool gameStatus)
   // send it to the computer as ASCII digits
   //bytes to talk with computer
   int ByteRecv, ByteSend = 0;    
-  byte data = 0;
+
   ByteSend = sensorVal;    
   //get start byte
   ByteRecv = Serial.read();
