@@ -33,7 +33,7 @@ float graphYmax = 300;
 long senUpdate = 0;
 int interval = 10;
 Stopwatch Timer;
-int gameTime = 30000;
+int gameTime = 45000;
 
 
 //images
@@ -217,6 +217,8 @@ void draw() {
     playMovie();
     senLevels = 0;
     plot1.setPoints(new GPointsArray());
+    plot1.beginDraw();
+    plot1.endDraw();
     //xPoint = 1;
     //plot1.addPoint(0, 0);
     
@@ -263,7 +265,8 @@ void updatePoints() {
   GPoint lastPoint = plot1.getPointsRef().getLastPoint();
 
   if (lastPoint == null) {
-    plot1.addPoint(xPoint, senLevels);
+    println("Point Null");
+    plot1.addPoint(xPoint, 0.0);
   } else if (!lastPoint.isValid() || sq(lastPoint.getX() - xPoint) + sq(lastPoint.getY() + senLevels) > 2500) {
     //update points on graph
     plot1.addPoint(millis(), senLevels);

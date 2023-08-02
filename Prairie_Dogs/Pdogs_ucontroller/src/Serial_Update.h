@@ -4,7 +4,7 @@ bool Serial_Update(bool gameStatus)
   // send it to the computer as ASCII digits
   //bytes to talk with computer
   int ByteRecv, ByteSend = 0;    
-
+  byte data = 0;
   ByteSend = sensorVal;    
   //get start byte
   ByteRecv = Serial.read();
@@ -21,12 +21,12 @@ bool Serial_Update(bool gameStatus)
     Serial.print("sensorValCal: ");
     Serial.println(sensorValCalibrated);
     #endif
-    //this is a dummy number used in debugging and calibration
-    //double sensorValCalibrated = 196;
     sensorUpdate(sensorValCalibrated);
-            
+       
     Serial.print(ByteSend);
-    Serial.write(10); //sends LF to close buffer      
+    Serial.write(10); //sends LF to close buffer     
+   
+
     gameStatus = true;      
     return  gameStatus;
   }

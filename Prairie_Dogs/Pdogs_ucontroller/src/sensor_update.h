@@ -2,7 +2,7 @@
 #include <Mapf.h>
 //#define debug
 
-const int CalNumReadings = 100;
+const int CalNumReadings = 200;
 
 const int numReadings = 25;
 
@@ -21,14 +21,13 @@ int brightness = 60;
 byte hue = 0;          
 int led_pointer=0; 
 
-float alpha = 0.7; // Adjust as needed: Larger number greater spikes. Smaller number less spikes.
-float ema = 0.00; // This will store the Exponential Moving Average
+
 
 MoToTimer LED_timer;
 
 //used to constrain & Calibrate
 bool SenCalibrate = false;
-float sensorValHigh =  400; //init value set to low it will cause spikes. Set to high and game never calibrates
+float sensorValHigh =  500; //init value set to low it will cause spikes. Set to high and game never calibrates
 float sensorValHighlast = 0;
 bool ledState = 0;
 bool lastLedState = 0;
@@ -70,7 +69,7 @@ void lightupdate(float sensorVal)
                     tubelight[led_pointer]= CRGB:: Green;
                     
                     fadeToBlackBy(tubelight,numofLEDS,60);
-                    LED_timer.setTime(40);
+                    LED_timer.setTime(20);
                     
                }
                
@@ -89,30 +88,31 @@ double sensorUpdate(double sensorValLow)
 {
      //Average out the signal at the start of the game
      //Set this to the Low. Map these new readings to 0-300
+     // #ifdef debug
+     //      Serial.print("Sensor Low:");
+     //      Serial.println(sensorValLow);
+     // #endif
+
+     // total = total - readings[readIndex]; 
+     // readings[readIndex] = analogRead(sensorIn); 
+     // total = total + readings[readIndex];  
+     // readIndex = readIndex + 1;
+
+     // if (readIndex >= numReadings) 
+     // {
+     //      readIndex = 0;
+     // }
+
+     // #ifdef debug
+     //      Serial.print("READ Value: ");
+     //      Serial.println(analogRead(sensorIn));
+     // #endif 
+
+     // sensorVal = total / numReadings;
+     sensorVal = analogRead(sensorIn);
+
      #ifdef debug
-          Serial.print("Sensor Low:");
-          Serial.println(sensorValLow);
-     #endif
-
-     total = total - readings[readIndex]; 
-     readings[readIndex] = analogRead(sensorIn); 
-     total = total + readings[readIndex];  
-     readIndex = readIndex + 1;
-
-     if (readIndex >= numReadings) 
-     {
-          readIndex = 0;
-     }
-
-     #ifdef debug
-          Serial.print("READ Value: ");
-          Serial.println(analogRead(sensorIn));
-     #endif 
-
-     sensorVal = total / numReadings;
-
-     #ifdef debug
-          Serial.print("Averaged Value: ");
+          Serial.print("Raw Value: ");
           Serial.println(sensorVal); 
      #endif
 
@@ -179,7 +179,7 @@ int SensorCalibration(int sensorValCalibrated)
             digitalWrite(LED_BUILTIN, HIGH);
           }else(digitalWrite(LED_BUILTIN, LOW));     
           lastLedState = ledState;
-
+          delay(100);
      }while(CalReadIndex != CalNumReadings);
 
      if (CalReadIndex >= CalNumReadings) {
@@ -235,6 +235,7 @@ int SensorCalibration(int sensorValCalibrated)
      Serial.print("EEprom Combine: ");
      Serial.println(EEPROM.read(0) * 100 + EEPROM.read(1) * 10 + EEPROM.read(2));
 #endif
+     sensorValHigh = sensorValCalibrated + 225;
     return  sensorValCalibrated;
 
  }
