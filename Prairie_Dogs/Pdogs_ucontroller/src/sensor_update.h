@@ -18,12 +18,7 @@ float sensorVal;
 
 
 int brightness = 60;         
-byte baseindex = 0;   
-byte led_pointer = 14;
-byte led_pointer2 = 29; 
-byte led_pointer3 = 44;
-byte led_pointer4 = 59;
-byte led_pointer5 = 74;
+byte baseindex = 10;   
 
 MoToTimer LED_timer;
 
@@ -44,7 +39,7 @@ float modifiedMap(float value, float inMin, float inMax, float outMin, float out
 void lightupdate(float sensorVal)
 {
 
-          if (!LED_timer.running()&& led_pointer<=numofLEDS)
+          if (!LED_timer.running() && baseindex<= numofLEDS)
           {    
                #ifdef debug
                 Serial.print("sensorval in light update: ");
@@ -55,101 +50,31 @@ void lightupdate(float sensorVal)
 
                if( sensorVal>=0 && sensorVal<=100)
                {
-                    if(baseindex<14)
-                    { 
-                         tubelight[baseindex]= CRGB:: Red;
-                    }
+                    tube1a[baseindex] = CRGB::Red;
+                    tube1b[baseindex] = CRGB::Red;
+                    tube1c[baseindex] = CRGB::Red;
+                    tube1d[baseindex] = CRGB::Red;
+                    tube1e[baseindex] = CRGB::Red;
+                    tube1f[baseindex] = CRGB::Red;
+                    tube1g[baseindex] = CRGB::Red;
+                    tube1h[baseindex] = CRGB::Red;
+                    tube1i[baseindex] = CRGB::Red;
                     
-                    if(baseindex>15 && baseindex<29)
-                    {    
-                         led_pointer = baseindex;
-                         tubelight[led_pointer]= CRGB:: Red;
-                         tubelight[led_pointer - 15] = CRGB:: Red;
-                    }
-                    if(baseindex>30 && baseindex<44)
-                    { 
-                         led_pointer2 = baseindex;
-                         tubelight[led_pointer2]= CRGB:: Red;
-                         tubelight[led_pointer2 - 15]= CRGB:: Red;
-                         tubelight[led_pointer2 - 29] = CRGB:: Red;
-                    }
-                    if(baseindex>45 && baseindex<59)
-                    {
-                         led_pointer3 = baseindex;
-                         tubelight[led_pointer3]= CRGB:: Red;
-                         tubelight[led_pointer3 - 15]= CRGB:: Red;
-                         tubelight[led_pointer3 - 29] = CRGB:: Red;
-                         tubelight[led_pointer3 - 45] = CRGB:: Red;
-                    }
-                    if(baseindex>60 && baseindex<74)
-                    {
-                         led_pointer4 = baseindex; 
-                         tubelight[led_pointer4]= CRGB:: Red;
-                         tubelight[led_pointer4 - 15]= CRGB:: Red;
-                         tubelight[led_pointer4 - 29] = CRGB:: Red;
-                         tubelight[led_pointer4 - 45] = CRGB:: Red;
-                         tubelight[led_pointer4 - 60] = CRGB:: Red;
-                    }
-                    if(baseindex>74)
-                    {
-                         led_pointer5 = baseindex;
-                         tubelight[led_pointer5]= CRGB:: Red;
-                         tubelight[led_pointer5 - 15]= CRGB:: Red;
-                         tubelight[led_pointer5 - 29] = CRGB:: Red;
-                         tubelight[led_pointer5 - 45] = CRGB:: Red;
-                         tubelight[led_pointer5 - 60] = CRGB:: Red;
-                         tubelight[led_pointer5 - 75] = CRGB:: Red;
-                    }
-
-
-                         fadeToBlackBy(tubelight, numofLEDS, 60);
-                         LED_timer.setTime(100);
-                    }
+                    fadeToBlackBy(tubelight, numofLEDS, 60);
+                    LED_timer.setTime(100);
+               }
 
                if(sensorVal>100 && sensorVal<200)
                {
-                    if(baseindex < 14)
-                         { tubelight[baseindex]= CRGB:: Yellow;}
- 
-                    if(baseindex > 15 && baseindex < 29)
-                         {    
-                              led_pointer = baseindex;
-                              tubelight[led_pointer]= CRGB:: Yellow;
-                              tubelight[led_pointer - 15] = CRGB:: Yellow;}
-                    if(baseindex > 30 && baseindex < 44)
-                    { 
-                         led_pointer2 = baseindex;
-                         tubelight[led_pointer2]= CRGB:: Yellow;
-                         tubelight[led_pointer2 - 15]= CRGB:: Yellow;
-                         tubelight[led_pointer2 - 29] = CRGB:: Yellow;
-                    }
-                    if(baseindex > 45 && baseindex < 59)
-                    {
-                         led_pointer3 = baseindex;
-                         tubelight[led_pointer3]= CRGB:: Yellow;
-                         tubelight[led_pointer3 - 15]= CRGB:: Yellow;
-                         tubelight[led_pointer3 - 29] = CRGB:: Yellow;
-                         tubelight[led_pointer3 - 45] = CRGB:: Yellow;
-                    }
-                    if(baseindex>60 && baseindex<74)
-                    {
-                         led_pointer4 = baseindex;
-                         tubelight[led_pointer4]= CRGB:: Yellow;
-                         tubelight[led_pointer4 - 15]= CRGB:: Yellow;
-                         tubelight[led_pointer4 - 29] = CRGB:: Yellow;
-                         tubelight[led_pointer4 - 45] = CRGB:: Yellow;
-                         tubelight[led_pointer4 - 60] = CRGB:: Yellow;
-                    }
-                    if(baseindex >74)
-                    {
-                         led_pointer5 = baseindex;
-                         tubelight[led_pointer5]= CRGB:: Yellow;
-                         tubelight[led_pointer5 - 15]= CRGB:: Yellow;
-                         tubelight[led_pointer5 - 29] = CRGB:: Yellow;
-                         tubelight[led_pointer5 - 45] = CRGB:: Yellow;
-                         tubelight[led_pointer5 - 60] = CRGB:: Yellow;
-                         tubelight[led_pointer5 - 75] = CRGB:: Yellow;
-                    }
+                    tube1a[baseindex] = CRGB::Yellow;
+                    tube1b[baseindex] = CRGB::Yellow;
+                    tube1c[baseindex] = CRGB::Yellow;
+                    tube1d[baseindex] = CRGB::Yellow;
+                    tube1e[baseindex] = CRGB::Yellow;
+                    tube1f[baseindex] = CRGB::Yellow;
+                    tube1g[baseindex] = CRGB::Yellow;
+                    tube1h[baseindex] = CRGB::Yellow;
+                    tube1i[baseindex] = CRGB::Yellow;
                     
                     fadeToBlackBy(tubelight,numofLEDS,60);
                     LED_timer.setTime(60);
@@ -157,64 +82,28 @@ void lightupdate(float sensorVal)
                }
                if(sensorVal>=200)
                { 
-                    if(baseindex<14)
-                    { 
-                         tubelight[baseindex]= CRGB:: Green;
-                    }
-
-                    if(baseindex > 15 && baseindex < 29)
-                    {
-                         led_pointer = baseindex;
-                          tubelight[led_pointer]= CRGB:: Green;
-                          tubelight[led_pointer - 15] = CRGB:: Green;
-                    }
-                    if(baseindex > 30 && baseindex < 44)
-                    { 
-                         led_pointer2 = baseindex;
-                         tubelight[led_pointer2]= CRGB:: Green;
-                         tubelight[led_pointer2 - 15]= CRGB:: Green;
-                         tubelight[led_pointer2 - 29] = CRGB:: Green;
-                    }
-                    if(baseindex > 45 && baseindex < 59)
-                    {
-                         led_pointer3 = baseindex;
-                         tubelight[led_pointer3]= CRGB:: Green;
-                         tubelight[led_pointer3 - 15]= CRGB:: Green;
-                         tubelight[led_pointer3 - 29] = CRGB:: Green;
-                         tubelight[led_pointer3 - 45] = CRGB:: Green;
-                    }
-                    if(baseindex > 60 && baseindex < 74)
-                    {
-                         led_pointer4 = baseindex;
-                         tubelight[led_pointer4]= CRGB:: Green;
-                         tubelight[led_pointer4 - 15]= CRGB:: Green;
-                         tubelight[led_pointer4 - 29] = CRGB:: Green;
-                         tubelight[led_pointer4 - 45] = CRGB:: Green;
-                         tubelight[led_pointer4 - 60] = CRGB:: Green;
-                    }
-                    if(baseindex > 74)
-                    {
-                         led_pointer5 = baseindex;
-                         tubelight[led_pointer5]= CRGB:: Green;
-                         tubelight[led_pointer5 - 15]= CRGB:: Green;
-                         tubelight[led_pointer5 - 29] = CRGB:: Green;
-                         tubelight[led_pointer5 - 45] = CRGB::Green;
-                         tubelight[led_pointer5 - 60] = CRGB:: Green;
-                         tubelight[led_pointer5 - 75] = CRGB:: Green;
-                    }
+                    tube1a[baseindex] = CRGB::Green;
+                    tube1b[baseindex] = CRGB::Green;
+                    tube1c[baseindex] = CRGB::Green;
+                    tube1d[baseindex] = CRGB::Green;
+                    tube1e[baseindex] = CRGB::Green;
+                    tube1f[baseindex] = CRGB::Green;
+                    tube1g[baseindex] = CRGB::Green;
+                    tube1h[baseindex] = CRGB::Green;
+                    tube1i[baseindex] = CRGB::Green;
+                    
 
                     fadeToBlackBy(tubelight,numofLEDS,60);
                     LED_timer.setTime(20);
                     
                }
-               
-               baseindex++;
-               //fadeToBlackBy(tubelight,numofLEDS,60);
+              
+               baseindex--;
           }
           FastLED.show();
-          if (baseindex>numofLEDS-1)
+          if (baseindex <=0)
           {
-               baseindex = 0;
+               baseindex=10;
 
           }
           

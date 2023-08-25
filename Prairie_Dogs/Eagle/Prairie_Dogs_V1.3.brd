@@ -1209,7 +1209,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <wire x1="32.004" y1="36.576" x2="32.004" y2="99.0981" width="0.4064" layer="1"/>
 <wire x1="55.88" y1="12.7" x2="32.004" y2="36.576" width="0.4064" layer="1"/>
 </signal>
-<signal name="N$9">
+<signal name="D11">
 <contactref element="U1" pad="D11"/>
 <contactref element="10K" pad="2"/>
 <wire x1="70.866" y1="43.434" x2="57.592" y2="43.434" width="0.254" layer="1"/>

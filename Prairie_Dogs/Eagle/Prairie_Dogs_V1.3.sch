@@ -4059,7 +4059,7 @@ Mag Lock - D13</text>
 <attribute name="NAME" x="174.244" y="121.031" size="1.778" layer="95"/>
 </instance>
 <instance part="X1" gate="-3" x="167.64" y="127" smashed="yes" rot="R180">
-<attribute name="VALUE" x="175.26" y="130.81" size="1.778" layer="96" rot="R180"/>
+<attribute name="VALUE" x="205.74" y="120.65" size="1.778" layer="96" rot="R180"/>
 <attribute name="NAME" x="174.244" y="126.111" size="1.778" layer="95"/>
 </instance>
 </instances>
@@ -4197,7 +4197,7 @@ Mag Lock - D13</text>
 <label x="160.02" y="114.3" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$9" class="0">
+<net name="D11" class="0">
 <segment>
 <wire x1="132.08" y1="50.8" x2="139.7" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="*D11"/>
@@ -4205,6 +4205,7 @@ Mag Lock - D13</text>
 <wire x1="132.08" y1="149.86" x2="132.08" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="10K" gate="G$1" pin="2"/>
 <wire x1="139.7" y1="25.4" x2="139.7" y2="50.8" width="0.1524" layer="91"/>
+<label x="124.46" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$2" class="0">
