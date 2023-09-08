@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#slide-show-image-ts {
+/*object-fit: contain;*/
+width: 89%;
+background: black;
+}
+
+.image-wrapper {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background: black;
+}
