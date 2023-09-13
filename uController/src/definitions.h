@@ -26,7 +26,7 @@ AudioOut audioOut;
 
 //neopixel setup
 #define puck_led 18
-#define bug_led 125
+#define bug_led 133
 #define Nut_led 80
 #define flower_led 80
 CRGBArray <Nut_led> Nseq;
@@ -102,3 +102,8 @@ byte beforeprevious =0;
 CRGB orange(247, 147, 64);//humming
 CRGB red(239, 74, 51);//tree creeper
 CRGB teal(0, 174, 158); //finch
+/*\
+humming bird == f79340
+tree creeper == f04934
+finch == 04a391
+*/
