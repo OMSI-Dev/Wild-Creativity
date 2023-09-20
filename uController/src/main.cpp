@@ -25,14 +25,15 @@ bugBtn.attach(bugPin, INPUT_PULLUP);
 bugBtn.interval(5);
 bugBtn.setPressedState(LOW);
 
-FastLED.addLeds<NEOPIXEL,nutLight>(Nseq, Nut_led);
-FastLED.addLeds<NEOPIXEL,flowerLight>(Fseq, flower_led);
-FastLED.addLeds<NEOPIXEL,bugLight>(Bseq, bug_led);
-FastLED.addLeds<NEOPIXEL,Treecreeper_Light>(Treeseq, puck_led);
-FastLED.addLeds<NEOPIXEL,Hummingbird_Light>(Humseq, puck_led);
-FastLED.addLeds<NEOPIXEL,Finch_Light>(Finseq, puck_led);
+FastLED.addLeds<NEOPIXEL,nutLight>(Nseq, Nut_led).setCorrection( TypicalSMD5050 );
+FastLED.addLeds<NEOPIXEL,flowerLight>(Fseq, flower_led).setCorrection( TypicalSMD5050 );
+FastLED.addLeds<NEOPIXEL,bugLight>(Bseq, bug_led).setCorrection( TypicalSMD5050 );
+FastLED.addLeds<NEOPIXEL,Treecreeper_Light>(Treeseq, puck_led).setCorrection( TypicalSMD5050 );
+FastLED.addLeds<NEOPIXEL,Hummingbird_Light>(Humseq, puck_led).setCorrection( TypicalSMD5050 );
+FastLED.addLeds<NEOPIXEL,Finch_Light>(Finseq, puck_led).setCorrection( TypicalSMD5050 );
 
-FastLED.setMaxPowerInVoltsAndMilliamps(5,15000);
+//FastLED.setMaxPowerInVoltsAndMilliamps(5,15000);
+FastLED.setBrightness(200);
 FastLED.show();
 
 //starts all timers they will reset themselves when they are first used
@@ -49,27 +50,38 @@ Serial.begin(9600);
 Serial.println("exiting setup");
 #endif
 
-  Nseq.fill_solid(teal);
-  Finseq.fill_solid(teal);
+  Nseq.fill_solid(CRGB::Red);
+  Finseq.fill_solid(CRGB::Red);
+  Bseq.fill_solid(CRGB::Red);
+  Treeseq.fill_solid(CRGB::Red);
+  Fseq.fill_solid(CRGB::Red);
+  Humseq.fill_solid(CRGB::Red);
+  FastLED.show();
+  delay(1000);
+  Nseq.fill_solid(CRGB::Green);
+  Finseq.fill_solid(CRGB::Green);
+  Bseq.fill_solid(CRGB::Green);
+  Treeseq.fill_solid(CRGB::Green);
+  Humseq.fill_solid(CRGB::Green);
+  Fseq.fill_solid(CRGB::Green);
+  FastLED.show();
+  delay(1000);
+  Nseq.fill_solid(CRGB::Blue);
+  Finseq.fill_solid(CRGB::Blue);
+  Bseq.fill_solid(CRGB::Blue);
+  Treeseq.fill_solid(CRGB::Blue);
+  Humseq.fill_solid(CRGB::Blue);
+  Fseq.fill_solid(CRGB::Blue);
   FastLED.show();
   delay(1000);
   Nseq.fill_solid(CRGB::Black);
   Finseq.fill_solid(CRGB::Black);
-  FastLED.show();
-  Bseq.fill_solid(red);
-  Treeseq.fill_solid(red);
-  FastLED.show();
-  delay(1000);
   Bseq.fill_solid(CRGB::Black);
   Treeseq.fill_solid(CRGB::Black);
-  FastLED.show();
-  Fseq.fill_solid(orange);
-  Humseq.fill_solid(orange);
+  Humseq.fill_solid(CRGB::Black);
+  Fseq.fill_solid(CRGB::Black); 
   FastLED.show();
   delay(1000);
-  Humseq.fill_solid(CRGB::Black);
-  Fseq.fill_solid(CRGB::Black);
-  FastLED.show();
 }
 
 void btnCheck()
@@ -91,11 +103,12 @@ void btnCheck()
 
 void loop() 
 {
- btnCheck();
+  btnCheck();
+
 //Checks if the nut button has been pressed
 //Checks if the game has already started
 //updates points and triggered status
-   if(nutState == true)
+ if(nutState == true)
  {
    if(gameState == false)
    {
@@ -298,6 +311,5 @@ void loop()
    resetGame();
  }
 
-FastLED.show();
 
 }
