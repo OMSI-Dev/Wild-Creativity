@@ -7046,8 +7046,8 @@ VIN</text>
 <instance part="SUPPLY4" gate="G$1" x="127" y="200.66" smashed="yes" rot="R180">
 <attribute name="VALUE" x="127" y="197.866" size="1.778" layer="96" rot="R180" align="bottom-center"/>
 </instance>
-<instance part="GND10" gate="1" x="152.4" y="147.32" smashed="yes">
-<attribute name="VALUE" x="149.86" y="144.78" size="1.778" layer="96"/>
+<instance part="GND10" gate="1" x="157.48" y="213.36" smashed="yes">
+<attribute name="VALUE" x="154.94" y="210.82" size="1.778" layer="96"/>
 </instance>
 <instance part="JP1" gate="G$1" x="15.24" y="111.76" smashed="yes" rot="R180">
 <attribute name="NAME" x="21.59" y="100.965" size="1.778" layer="95" rot="R180"/>
@@ -7213,7 +7213,7 @@ VIN</text>
 <segment>
 <pinref part="JP10" gate="G$1" pin="3"/>
 <pinref part="GND10" gate="1" pin="GND"/>
-<wire x1="157.48" y1="149.86" x2="152.4" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="149.86" x2="157.48" y2="215.9" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND7" gate="1" pin="GND"/>
