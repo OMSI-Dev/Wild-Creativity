@@ -27,8 +27,8 @@ AudioOut audioOut;
 //neopixel setup
 #define puck_led 18
 #define bug_led 133
-#define Nut_led 80
-#define flower_led 80
+#define Nut_led 90
+#define flower_led 110
 CRGBArray <Nut_led> Nseq;
 CRGBArray <bug_led> Bseq;
 CRGBArray <flower_led> Fseq;
@@ -99,11 +99,11 @@ byte beforeprevious =0;
 //enable to have serial debug
 //#define debug
 
-CRGB orange(247, 147, 64);//humming
-CRGB red(239, 74, 51);//tree creeper
-CRGB teal(0, 174, 158); //finch
-/*\
-humming bird == f79340
+CRGB orange(255, 140, 0);//humming
+CRGB red(139, 0, 0);//tree creeper
+CRGB teal(0,220,40); //finch
+/*
+hummingbird == f79340
 tree creeper == f04934
 finch == 04a391
 */

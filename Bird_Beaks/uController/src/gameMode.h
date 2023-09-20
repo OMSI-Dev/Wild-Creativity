@@ -73,10 +73,7 @@ void lightAttract()
 
 void lightWin()
 {
-    
-
-      Serial.print(" entering bugchase: ");
-
+        Serial.print(" entering bugchase: ");
         if(!bugchase.running())
         {
             bugchase.setTime(bugtime);
@@ -92,7 +89,6 @@ void lightWin()
             #endif
             bugflag++;
         }
-
         Serial.println("exiting bugchase: ");
 
         Serial.print(" entering fnchase: ");
@@ -138,16 +134,7 @@ void lightWin()
                 fadeToBlackBy(Humseq,puck_led,20);
                 fadeToBlackBy(Treeseq,puck_led,20);
                 fadeToBlackBy(Finseq,puck_led,20); 
-            }
-            
-            
-            
-            
-            
-            
-            
-            
-                    
+            }       
             puckchase.setTime(pucktime);
             #ifdef debug
             Serial.print("puckflag: ");
@@ -155,10 +142,9 @@ void lightWin()
             #endif
             puckflag++;
         }
-            Serial.println(" exiting puckchase: ");
+        Serial.println(" exiting puckchase: ");
 
-        
-
+        FastLED.show();
     }
 
 void resetGame()
