@@ -538,6 +538,8 @@ IO3 -&gt; D9</text>
 <text x="97.028" y="93.599" size="1.016" layer="25" rot="R270">FAN_Trigger</text>
 <text x="20.701" y="73.152" size="1.016" layer="25">Start_PWM</text>
 <text x="33.401" y="73.152" size="1.016" layer="25">Stop_PWM</text>
+<text x="133.985" y="94.996" size="1.778" layer="25" rot="R270">24V</text>
+<text x="118.618" y="95.504" size="1.778" layer="25" rot="R270">GND</text>
 </plain>
 <libraries>
 <library name="th_libraries">
