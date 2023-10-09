@@ -6487,7 +6487,6 @@ type 0309, grid 2.5 mm</description>
 </deviceset>
 </devicesets>
 </library>
-<<<<<<< HEAD
 <library name="OMSI_Default_V1" urn="urn:adsk.eagle:library:40091679">
 <description>Version 1 of OMSI basics parts.</description>
 <packages>
@@ -6982,8 +6981,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </deviceset>
 </devicesets>
 </library>
-=======
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </libraries>
 <attributes>
 </attributes>
@@ -7041,15 +7038,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND9" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="Q2" library="th_ds_libraries" deviceset="MOSFET-NCH" device="" package3d_urn="urn:adsk.eagle:package:26281953/1"/>
 <part name="X1" library="con-phoenix-508" library_urn="urn:adsk.eagle:library:176" deviceset="MSTBA8" device="" package3d_urn="urn:adsk.eagle:package:9620/1"/>
-<<<<<<< HEAD
 <part name="X2" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="PHOENIX_508_4PIN" device="" package3d_urn="urn:adsk.eagle:package:40091802/4"/>
 <part name="X3" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="PHOENIX_508_4PIN" device="" package3d_urn="urn:adsk.eagle:package:40091802/4"/>
 <part name="J1" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="JST_CONN_05" device="" package3d_urn="urn:adsk.eagle:package:40091793/3"/>
 <part name="J2" library="OMSI_Default_V1" library_urn="urn:adsk.eagle:library:40091679" deviceset="JST_CONN_05" device="" package3d_urn="urn:adsk.eagle:package:40091793/3"/>
 <part name="JP4" library="SparkFun-Jumpers" deviceset="JUMPER-SMT_2_NO" device="_NO-SILK_ROUND" package3d_urn="urn:adsk.eagle:package:39278/1"/>
 <part name="JP5" library="SparkFun-Jumpers" deviceset="JUMPER-SMT_2_NO" device="_NO-SILK_ROUND" package3d_urn="urn:adsk.eagle:package:39278/1"/>
-=======
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </parts>
 <sheets>
 <sheet>
@@ -7234,13 +7228,8 @@ VIN</text>
 <instance part="SUPPLY4" gate="G$1" x="127" y="200.66" smashed="yes" rot="R180">
 <attribute name="VALUE" x="127" y="197.866" size="1.778" layer="96" rot="R180" align="bottom-center"/>
 </instance>
-<<<<<<< HEAD
 <instance part="GND10" gate="1" x="154.94" y="157.48" smashed="yes" rot="R180">
 <attribute name="VALUE" x="157.48" y="160.02" size="1.778" layer="96" rot="R180"/>
-=======
-<instance part="GND10" gate="1" x="152.4" y="147.32" smashed="yes">
-<attribute name="VALUE" x="149.86" y="144.78" size="1.778" layer="96"/>
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </instance>
 <instance part="JP1" gate="G$1" x="15.24" y="111.76" smashed="yes" rot="R180">
 <attribute name="NAME" x="21.59" y="100.965" size="1.778" layer="95" rot="R180"/>
@@ -7308,7 +7297,6 @@ VIN</text>
 <attribute name="VALUE" x="191.77" y="208.28" size="1.778" layer="96" rot="R270"/>
 <attribute name="NAME" x="196.469" y="207.264" size="1.778" layer="95" rot="R90"/>
 </instance>
-<<<<<<< HEAD
 <instance part="X2" gate="-1" x="358.14" y="73.66" smashed="yes" rot="R180">
 <attribute name="NAME" x="364.744" y="72.771" size="1.778" layer="95"/>
 </instance>
@@ -7346,8 +7334,6 @@ VIN</text>
 <instance part="JP5" gate="G$1" x="309.88" y="55.88" smashed="yes">
 <attribute name="NAME" x="309.88" y="58.674" size="1.778" layer="95" font="vector" align="center"/>
 </instance>
-=======
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </instances>
 <busses>
 </busses>
@@ -7412,14 +7398,6 @@ VIN</text>
 <junction x="132.08" y="205.74"/>
 </segment>
 <segment>
-<<<<<<< HEAD
-=======
-<pinref part="JP10" gate="G$1" pin="3"/>
-<pinref part="GND10" gate="1" pin="GND"/>
-<wire x1="157.48" y1="149.86" x2="152.4" y2="149.86" width="0.1524" layer="91"/>
-</segment>
-<segment>
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 <pinref part="GND7" gate="1" pin="GND"/>
 <pinref part="Q1" gate="NMOS" pin="S"/>
 <wire x1="198.12" y1="30.48" x2="198.12" y2="15.24" width="0.1524" layer="91"/>
@@ -7455,14 +7433,11 @@ VIN</text>
 <wire x1="45.72" y1="63.5" x2="45.72" y2="45.72" width="0.1524" layer="91"/>
 <junction x="45.72" y="63.5"/>
 </segment>
-<<<<<<< HEAD
 <segment>
 <pinref part="JP10" gate="G$1" pin="1"/>
 <pinref part="GND10" gate="1" pin="GND"/>
 <wire x1="154.94" y1="154.94" x2="157.48" y2="154.94" width="0.1524" layer="91"/>
 </segment>
-=======
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </net>
 <net name="12V" class="1">
 <segment>
@@ -7620,15 +7595,12 @@ VIN</text>
 <junction x="60.96" y="30.48"/>
 <label x="73.66" y="30.48" size="1.778" layer="95"/>
 </segment>
-<<<<<<< HEAD
 <segment>
 <pinref part="J2" gate="G$1" pin="3"/>
 <wire x1="302.26" y1="81.28" x2="294.64" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="294.64" y1="81.28" x2="294.64" y2="101.6" width="0.1524" layer="91"/>
 <label x="294.64" y="101.6" size="1.778" layer="95" rot="R180"/>
 </segment>
-=======
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </net>
 <net name="N$13" class="0">
 <segment>
@@ -7656,7 +7628,6 @@ VIN</text>
 </net>
 <net name="N$15" class="0">
 <segment>
-<<<<<<< HEAD
 <pinref part="U$1" gate="G$1" pin="6"/>
 <wire x1="17.78" y1="83.82" x2="139.7" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="D13"/>
@@ -7667,28 +7638,6 @@ VIN</text>
 <wire x1="144.78" y1="152.4" x2="157.48" y2="152.4" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="83.82" x2="139.7" y2="154.94" width="0.1524" layer="91"/>
 <junction x="139.7" y="154.94"/>
-=======
-<pinref part="U1" gate="G$1" pin="D12"/>
-<wire x1="114.3" y1="152.4" x2="139.7" y2="152.4" width="0.1524" layer="91"/>
-<pinref part="JP10" gate="G$1" pin="2"/>
-<pinref part="U$1" gate="G$1" pin="6"/>
-<wire x1="139.7" y1="152.4" x2="157.48" y2="152.4" width="0.1524" layer="91"/>
-<wire x1="17.78" y1="83.82" x2="139.7" y2="83.82" width="0.1524" layer="91"/>
-<wire x1="139.7" y1="83.82" x2="139.7" y2="152.4" width="0.1524" layer="91"/>
-<junction x="139.7" y="152.4"/>
-</segment>
-</net>
-<net name="N$18" class="0">
-<segment>
-<pinref part="JP10" gate="G$1" pin="1"/>
-<pinref part="U1" gate="G$1" pin="D13"/>
-<wire x1="157.48" y1="154.94" x2="142.24" y2="154.94" width="0.1524" layer="91"/>
-<wire x1="142.24" y1="154.94" x2="114.3" y2="154.94" width="0.1524" layer="91"/>
-<wire x1="142.24" y1="154.94" x2="142.24" y2="81.28" width="0.1524" layer="91"/>
-<junction x="142.24" y="154.94"/>
-<pinref part="U$1" gate="G$1" pin="5"/>
-<wire x1="142.24" y1="81.28" x2="17.78" y2="81.28" width="0.1524" layer="91"/>
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </segment>
 </net>
 <net name="N$19" class="0">
@@ -7870,7 +7819,6 @@ VIN</text>
 <wire x1="29.21" y1="53.34" x2="17.78" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
-<<<<<<< HEAD
 <net name="N$24" class="0">
 <segment>
 <pinref part="X2" gate="-1" pin="1"/>
@@ -7936,8 +7884,6 @@ VIN</text>
 <junction x="144.78" y="149.86"/>
 </segment>
 </net>
-=======
->>>>>>> bf15cc655b7b0e738f2558e5b9aec81ede00bbf8
 </nets>
 </sheet>
 </sheets>
