@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Creatividad silvestre|Wild Creativity</title>
+    <link rel="stylesheet" type="text/css" href="./screensaver.css">
+</head>
+
+<body>
+    <div class="image-wrapper">
+        
+        <img id="slide-show-image-ts" src="./slides/ScreenSaver1.png" />
+    </div>
+
+    <script>
+// This controls the "slides"
+        var imgArray = [
+            'slides/ScreenSaver1.png',
+            'slides/ScreenSaver2.png',
+            'slides/ScreenSaver3.png'
+        ];
+        var curIndex = 0;
+        var imgDuration = 2000; // duratrion that each omage is on screen before a new image appears--number of sec * 1000
+        var contentLocation = ""
+
+        function gotoContent(){
+        // redirects to content
+        window.location.replace("../en/collection.html");
+        }
+
+        function slideShow() {
+            document.getElementById('slide-show-image-ts').src = imgArray[curIndex];
+            curIndex++;
+            if (curIndex == imgArray.length) { curIndex = 0; }
+            setTimeout("slideShow()", imgDuration);
+        
+            //An array of DOM events that should be interpreted as
+    //user activity.
+    var activityEvents = [
+        'mousedown', 'mousemove', 'keydown',
+        'scroll', 'touchstart'
+    ];
+
+    //add these events to the document.
+    //register the activity function as the listener parameter.
+    activityEvents.forEach(function(eventName) {
+        document.addEventListener(eventName, gotoContent, true);
+    });
+
+        }
+         slideShow();
+    </script>
+</body>
+</html>
