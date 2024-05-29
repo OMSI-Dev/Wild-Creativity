@@ -1,0 +1,72 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/include",
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/src",
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/MobaTools/src",
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Adafruit LSM6DS",
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Adafruit BusIO",
+                "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Stepper/src",
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Adafruit Unified Sensor",
+                "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Bounce2/src",
+                "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/variants/itsybitsy32u4",
+                "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/include",
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/src",
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/MobaTools/src",
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Adafruit LSM6DS",
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Adafruit BusIO",
+                    "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Stepper/src",
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Adafruit Unified Sensor",
+                    "C:/Users/adelanty/OneDrive - Oregon Museum of Science and Industry (OMSI)/Documents/GitHub/Helmet_Drop/uController/.pio/libdeps/itsybitsy32u4_5V/Bounce2/src",
+                    "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/variants/itsybitsy32u4",
+                    "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/adelanty/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60111",
+                "ARDUINO_AVR_ITSYBITSY32U4_5V",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "USB_VID=0x239A",
+                "USB_PID=0x000E",
+                "USB_PRODUCT=\"ItsyBitsy 32u4 5V 16MHz\"",
+                "USB_MANUFACTURER=\"Adafruit\"",
+                "__AVR_ATmega32U4__",
+                ""
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "C:/Users/adelanty/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega32u4",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
