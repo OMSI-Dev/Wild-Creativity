@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-Assets-English (en)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-Assets-English (en)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 7eefc7133f1aebd4fb699847fd975672
+  m_SerializeEntries:
+  - m_GUID: 63a660fb67fe2554aa51eddb1b7de710
+    m_Address: RooftopGarden
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+  - m_GUID: 5f0f8826cd74f824bb4759c425e9d78f
+    m_Address: PopUp-Hello
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+  - m_GUID: 968e9fd1b76efe84580d67581a2dac4c
+    m_Address: SelectACrop
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+  - m_GUID: c2ed661d66545524287630d257d9d272
+    m_Address: YourCropsAreGrowing
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+  - m_GUID: a386cf9c694555245be3143f2a9d250c
+    m_Address: YouAreASuperGardener
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 0722c9dac9ae0e64f9070f14ae772c68, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6bb792aa641537541991358876b34267, type: 2}
+    - {fileID: 11400000, guid: 701769a7c95b2eb42978dfe89218cb19, type: 2}

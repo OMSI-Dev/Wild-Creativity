@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: StringLoc Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: StringLoc
+  m_TableCollectionNameGuidString: 8f0e76105acda124ebae25e8be951804
+  m_Entries:
+  - m_Id: 1589992026112
+    m_Key: StartScene/Canvas/Panel/StartButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7151613964288
+    m_Key: MainScene/Canvas/Intro Pop Up/Background/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7380409053184
+    m_Key: MainScene/Canvas/Intro Pop Up/Background/ContinueButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9518417768448
+    m_Key: MainScene/Canvas/RightBox/PlantingBar/InstructionBox/Instructions Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9671144960000
+    m_Key: MainScene/Canvas/RightBox/PlantingBar/InstructionBox/Instructions Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9740141260800
+    m_Key: MainScene/Canvas/RightBox/PlantingBar/GrowButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9826371956736
+    m_Key: MainScene/Canvas/RightBox/PlantingBar/Clear Button/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44655184506880
+    m_Key: MainScene/Canvas/RightBox/LanguageButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45609086676992
+    m_Key: MainScene/Canvas/RightBox/ResultsBar/YieldBox/Result Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45771821477888
+    m_Key: MainScene/Canvas/RightBox/ResultsBar/Result Box/Result Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45858060562432
+    m_Key: MainScene/Canvas/RightBox/ResultsBar/Result Box/Result Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45968135876608
+    m_Key: MainScene/Canvas/RightBox/ResultsBar/ReturnButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46739942338560
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ClearButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46858532089856
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/PlantButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47084978368512
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Corn/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47141953794048
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Corn/Pop-up Box/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47198199410688
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Lettuce/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47294840369152
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Lettuce/Pop-up Box/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47681249013760
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Beans/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47722101534720
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Carrots/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47929857994752
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Squash/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47965346000896
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Flow1/ChoiceGrid/PlantChoiceButton
+      - Flower/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4696874878038016
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Corn/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4696921938128896
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Corn/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697349123796992
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Lettuce/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697435543236608
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Beans/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697589692297216
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Lettuce/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697712962891776
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/HintText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698554919088128
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Carrots/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698636267614208
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Squash/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698698016157696
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/ChoiceSquares/PlantChoiceButton
+      - Flower/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699279304749056
+    m_Key: MainScene/Canvas/RightBox/ResultsBar/HintBox/ThreeSistersHint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699414122262528
+    m_Key: MainScene/Canvas/RightBox/ResultsBar/HintBox/EmptyCropsHint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699544107937792
+    m_Key: MainScene/Canvas/RightBox/ResultsBar/HintBox/MonocultureHint
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1661966744663

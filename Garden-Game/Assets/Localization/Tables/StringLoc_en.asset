@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: StringLoc_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 8f0e76105acda124ebae25e8be951804, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1589992026112
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7151613964288
+    m_Localized: "Join me in designing a garden that will produce food for my family.\r\n\r\nTap
+      on a garden plot to select a crop to lay out your garden.\r\n\r\nRead about
+      the crops to learn how to make a more productive garden.\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7380409053184
+    m_Localized: CONTINUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9518417768448
+    m_Localized: Instructions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9671144960000
+    m_Localized: 'Tap the plots on the left to choose a crop to plant.
+
+
+      When
+      you''re ready to see how they''ll grow, press grow crops below!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9740141260800
+    m_Localized: Grow Crops
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9826371956736
+    m_Localized: Clear All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44655184506880
+    m_Localized: "Espa\xF1ol "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45609086676992
+    m_Localized: Crop Yield
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45771821477888
+    m_Localized: Your harvest!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45858060562432
+    m_Localized: "Don't forget the three sisters: corn, beans, and squash. \n\nPlant
+      them close together and watch them grow!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45968135876608
+    m_Localized: Plant Again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46739942338560
+    m_Localized: Clear Crop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46858532089856
+    m_Localized: 'Plant
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47084978368512
+    m_Localized: 'Corn
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47141953794048
+    m_Localized: 'Grows best in a sunny spot with moist soil
+
+
+      Strong stalks
+      give support to vines'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47198199410688
+    m_Localized: Lettuce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47294840369152
+    m_Localized: 'Grows best out of the sun
+
+
+      Needs lots of space to grow
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47681249013760
+    m_Localized: Beans
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47722101534720
+    m_Localized: Carrots
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47929857994752
+    m_Localized: Squash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47965346000896
+    m_Localized: Flower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4696874878038016
+    m_Localized: 'Corn
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4696921938128896
+    m_Localized: 'Grows best in a sunny spot with moist soil
+
+
+      Strong stalks
+      give support to vines'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697349123796992
+    m_Localized: 'Grows best out of the sun
+
+
+      Needs lots of space to grow
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697435543236608
+    m_Localized: 'A vine that needs something to climb
+
+
+      Does well near corn
+      and squash'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697589692297216
+    m_Localized: Lettuce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697712962891776
+    m_Localized: '      Milpa: Plant squash, beans, and corn near each other to increase
+      the production of them all!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698554919088128
+    m_Localized: 'Does well in the shade
+
+
+      Can be planted near other carrots'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698636267614208
+    m_Localized: "Has flowers that need to be pollinated. \n\nLarge leaves shade
+      the ground around it, keeping the soil moist"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698698016157696
+    m_Localized: "Attracts animals that pollinate plants such as squash. \n\nHelps
+      keep slugs away from lettuce."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699279304749056
+    m_Localized: 'Milpa: Plant squash, beans, and corn near each other to increase
+      the production of all three!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699414122262528
+    m_Localized: The more you fill the garden, the more you grow! Use all the plots
+      available for the best yield.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699544107937792
+    m_Localized: Too much of the same crop close together can make them all grow
+      poorly! Try to plant no more than two or three of the same crop together.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

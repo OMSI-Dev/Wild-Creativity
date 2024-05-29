@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: StringLoc_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 8f0e76105acda124ebae25e8be951804, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1589992026112
+    m_Localized: Comenzar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7151613964288
+    m_Localized: "\xDAnete a mi para dise\xF1ar un jard\xEDn que vaya a producir
+      comida para mi familia.\r\n\r\nToca una parte del huerto para empezar a cosechar
+      tus cultivos.\r\n\r\nAprende sobre cada cultivo para mejorar la cosecha de
+      tu jard\xEDn.\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7380409053184
+    m_Localized: 'CONTINUAR
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9518417768448
+    m_Localized: Instrucciones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9671144960000
+    m_Localized: "Cuando termines de dise\xF1ar tu jard\xEDn, selecciona \u201CCOSECHAR\u201D
+      para ver tu cultivo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9740141260800
+    m_Localized: Cosechar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9826371956736
+    m_Localized: Borrar Todo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44655184506880
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45609086676992
+    m_Localized: "Producci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45771821477888
+    m_Localized: "\xA1Tu cosecha!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45858060562432
+    m_Localized: "Mientras m\xE1s llenas tu jard\xEDn, \xA1m\xE1s crece! Usa todos
+      los espacios disponibles para producir a\xFAn m\xE1s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45968135876608
+    m_Localized: Cultivar otra vez
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46739942338560
+    m_Localized: Quitar cultivo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46858532089856
+    m_Localized: "\xA1A plantar!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47084978368512
+    m_Localized: "Ma\xEDz\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47141953794048
+    m_Localized: "Crece mejor en un lugar soleado con tierra h\xFAmeda\r\n\r\nSus
+      fuertes tallos sirven de apoyo a las enredaderas\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47198199410688
+    m_Localized: Lechuga
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47294840369152
+    m_Localized: 'Crece mejor en la sombra
+
+
+      Necesita mucho espacio para crecer
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47681249013760
+    m_Localized: Frijoles / Porotos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47722101534720
+    m_Localized: Zanahorias
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47929857994752
+    m_Localized: Calabazas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47965346000896
+    m_Localized: Flores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4696874878038016
+    m_Localized: "Ma\xEDz\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4696921938128896
+    m_Localized: "Crece mejor en un lugar soleado con tierra h\xFAmeda\r\n\r\nSus
+      fuertes tallos sirven de apoyo a las enredaderas\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697349123796992
+    m_Localized: 'Crece mejor en la sombra
+
+
+
+      Necesita mucho espacio para crecer
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697435543236608
+    m_Localized: "Es una enredadera que necesita algo en que treparse \r\n\r\nCrece
+      bien cerca del ma\xEDz y de las calabazas\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697589692297216
+    m_Localized: Lechuga
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4697712962891776
+    m_Localized: "      Milpa: Planta zapallo, frijoles/porotos y ma\xEDz cerca el
+      uno del otro para aumentar la producci\xF3n de las tres plantas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698554919088128
+    m_Localized: "Crece bien a la sombra\r\n\r\nPuede plantarse cerca de otras zanahorias\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698636267614208
+    m_Localized: "Tiene flores que necesitan ser polinizadas y necesita mucho espacio
+      para crecer\r\n\r\nSus hojas grandes crean sombra en el piso, manteniendo la
+      tierra h\xFAmeda\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4698698016157696
+    m_Localized: "Evita que las babosas se coman la lechuga\r\n\r\nAtrae animales
+      que polinizan plantas como las calabazas\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699279304749056
+    m_Localized: "Milpa: Planta zapallo, frijoles/porotos y ma\xEDz cerca el uno
+      del otro para aumentar la producci\xF3n de las tres plantas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699414122262528
+    m_Localized: "Mientras m\xE1s llenas tu jard\xEDn, \xA1m\xE1s crece! Usa todos
+      los espacios disponibles para producir a\xFAn m\xE1s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4699544107937792
+    m_Localized: "Si plantas mucho del mismo cultivo en el mismo lugar, no van a
+      crecer muy bien. Intenta plantar m\xE1ximo dos o tres de lo mismo en el mismo
+      lugar."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

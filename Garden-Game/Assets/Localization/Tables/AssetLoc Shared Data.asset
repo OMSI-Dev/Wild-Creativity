@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: AssetLoc Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: AssetLoc
+  m_TableCollectionNameGuidString: f4d3a3e882337d741b450ec2c020214e
+  m_Entries:
+  - m_Id: 1400820527104
+    m_Key: StartScene/Canvas/Panel/TitleImage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7248162648064
+    m_Key: MainScene/Canvas/Intro Pop Up/Background/TitleImage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46686649511936
+    m_Key: MainScene/Canvas/ChooseCrop Pop Up/Background/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48367302930432
+    m_Key: MainScene/Canvas/TransitionFather/Transition Pop Up/Background/TitleImage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4920149507895296
+    m_Key: MainScene/Canvas/SuperGardenerPopUp/Background/SuperText
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items:
+    - id: 0
+  m_KeyGenerator:
+    id: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: AssetTypeMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries:
+        - m_KeyId: 1400820527104
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 7248162648064
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 46686649511936
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 48367302930432
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 4920149507895296
+          m_TableCodes:
+          - en
+          - es
+        m_TypeString: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+    00000001:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1661966702428
