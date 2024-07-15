@@ -68,16 +68,16 @@ void setup() {
   
 protectButton.attach(protectButton_pin,INPUT_PULLUP);
 protectButton.interval(5);
-protectButton.setPressedState(HIGH);
+protectButton.setPressedState(LOW);
 buildButton.attach(buildButton_pin,INPUT_PULLUP);
 buildButton.interval(5);
-buildButton.setPressedState(HIGH);
+buildButton.setPressedState(LOW);
 moveButton.attach(moveButton_pin,INPUT_PULLUP);
 moveButton.interval(5);
-moveButton.setPressedState(HIGH);
+moveButton.setPressedState(LOW);
 captureButton.attach(captureButton_pin,INPUT_PULLUP);
 captureButton.interval(5);
-captureButton.setPressedState(HIGH);
+captureButton.setPressedState(LOW);
 
   //instantiate button lights
   for (int i = 0; i < buttonCount; i++) {
@@ -108,18 +108,18 @@ captureButton.setPressedState(HIGH);
 } //void setup
 
 void protectPush() {
-  protectButton.update();
  
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
 if(protectButton.pressed())
 {  
-  Serial.println("ProtCC pressed");
+  Serial.println("Protect pressed");
   for(int i = 0; i< stratLights; i++)
   {
     digitalWrite(protectLights[i], HIGH);
-     Serial.println("ProtCC high");
+    Serial.print("Protect high: ");
+    Serial.println(protectLights[i]);
     protectTimer.setTime(1100);
   }
 
@@ -148,7 +148,7 @@ if(!protectTimer.running())
 }
 
 void buildPush() {
-  buildButton.update();
+
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
@@ -183,7 +183,7 @@ if(!buildTimer.running())
 }
 
 void movePush() {
-   moveButton.update();
+
  //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
@@ -218,7 +218,7 @@ if(!moveTimer.running())
 }
 
 void capturePush() {
-captureButton.update();
+
 ////this is aaron example
 
 //Checks to see if button pressed
@@ -256,6 +256,24 @@ if(!captureTimer.running())
 
 void loop() {
   //for each button - read, light corresponding array
+  delay(250);
+  // Serial.print("caputre pin: ");
+  // Serial.println(digitalRead(captureButton_pin));
+  //   Serial.print("protect pin: ");
+  // Serial.println(digitalRead(protectButton_pin));
+  //   Serial.print("build pin: ");
+  // Serial.println(digitalRead(buildButton_pin));
+  //   Serial.print("move pin: ");
+  // Serial.println(digitalRead(moveButton_pin));
+
+  // Serial.print("Proctect is pressed? ");
+  // Serial.println(protectButton.isPressed());
+
+  protectButton.update();
+  buildButton.update();
+  moveButton.update();
+  captureButton.update();
+
   protectPush();
   buildPush();
   movePush();
