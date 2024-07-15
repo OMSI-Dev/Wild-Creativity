@@ -14,11 +14,15 @@
 // Button 2 - Pin 5 - Build -- Lights 2, 4, 12
 // Button 3 - Pin 3 - Move -- Lights 3, 7, 11
 // Button 4 - Pin 2 - Capture -- Lights 6, 8, 10
+//traces for button 4 on pcb board is reverse of the other three indicator lights 
 
 #include <Arduino.h>
 #include "AudioOut.h"
 #include <bounce2.h>
-#include <MoToTimer.h>
+#include <Timer.h>
+#include <Pulse.h>
+
+
 
 //declare audio object
 AudioOut audioOut;
@@ -34,6 +38,9 @@ bool Audio4Time = true;
 //const uint8_t buttonPins[] = {7, 5, 3, 2};
 const uint8_t buttonCount = 4;
 const uint8_t buttonLights[] = {13, 11, 10, 9};
+
+Pulse ProtectLight, MoveLight, BuildLight, CaptureLight;
+
 Bounce2:: Button protectButton = Bounce2::Button();
 Bounce2:: Button buildButton = Bounce2::Button();
 Bounce2:: Button moveButton = Bounce2::Button();
@@ -79,6 +86,26 @@ captureButton.attach(captureButton_pin,INPUT_PULLUP);
 captureButton.interval(5);
 captureButton.setPressedState(LOW);
 
+ProtectLight.attach(13);
+MoveLight.attach(11);
+BuildLight.attach(10);
+CaptureLight.attach(9);
+
+ProtectLight.setMin(0);
+MoveLight.setMin(0);
+BuildLight.setMin(0);
+CaptureLight.setMin(0);
+
+ProtectLight.setMax(150);
+MoveLight.setMax(150);
+BuildLight.setMax(150);
+CaptureLight.setMax(150);
+
+ProtectLight.setRate(5);
+MoveLight.setRate(15);
+BuildLight.setRate(15);
+CaptureLight.setRate(15);
+
   //instantiate button lights
   for (int i = 0; i < buttonCount; i++) {
     pinMode(buttonLights[i], OUTPUT);
@@ -95,12 +122,7 @@ captureButton.setPressedState(LOW);
     delay(200);
     digitalWrite(lightPins[i], LOW);
   }
-
-  //[TEMP] - Turn on button lights - turn into Pulse
-  for (int i = 0; i < buttonCount; i++) {
-    digitalWrite(buttonLights[i], HIGH);
-  }
-
+  
   //start the wavtrigger
   audioOut.begin();
 
@@ -108,7 +130,7 @@ captureButton.setPressedState(LOW);
 } //void setup
 
 void protectPush() {
- 
+ protectButton.update();
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
@@ -120,7 +142,7 @@ if(protectButton.pressed())
     digitalWrite(protectLights[i], HIGH);
     Serial.print("Protect high: ");
     Serial.println(protectLights[i]);
-    protectTimer.setTime(1100);
+    
   }
 
   if(Audio1Time)
@@ -129,8 +151,8 @@ if(protectButton.pressed())
     Audio1Time = false;
     Audio1Timer.setTime(100);
   }
+  protectTimer.setTime(1100);
 }
-
 if(!Audio1Timer.running()&& !Audio1Time)
 {
   Audio1Time = !Audio1Time;
@@ -148,7 +170,7 @@ if(!protectTimer.running())
 }
 
 void buildPush() {
-
+buildButton.update();
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
@@ -157,7 +179,6 @@ if(buildButton.pressed())
   for(int i = 0; i< stratLights; i++)
   {
     digitalWrite(buildLights[i], HIGH);
-    buildTimer.setTime(1100);
   }
   if(Audio2Time)
   {
@@ -165,6 +186,7 @@ if(buildButton.pressed())
     Audio2Time = false;
     Audio2Timer.setTime(100);
   }
+  buildTimer.setTime(1100);
 }
 if(!Audio2Timer.running()&& !Audio2Time)
 {
@@ -183,7 +205,7 @@ if(!buildTimer.running())
 }
 
 void movePush() {
-
+moveButton.update();
  //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
@@ -192,14 +214,14 @@ if(moveButton.pressed())
   for(int i = 0; i< stratLights; i++)
   {
     digitalWrite(moveLights[i], HIGH);
-    moveTimer.setTime(1100);
   }
     if(Audio3Time)
   {
     audioOut.playTrack(3);
     Audio3Time = false;
-    Audio3Timer.setTime(100);
+    //Audio3Timer.setTime(100);
   }
+  moveTimer.setTime(1100);
 }
 if(!Audio3Timer.running()&& !Audio3Time)
 {
@@ -220,7 +242,7 @@ if(!moveTimer.running())
 void capturePush() {
 
 ////this is aaron example
-
+captureButton.update();
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
@@ -229,7 +251,6 @@ if(captureButton.pressed())
   for(int i = 0; i< stratLights; i++)
   {
     digitalWrite(captureLights[i], HIGH);
-    captureTimer.setTime(1100);
   }
     if(Audio4Time)
   {
@@ -237,6 +258,7 @@ if(captureButton.pressed())
     Audio4Time = false;
     Audio4Timer.setTime(100);
   }
+  captureTimer.setTime(1100);
 }
 if(!Audio4Timer.running()&& !Audio4Time)
 {
@@ -256,7 +278,6 @@ if(!captureTimer.running())
 
 void loop() {
   //for each button - read, light corresponding array
-  delay(250);
   // Serial.print("caputre pin: ");
   // Serial.println(digitalRead(captureButton_pin));
   //   Serial.print("protect pin: ");
@@ -265,19 +286,17 @@ void loop() {
   // Serial.println(digitalRead(buildButton_pin));
   //   Serial.print("move pin: ");
   // Serial.println(digitalRead(moveButton_pin));
+   //Serial.print("Proctect is pressed? ");
+   //Serial.println(protectButton.isPressed());
+  MoveLight.update(1);
+  CaptureLight.update(1);
+  BuildLight.update(1);
+  ProtectLight.update(1);
 
-  // Serial.print("Proctect is pressed? ");
-  // Serial.println(protectButton.isPressed());
-
-  protectButton.update();
-  buildButton.update();
-  moveButton.update();
-  captureButton.update();
-
-  protectPush();
-  buildPush();
-  movePush();
-  capturePush();
+ protectPush();
+ buildPush();
+ movePush();
+ capturePush();
 
   //TODO - trigger sound
 
