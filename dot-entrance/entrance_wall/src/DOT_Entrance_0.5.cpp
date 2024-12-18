@@ -31,6 +31,8 @@ bool Audio2Time = true;
 bool Audio3Time = true;
 bool Audio4Time = true;
 
+#define serial Serial
+
 #define protectButton_pin 7
 #define buildButton_pin 5
 #define moveButton_pin 3
@@ -126,16 +128,24 @@ CaptureLight.setRate(15);
   //start the wavtrigger
   audioOut.begin();
 
-  Serial.begin(9600);
+  serial.begin(9600);
 } //void setup
 
 void protectPush() {
+<<<<<<< Updated upstream
  protectButton.update();
+=======
+  protectButton.update();
+  serial.print("protect Pin: ");
+  serial.println(digitalRead(protectButton_pin));
+
+>>>>>>> Stashed changes
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
 if(protectButton.pressed())
 {  
+<<<<<<< Updated upstream
   Serial.println("Protect pressed");
   for(int i = 0; i< stratLights; i++)
   {
@@ -143,6 +153,12 @@ if(protectButton.pressed())
     Serial.print("Protect high: ");
     Serial.println(protectLights[i]);
     
+=======
+  for(int i = 0; i< stratLights; i++)
+  {
+    digitalWrite(protectLights[i], HIGH);
+    protectTimer.setTime(1100);
+>>>>>>> Stashed changes
   }
 
   if(Audio1Time)
@@ -174,6 +190,8 @@ buildButton.update();
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
+serial.print("build Pin: ");
+serial.println(digitalRead(buildButton_pin));
 if(buildButton.pressed())
 {  
   for(int i = 0; i< stratLights; i++)
@@ -209,6 +227,8 @@ moveButton.update();
  //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
+  serial.print("move Pin: ");
+  serial.println(digitalRead(moveButton_pin));
 if(moveButton.pressed())
 {  
   for(int i = 0; i< stratLights; i++)
@@ -241,8 +261,13 @@ if(!moveTimer.running())
 
 void capturePush() {
 
+<<<<<<< Updated upstream
 ////this is aaron example
 captureButton.update();
+=======
+  serial.print("capture Pin: ");
+  serial.println(digitalRead(captureButton_pin));
+>>>>>>> Stashed changes
 //Checks to see if button pressed
 //if pressed turn lights on
 //and start timer
